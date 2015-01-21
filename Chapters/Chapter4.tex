@@ -1,0 +1,117 @@
+\lhead{\emph{\leftmark}}  
+
+\chapter{Detection Mechanisms for UML/Umple Constructs}
+
+
+\section{Initial Refactoring}
+The first step in umplification (Transformation 0) is to rename the Java/C++ files as .ump files. After this, various syntactic changes are made (Transformation 1) to adapt the code to Umple's notations for various features that are expressed differently in Java and C++. Umple maintains its own syntax for these features so as to be language-independent.
+First the base language notation for inheritance (e.g. 'extends' in Java) or interface implementation (e.g. 'implements') is changed into the Umple notation 'isA'. This Umple keyword is used uniformly to represent the generalization relation-ship for classes, interfaces and traits. The same notation is used for all three for flexibility – so that, for example, an interface can be converted to a class with no change to its specializations, or a trait can be generated as a superclass in languages such as C++ where multiple inheritance is allowed.
+After this, the dependency notation in the native language (e.g. 'import' in Java) is changed to the 'depend' notation in Umple. Finally 'package' declarations are transformed into Umple namespace declarations. 
+Transformations made as part of these first refactoring steps, are one-to-one direct and simple mappings between constructs in the base language and Umple. No methods need changing. The final output after execution of the above transformations, is an Umple model/program that can be compiled in the same manner as the original base language code. At this point, any available test cases may be run to ensure that the pro-gram's semantics are preserved. For instance, the Java code (in file Student.java) shown below:	
+
+
+\section{Refactoring to Create Attributes}
+In this sub-section, we present how member variables possessing certain characteristics are transformed into Umple attributes (Transformation 2a). An Umple attribute is a simple property of an object, but following UML semantics, it is more than just a plain private variable: It is designed to be operated on by mutator methods, and accessed by accessor methods. These methods, in turn can have semantics such as preconditions and tracing injected into them. 
+We start by analyzing all instance variables for their presence in constructor and get/set methods and decide whether the member variable is a good candidate to become an Umple attribute [12].  In Table \ref{table:attributes}, we present the developed (programmable) heuristics used for the partial analysis of member variables. The instance variables with a low or very low probability of being attributes are ignored for now. Those with high and medium probability are further analyzed. 
+
+\begin{table}[h]
+\caption{Analyzing instance variables for presence in the constructor and getter/setters}
+\label{table:attributes}
+\centering
+\begin{tabular}{@{}cccc@{}}
+\toprule
+\rowcolor[HTML]{BBDAFF}
+\multicolumn{1}{c}{\cellcolor[HTML]{BBDAFF}Constructor} & \multicolumn{1}{c}{\cellcolor[HTML]{BBDAFF}Setter} & \multicolumn{1}{c}{\cellcolor[HTML]{BBDAFF}Getter} & \multicolumn{1}{c}{\cellcolor[HTML]{BBDAFF}\begin{tabular}[c]{@{}c@{}}Attribute\\ (Probability)\end{tabular}} \\ \midrule
+Yes                                                     & Yes                                                & Yes                                                & High                                                                                                          \\
+Yes                                                     & Yes                                                & No                                                 & Low                                                                                                           \\
+Yes                                                     & No                                                 & Yes                                                & High                                                                                                          \\
+Yes                                                     & No                                                 & No                                                 & Low                                                                                                           \\
+No                                                      & Yes                                                & Yes                                                & High                                                                                                          \\
+No                                                      & Yes                                                & No                                                 & Low                                                                                                           \\
+No                                                      & No                                                 & Yes                                                & Medium                                                                                                        \\
+No                                                      & No                                                 & No                                                 & Very Low                                                                                                      \\ \bottomrule
+\end{tabular}
+\end{table}
+
+Furthermore, we check the type of the candidate attributes (those with a High or Medium probability) and draw a conclusion regarding whether or not the member variable corresponds to an Umple Attribute, because some will be left to be later transformed into associations. If the candidate attribute has as its type either: a) a simple data type, as in Table \ref{table:attributes2} or b) a class that only itself contains instance variables meeting conditions in a and b (for attributes with 'many' multiplicity), then the member variable is transformed into an Umple Attribute.
+
+\begin{table}
+\caption{Umple Primitive Data Types}
+\label{table:attributes2}
+\centering
+    \begin{tabular}{ll}
+		\toprule
+		\rowcolor[HTML]{BBDAFF}
+        \textbf{Type}      & \textbf{Description}                               \\ 
+        \hline
+        Integer   & Includes signed and unsigned integers.    \\ 
+        String    & All string and string builder types       \\ 
+        Boolean   & true/false types                          \\ 
+        Double    & All decimal object types                  \\ 
+        Date/Time & All date, time and calendar object types. \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+We culminate this refactoring step by removing or refactoring getters and setters of the previously identified attributes. More specifically, the getters and setters need to be refactored if they are not simple, but are custom. Simple getters/setters are those that only return/update the attribute value.  Custom getters/setters are those that provide behavior apart from setting the variable such as validating constraints, managing a cache or filtering the input.
+Let us now illustrate this refactoring through an example. Assume that we have already trans-formed the Java class into an Umple class, so the input at this point is an Umple file containing Java. 
+In this example code we first analyze the member variables to determine the following: 
+Is the field present in the parameters of the constructor?
+\begin{enumerate}
+\item Is the field present in the parameters of the constructor?
+\item Does the field possess a getter?
+\item Does the field possess a setter?
+\item Is the field’s type, a primitive type?
+\end{enumerate}
+The results of this analysis allow us to generate Umple code with the required types and stereotypes. For example the stereotype 'lazy'.
+
+\section{Refactoring to Create Associations}
+In this sub-section, we discuss how the umplification technique infers associations from source code (Transformation 2b). More specifically, we discuss how our technique infers all the fields that represent associations including the role name, association ends, multiplicities and directionality.
+As discussed earlier, in the various cases of the refactoring steps, analyses are applied to the input variables to determine whether each variable can be transformed into an Umple association. An association specifies a semantic relationship that occurs between typed instances. A variable represents an association if all of the following conditions apply:
+\begin{itemize}
+\item Its declared type is a Reference type (generally a class in the current system).
+\item The variable field is simple, or the variable field is a container (also known as a collection).
+\item The class in which the variable is declared, stores, access and/or manipulates instances of the variable type.
+\item The class in which the variable is declared, stores, access and/or manipulates instances of the variable type.
+\end{itemize}
+
+In the Umplificator, the tool we will describe in the next section, these conditions are ex-pressed as rules. The transformation of variables into associations involves a considerable number of transformations and code manipulations. In order to guarantee the correct extraction of an association and to avoid false-negative cases, we consider not only the getter and setter of the fields but also the iteration call sequences (iterators). Table \ref{table:accessors} and Table \ref{table:mutators} present the list of methods considered (parsed and analyzed) in order to infer associations. These methods can be categorized as mutator and accessor methods. In the tables, W is the name of the class at the other end of the association and '…' refers to a collection of elements. We have considered those collections of elements defined using Map, Set, List and Hash classes (from the Java collections framework or the Standard Template Library in C++).
+
+\begin{table}
+\caption{Accessor Methods parsed and analyzed}
+\label{table:accessors}
+\centering
+    \begin{tabular}{ll}
+		\toprule
+		\rowcolor[HTML]{BBDAFF}
+        \textbf{Method Signature}   & \textbf{Description}                               \\ 
+        \hline
+        W getW()  		& Returns the W    \\ 
+        W getW(index)   & Picks a specific linked W   \\ 
+        List<W> getWs()   & Returns immutable list of links  \\ 
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{table}
+\caption{Mutator methods parsed and analyzed}
+\label{table:mutators}
+\centering
+    \begin{tabular}{ll}
+		\toprule
+		\rowcolor[HTML]{BBDAFF}
+        \textbf{Method Signature}   & \textbf{Description}    \\ 
+        \hline
+        boolean setW(W)   & Adds a link to existing W   		\\ 
+        W addW(args)    & Constructs a new W and adds link      \\ 
+        boolean addW(W)  & Adds a link to existing W            \\ 
+        boolean setWs(W…)    & Adds a set of links              \\ 
+        boolean removeW(W) &   Removes link to W if possible    \\
+        \hline
+    \end{tabular}
+\end{table}
+A simple example is presented now to summarize the main idea behind this transformation step. Assume that Umple code shown below has already passed through the two first refactoring steps. As a result, classes, dependencies, and attributes (if any) have been properly extracted. 
+
+\section{Refactoring to Create State Machines}
