@@ -1,4 +1,5 @@
 
+
 LATEX REFERENCES:
 Ref: \cite{einstein}
 
@@ -62,3 +63,22 @@ were made by \textbf{\textit{accident}}.
  
 Reference:  \ref{fig:lion} 
 
+
+//listing in two columns
+
+\noindent\begin{minipage}{.49\textwidth}
+\begin{lstlisting}[style=umplePlain,caption]{Name}
+
+
+
+
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}{.49\textwidth}
+\begin{lstlisting}[style=umplePlain]{Name}
+void code()
+{
+
+}
+\end{lstlisting}
+\end{minipage}

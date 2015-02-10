@@ -62,7 +62,7 @@ Edsger W. Dijkstra
 \addtocontents{toc}{\vspace{1em}}  % Add a gap in the Contents, for aesthetics
 
 This thesis investigates a novel approach to reverse engineering, in which modeling information such as UML associations, state machines and attributes is incrementally added to code written in Java or C++, while maintaining the system in a textual format. Umple is a textual representation that blends modeling in UML with programming language code. The approach, called umplification, produces a program with behavior identical to the original one, but written in Umple and enhanced with model-level abstractions. As the resulting program is Umple code, our approach eliminates the distinction between code and model. In this paper we discuss the principles of Umple, the umplification approach and a rule-driven tool called the Umplificator, which implements and validates the depicted approach. 
-The present thesis consists of three main parts. The first part (Chapter 1 and 2) present the research questions and research methodology and introduces Umple and the Umplification concept. The core of our research is presented in Chapters 4 and 5. The last part, Chapter 6, presents details of a case study conducted on an open source software application, JHotDraw. Finally, the expected contributions are listed in Chapter 7.
+The present thesis consists of three main parts. The first part (Chapter 1 and 2) present the research questions and research methodology and introduces Umple and the Umplification concept. The core of our research is presented in Chapters 3 and 5. The last part, Chapter 6, presents details of a case study conducted on an open source software application, JHotDraw. Finally, the expected contributions are listed in Chapter 7.
 
 }
 
@@ -75,7 +75,7 @@ The present thesis consists of three main parts. The first part (Chapter 1 and 2
 \acknowledgements{
 \addtocontents{toc}{\vspace{1em}}  % Add a gap in the Contents, for aesthetics
 
-A very special, and well-deserved, thank you to the following:
+I would like to thank my dear supervisor, Professor Timothy Lethbridge, for guiding me ...
 
 }
 \clearpage  % End of the Acknowledgements
@@ -111,21 +111,21 @@ A very special, and well-deserved, thank you to the following:
 % Just uncomment the lines as you write the chapters
 \lhead{\emph{\rightmark}} 
 
-\input{Chapters/Chapter1} % Introduction
+\input{Chapters/Chapter1_Intro} % Introduction
 
-\input{Chapters/Chapter2} % Background  
+\input{Chapters/Chapter2_Background} % Background  
 
-\input{Chapters/Chapter3} % Reverse Engineering
+\input{Chapters/Chapter3_Core} % Reverse Engineering
 
-\input{Chapters/Chapter4} % Detection Mechanisms
+\input{Chapters/Chapter4_Detection} % Detection Mechanisms
 
-\input{Chapters/Chapter5} % The Umplificator Technologies
+\input{Chapters/Chapter5_Tool} % The Umplificator Technologies
 
-\input{Chapters/Chapter6} % Evaluation
+\input{Chapters/Chapter6_Eval} % Evaluation
 
-\input{Chapters/Chapter7} % Related Work
+\input{Chapters/Chapter7_Related} % Related Work
 
-\input{Chapters/Chapter8} % Conclusions and Contributions
+\input{Chapters/Chapter8_Conclusions} % Conclusions and Contributions
 
 %% ----------------------------------------------------------------
 % Now begin the Appendices, including them as separate files

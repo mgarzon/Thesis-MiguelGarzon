@@ -1,0 +1,21 @@
+\lhead{\emph{\leftmark}}  % Set the left side page header to 
+\chapter{Conclusions and Contributions}
+\label{chap:conclusion}
+In this thesis we presented our reverse engineering approach called Umplification and the corresponding tool, the Umplificator. Umplification is the process of transforming step-by-step a base language program to an Umple program that merges textual modeling constructs directly into source code. 
+
+We presented the evaluation results showing that our approach and its current implementation are effective and efficient enough to be applied in the future to real systems. 
+
+Key contributions of this work are expected to be the following:
+\begin{enumerate}
+\item The overall concept of umplification
+\item An understanding of how umplification compares with other reverse engineering techniques (incrementality, minimal adjustment of code to prevent disruption)
+\item The Umplificator tool itself
+\item Case studies of Umplification, demonstrating strengths, weaknesses and opportunities, as well as hopefully demonstrating that the resulting system is easier to understand and has less code.
+\item The Transformation that allows developers to easily extend and refine the umplification transformation rules.
+\item Another important contribution is the comprehensiveness of our detection of associations and the additional refactoring required to comply with all the different types of associations.
+\item Detection of associations (of all different types) and state machines in a body of code. There is little successful work in this area in the literature.
+\end{enumerate}
+
+Major advantages of our work, as compared to other reverse engineering approaches, are the concept of incrementally, the ease of addition of mapping rules, and the preservation of the system in a textual format.
+
+For the future, we plan to apply the approach to other open source systems, gradually increasing the ability of the Umplificator to obtain a higher and higher first-pass precision on new systems it encounters. We also will integrate the mapping rules for state machines and refine some of the existing rules to make them more maintainable.

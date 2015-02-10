@@ -3,9 +3,16 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces The Umplificator components\relax }}{20}{figure.caption.62}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces The umplification process flow\relax }}{21}{figure.caption.63}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces TXL Program for transforming Java to Umple\relax }}{29}{figure.caption.167}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Structure of the JavaToUmple program\relax }}{30}{figure.caption.169}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces The JavaToUmple ATL program\relax }}{34}{figure.caption.275}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces The Umplificator components\relax }}{38}{figure.caption.289}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces The umplification process flow\relax }}{39}{figure.caption.290}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces The Umplificator online - A PHP Web application\relax }}{41}{figure.caption.306}
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Umplificator Testing Infrastructure\relax }}{43}{figure.caption.309}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces The Pre-Validation Phase: Comparing UmpleModel and UmpleModel'\relax }}{50}{figure.caption.515}
+\contentsline {figure}{\numberline {6.3}{\ignorespaces UML Class diagram of the Access Control system\relax }}{51}{figure.caption.580}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

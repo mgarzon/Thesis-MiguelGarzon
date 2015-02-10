@@ -130,8 +130,14 @@
 \definecolor{carnationpink}{rgb}{0.99,0.76,0.8}
 \definecolor{grannysmithapple}{rgb}{0.74,0.83,0.9}
 \definecolor{britishracinggreen}{rgb}{0.0, 0.26, 0.15}
+\definecolor{flashwhite}{rgb}{0.95, 0.95, 0.96}
+\definecolor{cobalt}{rgb}{0.0, 0.28, 0.67}
 
-\lstdefinestyle{numbers} {captionpos=b,tabsize=2,frame=lines,keywordstyle=\color{blue},commentstyle=\color{britishracinggreen},stringstyle=\color{red},numbers=left,numberstyle=\tiny,numbersep=5pt,breaklines=true,showstringspaces=false,basicstyle=\footnotesize,emph={label}t}
+\lstdefinestyle{numbers} {captionpos=t,tabsize=1,frame=lines,keywordstyle=\color{blue},commentstyle=\color{britishracinggreen},stringstyle=\color{red},numbers=left,numberstyle=\tiny,numbersep=5pt,breaklines=true,showstringspaces=false,basicstyle=\footnotesize,emph={label}t}
+
+\newcommand{\mysinglespacing}{%
+  \setstretch{1}% no correction afterwards
+}
 
 \lstdefinelanguage{drools}{
     sensitive=true,
@@ -150,7 +156,7 @@
     morestring=[b]",
     morestring=[d]',
 %%% default style
-    basicstyle=\normalfont\ttfamily,
+    basicstyle=\normalfont\ttfamily\mysinglespacing,
     % identifierstyle=\normalfont,
     commentstyle=\color{commentGreen}\itshape,
     keywordstyle=\color{keywordRed}\bfseries,
@@ -162,14 +168,18 @@
     stringstyle=\color{stringGreen}
 }[comments,keywords,strings]
 
-\lstdefinestyle{UmpleInFrame}{backgroundcolor=\color{grannysmithapple},frame=shadowbox}
-\lstdefinestyle{UmpleOutFrame}{backgroundcolor=\color{columbiablue},frame=shadowbox}
-\lstdefinestyle{JavaFrame}{backgroundcolor=\color{amber},frame=shadowbox}
+\lstdefinestyle{UmplePlainFrame}{backgroundcolor=\color{flashwhite},keywordstyle=\color{cobalt},frame=shadowbox, basicstyle=\ttfamily\footnotesize\mysinglespacing}
+\lstdefinestyle{UmpleInFrame}{backgroundcolor=\color{grannysmithapple},keywordstyle=\color{cobalt},keywordstyle=\color{blue},frame=shadowbox,basicstyle=\ttfamily\footnotesize\mysinglespacing}
+\lstdefinestyle{UmpleOutFrame}{backgroundcolor=\color{columbiablue},keywordstyle=\color{cobalt},frame=shadowbox,basicstyle=\ttfamily\footnotesize\mysinglespacing}
+\lstdefinestyle{JavaFrame}{backgroundcolor=\color{amber},frame=shadowbox, basicstyle=\normalfont\ttfamily\mysinglespacing}
 
-\lstdefinestyle{java} {language=Java,style=numbers,style=JavaFrame,frame=lines}
-\lstdefinestyle{umpleIn} {language=Java,style=numbers,style=UmpleInFrame,frame=lines, morekeywords={isA, depend,const, after, lazy, immutable,namespace }}
+\lstdefinestyle{java} {language=Java,style=numbers,style=JavaFrame,frame=lines,basicstyle=\ttfamily\footnotesize\mysinglespacing}
 
-\lstdefinestyle{umpleOut} {language=Java,style=numbers,style=UmpleOutFrame,frame=lines,morekeywords={isA, depend,const, after, lazy, immutable,namespace }}
+\lstdefinestyle{umpleIn} {language=Java,style=numbers,style=UmpleInFrame,frame=lines, morekeywords={isA, depend,const, after, lazy, immutable,namespace, String, association,Integer,autounique,unique,Float, Double, Date, Time, before, key, associationClass}}
+
+\lstdefinestyle{umplePlain} {language=Java, style=UmplePlainFrame, morekeywords={isA, depend,const, after, lazy, immutable,namespace, String, association,Integer,autounique,unique,Float, Double, Date, Time,before,key, associationClass, function, replace, by, end, include}}
+
+\lstdefinestyle{umpleOut} {language=Java,style=numbers,style=UmpleOutFrame,frame=lines,morekeywords={isA, depend,const, after, lazy, immutable,namespace, String, association,Integer,autounique,unique,Float, Double, Date, Time,before,key, associationClass}}
 
 
 \lstset{captionpos=t,
@@ -189,6 +199,7 @@
 \pdfstringdefDisableCommands{
    \let\\\space
 }
+\abovecaptionskip=\skip50
 \newcommand*{\supervisor}[1]{\def\supname{#1}}
 \newcommand*{\examiner}[1]{\def\examname{#1}}
 \newcommand*{\degree}[1]{\def\degreename{#1}}
@@ -383,6 +394,7 @@
 }
 \newcommand\listsymbolname{Abbreviations}
 \usepackage{longtable}
+\usepackage{multicol}
 \newcommand\listofsymbols[2]{
 \btypeout{\listsymbolname}
 \addtotoc{\listsymbolname}
@@ -416,6 +428,7 @@
 }
 \usepackage{tabularx}
 
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
 \newcolumntype{b}{X}
 \newcolumntype{s}{>{\hsize=.5\hsize}X}
 

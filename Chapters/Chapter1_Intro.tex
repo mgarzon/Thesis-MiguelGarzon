@@ -1,0 +1,65 @@
+\chapter{Introduction}
+
+Many software systems experience growth and change for an extended period of time. Maintaining consistency between documentation and the corresponding code becomes challenging. This situation has long been recognized by researchers, and significant effort has been made to tackle it. Reverse engineering is one of the fruits of this effort and has been defined as the process of creating a representation of the system at a higher level of abstraction \cite{Chikofsky}.
+
+Reverse engineering, in general, recovers documentation from code of software systems. When such documentation follows a well-defined syntax it is often now referred to as a model.  Such models are often represented using UML (Unified Modeling Language), which visually represents the static and dynamic characteristics of a system. 
+
+There is a long and rich literature in reverse engineering \cite{CanforaHarman2007}. Most existing techniques result in the generation of documentation that can be consulted separately from the code. Other techniques generate models in the form of UML diagrams that are intended to be used for code generation of a new version of the system. The technique discussed in this paper goes one step further: It modifies the source code to add model constructs that are represented textually, but can also be viewed and edited as diagrams. The target language of our reverse engineering process is Umple \cite{Badreddin2010}, which adds UML and other constructs textually to Java, C++ and PHP.
+
+We call our approach to reverse engineering a software system umplification. This is a play on words with the concept of 'amplification' and also the notion of converting into Umple. In our previous work \cite{Lethbridge2010c}, we have found that umplifying code is reasonably straightforward for someone familiar with Umple, and with knowledge of UML modeling pragmatics. Moreover, we have per-formed manual umplification of several systems, including Umple itself. 
+
+The present thesis focuses on how the umplification process can be performed automatically by a reverse engineering technology. In Section \ref{sec:researchQuestions}, we state the research problem addressed by this proposal and list the research questions. In Section \ref{sec:solutions}, we present the methodology that we will follow in order to answer our research questions. We conclude the present chapter by
+
+\section{Research Questions}
+\label{sec:researchQuestions}
+The problem to be addressed in this research is as follows:
+
+Developers currently often work with large volumes of legacy code. Tools exist to allow them to extract models or transform their code in a variety of ways. However doing so tends to result in a system that is quite different in syntax and structure. They are thus inhibited from using reverse engineering tools except to generate documentation. The Umple technology partly solves this problem by allowing incremental addition of modeling constructs into familiar programming language code. This allows developers to maintain the essential 'familiarity' with their code as they gradually transform it. Converting to Umple (Umplification) has been done manually – indeed it was applied to the Umple compiler itself \cite{Lethbridge2010c} –  but it ought to have tool support so it can be done in a more automatic, systematic and error-free manner on large systems.
+
+\begin{enumerate}
+
+\item What transformation technology, transformations and refactoring patterns will work best for umplification?
+\item What percentage of code reduction and complexity reduction can we achieve by umplification, and how can we measure the complexity reduction?
+\item Overall, what are the benefits of automated or semi-automated umplification as compared to manual umplification or the use of other reverse-engineering or transformation approaches?
+\item What should be the architecture, implementation and user interface of an umplification tool?
+
+\end{enumerate}
+
+\section{Hypothesized Solutions}
+\label{sec:solutions}
+
+\section{Research Activities}
+
+The major steps in the methodology are the following:
+\begin{enumerate}
+\item 	Manually perform umplification to gain an understanding of what will be needed
+\item 	Iteratively develop The Umplificator tool, exploring the effectiveness of various reusable components and transformation approaches. This includes selection or creation of an easy-to-use tool to express transformations from the base language to Umple. We want to avoid complex XML-based solutions since usability will be key.
+\item 	Start with a major case study (JHotDraw), iteratively umplifying it and improving the Umplificator until the Umple version of the case study compiles and a significant number of constructs have been umplified successfully
+\item 	Iteratively develop more and more transformations to convert additional Java code into Umple. Introduce additional case studies until the Umplificator works well on 10-15 reasonably large open-source systems.
+\item 	Compare the work to alternative approaches.
+\end{enumerate}
+
+
+
+\section{Thesis Contributions}
+\section{Outline}
+This thesis proposal is organized as follows.
+
+\begin{description}
+  \item[Chapter 2] \hfill \\
+Chapter 2 presents background research, a brief introduction to Umple and its modeling constructs. Covered in this chapter are existing technologies in reverse engineering into UML. 
+  \item[Chapter 3] \hfill \\
+Chapter \ref{chap:background} presents umplification in detail, the core of this thesis. 
+  \item[Chapter 4] \hfill \\
+Chapter 4 presents the mechanisms allowing us to detect Umple constructs.
+  \item[Chapter 5] \hfill \\
+Chapter 5 presents three different technologies that were explored as part of our research activities. We evaluate ATL and TXL to see to which extent they could fulfill our needs. ATL and TXL are two famous model-to-model transformation technologies. We discuss all the design decisions and propose a set of tools and technologies that our reverse engineering tool uses.
+    \item[Chapter 6] \hfill \\
+Chapter 6 presents the  case study conducted to evaluate the feasibility and efficiency of our approach. The case study shows the results of the umplification performed to the JHotDraw framework, we measure lines of code to compare the original system and the umplified version of the system. 
+    \item[Chapter 7] \hfill \\
+Chapter 7 presents  selected on-going research activities that bear similarity to our research. We focus on highlighting aspects of the existing research that influenced our direction, and position our research with respect to existing work.
+    \item[Chapter 8] \hfill \\
+Chapter 7 summarizes our research activities and gives an outline of future research directions.
+\end{description}
+
+

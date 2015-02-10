@@ -1,7 +1,14 @@
 \lhead{\emph{\leftmark}}  
 
 \chapter{Detection Mechanisms for UML/Umple Constructs}
-
+\label{chap:detections}
+In this chapter we will present the different mechanisms to detect UML/Umple attributes, associations and state machines from source code written in a object-oriented programming language. The methodology followed to ensure that our approach is able to identify Umple/UML constructs in source code in most of the situations, involves four main steps:
+\begin{enumerate}
+\item 	Identify in the literature the typical implementations of attributes, associations and state machines in high level programming languages. We have included the CASE tools aiming at generating code from state machine models (Forward engineering).
+\item 	Identify in the literature the techniques aiming at discovering the modeling constructs in object-oriented source code (Reverse Engineering).
+\item 	Inspect various open source system written in object-oriented programming languages and verify that the existing techniques for reverse-engineering of modeling constructs can detect them.
+\end{enumerate}
+At the end of the chapter, we will present the set of mapping rules derived from our analysis. 
 
 \section{Initial Refactoring}
 The first step in umplification (Transformation 0) is to rename the Java/C++ files as .ump files. After this, various syntactic changes are made (Transformation 1) to adapt the code to Umple's notations for various features that are expressed differently in Java and C++. Umple maintains its own syntax for these features so as to be language-independent.
@@ -9,9 +16,12 @@ First the base language notation for inheritance (e.g. 'extends' in Java) or int
 After this, the dependency notation in the native language (e.g. 'import' in Java) is changed to the 'depend' notation in Umple. Finally 'package' declarations are transformed into Umple namespace declarations. 
 Transformations made as part of these first refactoring steps, are one-to-one direct and simple mappings between constructs in the base language and Umple. No methods need changing. The final output after execution of the above transformations, is an Umple model/program that can be compiled in the same manner as the original base language code. At this point, any available test cases may be run to ensure that the pro-gram's semantics are preserved. For instance, the Java code (in file Student.java) shown below:	
 
-
-\section{Refactoring to Create Attributes}
-In this sub-section, we present how member variables possessing certain characteristics are transformed into Umple attributes (Transformation 2a). An Umple attribute is a simple property of an object, but following UML semantics, it is more than just a plain private variable: It is designed to be operated on by mutator methods, and accessed by accessor methods. These methods, in turn can have semantics such as preconditions and tracing injected into them. 
+\section{Member Variables Analysis}
+Member variables can represent not only attributes, but also associations, state machine variables, and internal data such as counters, caching, or sharing of local data. In this section, we analyze the characteristics of member variables and present the mapping rules guiding the transformation of
+these member variables into attributes, associations or state machines variables. Furthermore, we analyze the different patterns supported by existing reverse engineering tools when it comes to the detection of these UML/Umple constructs. We demonstrate our reverse engineering patterns for attributes, associations and state machines variables using Java as the input language.  
+\subsection{Refactoring to Create Attributes}
+In this sub-section, we present how member variables possessing certain characteristics are transformed into Umple attributes (Transformation 2a).
+ An Umple attribute is a simple property of an object, but following UML semantics, it is more than just a plain private variable: It is designed to be operated on by mutator methods, and accessed by accessor methods. These methods, in turn can have semantics such as preconditions and tracing injected into them. 
 We start by analyzing all instance variables for their presence in constructor and get/set methods and decide whether the member variable is a good candidate to become an Umple attribute [12].  In Table \ref{table:attributes}, we present the developed (programmable) heuristics used for the partial analysis of member variables. The instance variables with a low or very low probability of being attributes are ignored for now. Those with high and medium probability are further analyzed. 
 
 \begin{table}[h]
@@ -21,7 +31,7 @@ We start by analyzing all instance variables for their presence in constructor a
 \begin{tabular}{@{}cccc@{}}
 \toprule
 \rowcolor[HTML]{BBDAFF}
-\multicolumn{1}{c}{\cellcolor[HTML]{BBDAFF}Constructor} & \multicolumn{1}{c}{\cellcolor[HTML]{BBDAFF}Setter} & \multicolumn{1}{c}{\cellcolor[HTML]{BBDAFF}Getter} & \multicolumn{1}{c}{\cellcolor[HTML]{BBDAFF}\begin{tabular}[c]{@{}c@{}}Attribute\\ (Probability)\end{tabular}} \\ \midrule
+\multicolumn{1}{c}{\cellcolor[HTML]{BBDAFF}\textbf{Constructor}} & \multicolumn{1}{c}{\cellcolor[HTML]{BBDAFF}\textbf{Setter}} & \multicolumn{1}{c}{\cellcolor[HTML]{BBDAFF}\textbf{Getter}} & \multicolumn{1}{c}{\cellcolor[HTML]{BBDAFF}\begin{tabular}[c]{@{}c@{}}\textbf{Attribute}\\ \textbf{(Probability})\end{tabular}} \\ \midrule
 Yes                                                     & Yes                                                & Yes                                                & High                                                                                                          \\
 Yes                                                     & Yes                                                & No                                                 & Low                                                                                                           \\
 Yes                                                     & No                                                 & Yes                                                & High                                                                                                          \\
@@ -62,11 +72,11 @@ Is the field present in the parameters of the constructor?
 \item Is the field present in the parameters of the constructor?
 \item Does the field possess a getter?
 \item Does the field possess a setter?
-\item Is the field’s type, a primitive type?
+\item Is the field's type, a primitive type?
 \end{enumerate}
 The results of this analysis allow us to generate Umple code with the required types and stereotypes. For example the stereotype 'lazy'.
 
-\section{Refactoring to Create Associations}
+\subsection{Refactoring to Create Associations}
 In this sub-section, we discuss how the umplification technique infers associations from source code (Transformation 2b). More specifically, we discuss how our technique infers all the fields that represent associations including the role name, association ends, multiplicities and directionality.
 As discussed earlier, in the various cases of the refactoring steps, analyses are applied to the input variables to determine whether each variable can be transformed into an Umple association. An association specifies a semantic relationship that occurs between typed instances. A variable represents an association if all of the following conditions apply:
 \begin{itemize}
@@ -82,15 +92,15 @@ In the Umplificator, the tool we will describe in the next section, these condit
 \caption{Accessor Methods parsed and analyzed}
 \label{table:accessors}
 \centering
-    \begin{tabular}{ll}
-		\toprule
-		\rowcolor[HTML]{BBDAFF}
-        \textbf{Method Signature}   & \textbf{Description}                               \\ 
-        \hline
-        W getW()  		& Returns the W    \\ 
-        W getW(index)   & Picks a specific linked W   \\ 
-        List<W> getWs()   & Returns immutable list of links  \\ 
-        \hline
+\begin{tabular}{ll}
+\toprule
+\rowcolor[HTML]{BBDAFF}
+\textbf{Method Signature}   & \textbf{Description}                               \\ 
+\hline
+W getW()  		& Returns the W    \\ 
+W getW(index)   & Picks a specific linked W   \\ 
+List\textless W\textgreater getWs()   & Returns immutable list of links  \\ 
+\hline
     \end{tabular}
 \end{table}
 
@@ -114,4 +124,4 @@ In the Umplificator, the tool we will describe in the next section, these condit
 \end{table}
 A simple example is presented now to summarize the main idea behind this transformation step. Assume that Umple code shown below has already passed through the two first refactoring steps. As a result, classes, dependencies, and attributes (if any) have been properly extracted. 
 
-\section{Refactoring to Create State Machines}
+\subsection{Refactoring to Create State Machines}

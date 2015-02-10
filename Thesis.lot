@@ -1,14 +1,18 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces API generated methods from Umple attributes\relax }}{10}{table.caption.84}
+\contentsline {table}{\numberline {2.2}{\ignorespaces API generated methods (mutator) from Umple attributes\relax }}{10}{table.caption.85}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Refactorings to methods required for each transformation\relax }}{12}{table.caption.42}
+\contentsline {table}{\numberline {3.1}{\ignorespaces Refactorings to methods required for each transformation\relax }}{18}{table.caption.140}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Analyzing instance variables for presence in the constructor and getter/setters\relax }}{14}{table.caption.46}
-\contentsline {table}{\numberline {4.2}{\ignorespaces Umple Primitive Data Types\relax }}{15}{table.caption.47}
-\contentsline {table}{\numberline {4.3}{\ignorespaces Accessor Methods parsed and analyzed\relax }}{16}{table.caption.53}
-\contentsline {table}{\numberline {4.4}{\ignorespaces Mutator methods parsed and analyzed\relax }}{17}{table.caption.54}
+\contentsline {table}{\numberline {4.1}{\ignorespaces Analyzing instance variables for presence in the constructor and getter/setters\relax }}{21}{table.caption.148}
+\contentsline {table}{\numberline {4.2}{\ignorespaces Umple Primitive Data Types\relax }}{22}{table.caption.149}
+\contentsline {table}{\numberline {4.3}{\ignorespaces Accessor Methods parsed and analyzed\relax }}{23}{table.caption.155}
+\contentsline {table}{\numberline {4.4}{\ignorespaces Mutator methods parsed and analyzed\relax }}{23}{table.caption.156}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {6.1}{\ignorespaces Toy examples used for first phase of validation\relax }}{57}{table.caption.516}
+\contentsline {table}{\numberline {6.2}{\ignorespaces Open-source systems umplified\relax }}{58}{table.caption.640}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
