@@ -11,7 +11,15 @@ In addition to solving the problem of having two different software artifacts to
 
 
 \section{Umplification Process}
-Umplification involves recursively modifying the Umple model/code to incorporate addition-al abstractions, while maintaining the semantics of the program, and also maintaining, to the greatest extent possible, such elements as layout. The end product of umplification is an Umple program/model that can be edited and viewed textually just like the original program, and also diagrammatically, using Umple's tools. 
+Umplification, as illustrated in Figure \ref{fig:umplificationLoop}, involves recursively modifying the Umple model/code or the base language code to incorporate additional abstractions, while maintaining the semantics of the program, and also maintaining, to the greatest extent possible, such elements as layout. The end product of umplification is an Umple program/model that can be edited and viewed textually just like the original program, and also diagrammatically, using Umple's tools. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.50\textwidth]{Figures/UmplificationProcess.png}
+\caption{The Umplification process generalized}
+\label{fig:umplificationLoop}
+\end{figure}
+
 The umplification process has several properties. It is:
 \begin{enumerate}
  \item \textbf{incremental}, 
@@ -47,15 +55,16 @@ If variable a is declared in class A and the type of a is one of the primitive t
 \item [Transformation 2b: Transformation of variables in one or more classes to UML/Umple associations]
 If variable a is declared in Class A and the type of a is a reference type B, then a is trans-formed into an Umple Association with ends {a, b}. At the same time, if a variable b in class B is detected that represents the inverse relationship then the association becomes bidirec-tional. The accessor and mutator methods of variable a (and b) are adapted to conform to the Umple-generated methods. Multiplicities and role names are recovered by inspecting both types A and B; this is explained in Section 3.3. 
 \item [Transformation 2c: Transformation of variables to UML/Umple state machines]
-If a is declared in Class A, has not been classified previously as an attribute or association, has a fixed set of values, and changes in the values are triggered by events, and not by a set method, then a is transformed to a state machine.	We will not cover this aspect of umplification further in this paper, and will leave the focus on attributes and associations.
-As mentioned before, as part of each transformation step, the accessor, mutator, iterator and event methods are adapted (refactored) to conform to the Umple generated methods. Table \ref{table:trasnformations} summarizes these additional required refactorings. 
+If a is declared in Class A, has not been classified previously as an attribute or association, has a fixed set of values, and changes in the values are triggered by events, and not by a set method, then a is transformed to a state machine.	We will not cover this aspect of umplification further in this thesis, and will leave the focus on attributes and associations.
+% If time allows, state machines will be cover since I have some rules for it. 
+As mentioned before, as part of each transformation step, the accessor, mutator, iterator and event methods are adapted (refactored) to conform to the Umple generated methods. Table \ref{table:transformations} summarizes these additional required refactorings. 
    \end{description}
 
 \end{description}
 
 \begin{table}[htbp]
 	\caption{Refactorings to methods required for each transformation}
-	\label{table:trasnformations}
+	\label{table:transformations}
     \centering
     \begin{tabularx}{\textwidth}{| X | X |}
     %\begin{tabularx}{\textwidth}{sb}
@@ -77,4 +86,4 @@ As mentioned before, as part of each transformation step, the accessor, mutator,
     \end{tabularx}
 \end{table}
 
-In the following chapter, we provide a more detailed view of the transformation cases. To help distinguish between Umple and Java code presented in this thesis, the Umple examples appear in dashed borders with grey shading, pure Java examples have solid borders with no shading. Mapping rules (in the Drool language, that we will describe shortly) appear using double line borders with no shading. 
+In the following chapter, we provide a more detailed view of the transformation cases. To help distinguish between Umple and Java code presented in this thesis, the Umple examples appear in solid borders with blue shading, pure Java examples have solid borders with green shading. Mapping rules (in the Drool language, that we will describe in Chapter 5) appear using single line borders with no shading. 

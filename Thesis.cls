@@ -156,7 +156,7 @@
     morestring=[b]",
     morestring=[d]',
 %%% default style
-    basicstyle=\normalfont\ttfamily\mysinglespacing,
+    basicstyle=\ttfamily\footnotesize\mysinglespacing,
     % identifierstyle=\normalfont,
     commentstyle=\color{commentGreen}\itshape,
     keywordstyle=\color{keywordRed}\bfseries,
@@ -173,11 +173,14 @@
 \lstdefinestyle{UmpleOutFrame}{backgroundcolor=\color{columbiablue},keywordstyle=\color{cobalt},frame=shadowbox,basicstyle=\ttfamily\footnotesize\mysinglespacing}
 \lstdefinestyle{JavaFrame}{backgroundcolor=\color{amber},frame=shadowbox, basicstyle=\normalfont\ttfamily\mysinglespacing}
 
-\lstdefinestyle{java} {language=Java,style=numbers,style=JavaFrame,frame=lines,basicstyle=\ttfamily\footnotesize\mysinglespacing}
+\lstdefinestyle{java} {language=Java,style=numbers,style=JavaFrame,frame=lines,basicstyle=\ttfamily\footnotesize\mysinglespacing, morekeywords={include,printf}}
 
 \lstdefinestyle{umpleIn} {language=Java,style=numbers,style=UmpleInFrame,frame=lines, morekeywords={isA, depend,const, after, lazy, immutable,namespace, String, association,Integer,autounique,unique,Float, Double, Date, Time, before, key, associationClass}}
 
 \lstdefinestyle{umplePlain} {language=Java, style=UmplePlainFrame, morekeywords={isA, depend,const, after, lazy, immutable,namespace, String, association,Integer,autounique,unique,Float, Double, Date, Time,before,key, associationClass, function, replace, by, end, include}}
+
+\lstdefinestyle{atl} {language=Java,style=numbers, style=UmplePlainFrame, morekeywords={isA, depend,const, after, lazy, immutable,namespace, String, association,Integer,autounique,unique,Float, Double, Date, Time,before,key, associationClass, function, replace, by, end, include,module, OUT, from, IN, helper, context, if, else, rule, out,to,endif}}
+
 
 \lstdefinestyle{umpleOut} {language=Java,style=numbers,style=UmpleOutFrame,frame=lines,morekeywords={isA, depend,const, after, lazy, immutable,namespace, String, association,Integer,autounique,unique,Float, Double, Date, Time,before,key, associationClass}}
 
