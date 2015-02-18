@@ -39,17 +39,14 @@ We have explored two different and famous model transformation technologies with
 
 TXL \cite{Cordy2006} is a programming and rule-based language and rapid prototype system designed for implementing source transformation tasks. 
 
-The TXL paradigm consists of parsing the input text into a tree according to a specified grammar, transforming the tree to create a new output parse tree and parsing the new tree to finally produce the output text. In TXL, grammars and transformation rules are specified in the TXL programming language. The TXL processor is responsible for interpreting both the grammar and mapping rules by using an internal tree-structured bytecode. TXL programs depend on no other tools or technologies and can run on any platform directly from the command line.
-TXL programs are composed of a\textbf{ base grammar}, which specifies the syntactic forms of the input structure, a set of \textbf{grammar overrides}, which extend the grammar to be used and a set of \textbf{transformation rules and functions}, that specify how the input structure will be transformed to produce the desire output structure.
 
-The \textbf{grammar} in TXL is a set of recursive rewriting rules used to generate patterns of strings. A grammar in TXL is used to specify how the input is partitioned into tokens of the input language and how the sequences of input tokens are grouped into structured types of the program. 
+The TXL paradigm consists of parsing the input text into a tree according to a specified grammar, transforming the tree to create a new output parse tree and processing the new tree to finally produce the output text. In TXL, grammars and transformation rules are specified in the TXL programming language. The TXL processor is responsible for interpreting both the grammar and mapping rules by using an internal tree-structured bytecode. TXL programs depend on no other tools or technologies and can run on any platform directly from the command line.
 
+TXL programs are composed of a\textit{ base grammar}, which specifies the syntactic forms of the input structure, a set of \textit{grammar overrides}, which extend the grammar to be used and a set of \textit{transformation rules and functions}, that specify how the input structure will be transformed to produce the desire output structure.
 
-% Ambuguous?
-% MG Fixed
-% More to be added on grammars if you think is required?
+The \textit{grammar} in TXL is a set of recursive rewriting rules used to generate patterns of strings. A grammar in TXL is used to specify how the input is partitioned into tokens of the input language and how the sequences of input tokens are grouped into structured types of the program. 
 
-The\textbf{mapping rules and functions} specify how to transform the input text into the desired output. The mapping rules are specified using pattern and replacement pairs: 
+The\textit{mapping rules and functions} specify how to transform the input text into the desired output. The mapping rules are specified using pattern and replacement pairs: 
 
 \vspace{\baselineskip}
 \begin{lstlisting}[style=umplePlain]
@@ -58,7 +55,7 @@ LeftHSPattern -> RightHSPattern IF Condition
 
 Where \textit{LeftHSPattern} and \textit{RightHSPattern} are term patterns. The result of a mapping rule is the instantiation of the \textit{RightHSPattern} and is produced when the term matches the \textit{LeftHS\_Pattern} and the condition is true. Rules are applied recursively until they fail. Functions are similar to Rules but they are applied once on the entire function input.
 
-TXL has been used widely in software engineering tasks and other areas including database migrations and artificial intelligence. We present our experiment in building a \textbf{Java-to-Umple} transformer using TXL. We first studied the similarities and differences between Java and Umple and classified the necessary transformations for converting Java programs to Umple into three categories.
+TXL has been used widely in software engineering tasks and other areas including database migrations and artificial intelligence. We present our experiment in building a \textit{Java-to-Umple} transformer using TXL. We first studied the similarities and differences between Java and Umple and classified the necessary transformations for converting Java programs to Umple into three categories.
 
 The first category represents the direct transformations where one-to-one mapping between the two languages exists and some rules for minor adaptations are required. For instance, a Java class declaration can be written as: 
 
@@ -71,11 +68,11 @@ In this, the \textit{ClassModifiers} are used to control the access to members o
 
 Very similarly, an Umple class is defined as: class Identifier \textit{ClassBody}. In this case we will need a mapping rule matching the Identifier and class keyword in the Java program to produce the desired output, the Umple class. 
 
-The second category corresponds to the \textbf{indirect transformations} where some special functions are needed to map a Java construct to an Umple one. For example, a Java instance variable can be mapped to an Umple attribute, an Umple Association or an Umple state machine. This kind of transformations requires helper and additional functions in the TXL program. 
+The second category corresponds to the \textit{indirect transformations} where some special functions are needed to map a Java construct to an Umple one. For example, a Java instance variable can be mapped to an Umple attribute, an Umple Association or an Umple state machine. This kind of transformations requires helper and additional functions in the TXL program. 
 
 \subsubsection{Java to Umple Implementation}
 
-In this section, we describe the design process. Next, we describe the implementation of the \textit{JavaToUmple} program that partially converts Java code to Umple. Lastly, we provide examples of transformations rules in the TXL language. Figure \ref{fig:txl} presents the components of the TXL \textbf{JavaToUmple} program. 
+In this section, we describe the design process. Next, we describe the implementation of the \textit{JavaToUmple} program that partially converts Java code to Umple. Lastly, we provide examples of transformations rules in the TXL language. Figure \ref{fig:txl} presents the components of the TXL \textit{JavaToUmple} program. 
 
 \begin{figure}[h]
 \centering
@@ -87,8 +84,6 @@ In this section, we describe the design process. Next, we describe the implement
 \subsubsection{Design process of the TXL Program}
 
 The first step in writing a source transformer is writing working grammars for both the target and the source language and then writing a union grammar that accepts constructs for both languages. A grammar for Java 1.5 is available from the TXL website \cite{txlresources}. We wrote the grammar for Umple in EBNF format required by the transformation engine. We then built the TXL rules and functions grouped in modules. Each module targets conversion of one specific language construct of Java to the equivalent in Umple and is stored in a separate file. The overall structure of the transformer is shown in Figure \ref{fig:txlStructure}. It contains the modules for the different language constructs and the main program that starts the program. Below, we briefly describe the different modules:
-% ref above
-% MG FIXED
 
 \begin{figure}[h]
 \centering
@@ -108,18 +103,17 @@ The first step in writing a source transformer is writing working grammars for b
 \end{itemize}
 
 The original Java source code remains untouched after applying the transformation. A set of one or more Umple files is produced as a result of the transformation. The \textbf{JavaToUmple} program can be invoked using the command:
-%There needs to be some vertical whitespace before listings automatically when the don't have a listing number like here  
-%MG Fixed
+
 \vspace{\baselineskip}
 \begin{lstlisting}[style=umplePlain]
 < txl –o outputFileName.ump inputFileName.Java JavaToUmple.txl >
 \end{lstlisting}
 
-\subsubsection{Transformations Examples with TXL}
+In the following sub-section we provide some transformation examples. We first show the Java and Umple grammar for the single constructs we transform as well as the TXL transformations rules that guide the transformation.
 
-In this sub-section we provide some transformation examples. We first show the Java and Umple grammar for the single constructs we transform as well as the TXL transformations rules that guide the transformation.
-
-\textbf{Example 1: Transforming the Class Header} \\
+\subsubsection{Transformation 1: Transforming the Class Header} 
+% The above is a sort of 5th-level heading, however because you only specified boldface text, it just appears as a line at the bottom of the page currently. My suggestion is to refactor the chapter such that this is actually a numbered 4th-level item, and always use proper headings for this sort of thing.
+%FIXED while recovering changes
 
 In order to transform a Java class into an Umple class, we need to first transform the class header. The code excerpt in Listing \ref{lst:bnftxl} below shows the EBNF grammar for class definitions in both Java and Umple languages. An example of class definitions is also provided in Listing \ref{lst:sampletxl}.
 
@@ -160,17 +154,14 @@ end rule
 
 \end{lstlisting}
 
+\subsubsection{Transformation 2: Transforming the package} 
 
 A \textbf{package} in Java can be defined as a grouping of related classes (and types). In Umple a \textbf{namespace} allows to group Umple classes. Listings \ref{lst:txlpackage} and \ref{lst:txlpackage2} show the EBNF grammar of package definition in both languages and an example. 
 
-
-% Listings are not properly referenced above ... appear as question marks
-% MG Fixed
 \noindent\begin{minipage}{.45\textwidth}
 \begin{lstlisting}[style=umplePlain,caption=Java Package,label=lst:txlpackage]{Name}
 PackageDeclaration:
    package PackageName; 
-
 
 package aPackageName;
 \end{lstlisting}
@@ -185,9 +176,9 @@ namespace aNamespaceName;
 \end{minipage}
 
 
-The mapping rule called '\textbf{changePackageToNamespace}' that transforms package declarations is presented below:
+The mapping rule called '\textit{changePackageToNamespace}' that transforms package declarations is presented below:
 
-\begin{lstlisting}[style=umplePlain, label=lst:packageDeclRule, caption=TXL mapping rule for the transformation of the package declaration]
+\begin{lstlisting}[style=umplePlain, label=lst:packageDeclRule3, caption=TXL mapping rule for the transformation of the package declaration]
 rule changePackageToNamespace 
     replace [opt package_header]      
             'package Name [package_name] '; 
@@ -196,7 +187,9 @@ rule changePackageToNamespace
 end rule	
 \end{lstlisting}
 
-An import declaration in Java allows a named type or a group of named types to be referred to. The '\textbf{Depends}' construct in Umple is similar to this. 
+\subsubsection{Transformation 3: Transforming the imports} 
+
+An import declaration in Java allows a named type or a group of named types to be referred to. The '\textit{Depends}' construct in Umple is similar to this. 
 
 \noindent\begin{minipage}{.45\textwidth}
 \begin{lstlisting}[style=umplePlain,caption=Java Import]{Name}
@@ -222,7 +215,7 @@ class A {
 \end{lstlisting}
 \end{minipage}
 
-The mapping rule called '\textbf{changeImportToDepend}' in file \textit{TranslateImports.Rul} that transforms import declarations is presented below: 
+The mapping rule called '\textit{changeImportToDepend}' in file \textit{TranslateImports.Rul} that transforms import declarations is presented below: 
 
 \begin{lstlisting}[style=umplePlain, label=lst:packageDeclRule, caption=TXL mapping rule for the transformation of the import declaration] 
 changeImportToDepend  	
@@ -234,7 +227,7 @@ end rule
 
 As seen in the example, the depend declarations appear inside the Umple class, so we need additional rules to remove them from the top of the Java class and place them in the right place prior the generation of the Umple code. The rule below removes all the import declarations. The main program, presented next, illustrates how the program executes the mapping rules in order to produce the output. Note that in TXL the input program is not modified since the transformation only occurs on the parse tree of the input program.
 
-\begin{lstlisting}[style=umplePlain, label=lst:packageDeclRule, caption=Helper Function used to remove the imports declarations] 
+\begin{lstlisting}[style=umplePlain, label=lst:packageDeclRule2, caption=Helper Function used to remove the imports declarations] 
 function removeImports  
     replace * [package_declaration]
         PkgHead [opt package_header]   
@@ -244,6 +237,9 @@ function removeImports
         PkgHead      TypeDecl
 end function
 \end{lstlisting}
+
+
+\subsubsection{Final transformation: The main program}
 
 The main program in Listing \ref{lst:mainProgramtxl} is used to execute the three mapping rules presented in the examples above; it calls one by one the rules and the functions and generates the output. Additionally, the main program links, via inclusion constructs, the grammars from the target and source languages (Line 1-2). In the \textbf{JavaToUmple} program we use two grammar files to map Java and Umple constructs: \textit{Java.GRM} and\textit{ Umple.GRM}.
 
@@ -287,8 +283,8 @@ In this section, we describe how queries, views and transformations are handled 
 \caption{The JavaToUmple ATL program}
 \label{fig:atl}
 \end{figure}
-%The figure is not pretty. Can you reduce the font size and avoid all capital letters? When I look back, I see a similar thing in Figure 5.1, although the text is not so large. Text in figures should be not much larger than text in the main body
 
+%The figure is not pretty. Can you reduce the font size and avoid all capital letters? When I look back, I see a similar thing in Figure 5.1, although the text is not so large. Text in figures should be not much larger than text in the main body
 %MG Fixed, I have included more useful details on it
 \subsubsection{The basics of ATL}
 
@@ -899,7 +895,7 @@ rule "transform_Namespace"
 end
 \end{lstlisting}
 
-As we have assumed an initial level of refactoring. at the beginning of this example, the Transformer will not try to transform any variable into an umple attribute, association end or state machine. However, in the final output code produced for our UmpleClass we require the remaining untreated code to be simply appended. For instance, the rule 'appendFieldDeclaration' in Listing \ref{lst:appendField} extracts information from the field declaration and appends it to the targeted umple Class. The same behavior is produced from the application of rule 'appendMethodDeclaration' in Listing \ref{lst:appendMethod}.
+As we have assumed an initial level of refactoring. at the beginning of this example, the Transformer will not attempt to transform any variable into an umple attribute, association end or state machine. However, in the final output code produced for our UmpleClass we require the remaining untreated code to be simply appended. For instance, the rule 'appendFieldDeclaration' in Listing \ref{lst:appendField} extracts information from the field declaration and appends it to the targeted umple Class. The same behavior is produced from the application of rule 'appendMethodDeclaration' in Listing \ref{lst:appendMethod}.
 
 \begin{lstlisting}[language={drools},label={lst:appendField}, caption=Rule appendFieldDeclaration]
 import function cruise.umplificator.rules
@@ -968,6 +964,19 @@ class Student {
     }
 }   
 \end{lstlisting}
+
+As an example of the pattern matching for rules in Level 2 (attributes), consider the same code excerpt from Listing \ref{lst:exampleTransformer}. The process described in the previous example remains identical, except for the transformations phase, which we explain now. Assuming that the rules for the transformation of the package and import declarations have already been performed, we focus exclusively on how the field declarations are transformed into umple attributes. In this particular example we are expecting the two Java field declarations to be transformed into attributes. 
+
+At this point of time, as illustrated in Figure \ref{fig:ruleModel2}, the Working Memory contains the umple model, an umple Class (Student) and the Java model elements. The Production Memory contains all the 'LEVEL1' and 'LEVEL2' rules and the Agenda only those from 'LEVEL2' since the ones from 'LEVEL1' have already been executed and removed from the stack.
+
+% More work to be done in this example.
+% Switching to Chapter 3
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.98\textwidth]{Figures/ruleModel.pdf}
+\caption{Pattern Matching and creation of an UmpleClass}
+\label{fig:ruleModel2}
+\end{figure}
 
 %
 %% The rule named JavaFieldIsUmpleAttribute converts Java fields into basic Umple attributes. The attribute is then added to a matched Umple Class (Line 24). The attribute is put into the working memory (Line 25) so subsequent transformations can be made such as determining if the attribute is lazy or not. The rule named isLazyAttribute, not shown here, is used for this purpose. This rule matches and converts any basic attribute (in memory) that conforms to the required conditions into a lazy attribute (e.g. attribute.setIsLazy(true)). The complete set of mapping rules for the umplificator can be found at the Umple code repository \cite{MappingRulesRepository}.
