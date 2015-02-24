@@ -1,6 +1,5 @@
 \lhead{\emph{\leftmark}}  
 \chapter{The Umplificator Technologies}
-\label{chap:tool}
 In this chapter, we provide an overview of the tool we have developed to support umplification; as well as discuss some of its technical details including its architecture and a detailed description of the Rule-Engine component. We also present the various design decisions we made as well as the alternatives implementations we attempted during the initial stages of our work. 
 
 \section{The Umplification tool support goals}
@@ -16,8 +15,9 @@ The general requirements for our specific tool are presented below with an empha
 \begin{itemize}
 \item The tool must be able to \textbf{parse} any of the most popular Object-oriented programming languages.
 \item The tool must be able to handle of  the different idioms and programming conventions of those programming languages (parser and analyzer).
-\item The tool should be able to \textbf{export} the output in different formats (code generator).
+\item The tool should be able to \textbf{export} the output in Umple.
 % When you say this it is not clear what formats you mean. You really mean Umple. What else?
+% MG FIXED. Only Umple since Umple can then generate xmi, ecore...
 \item The tool must offer both GUI and command-line capabilities. Command line capabilities are needed for automated testing, and scripting and for back-ends that permit deployment of the tool on the Web.
 \item The tool should support incremental updates of the target model. This is required for large models as the target model does not need to be regenerated completely after each transformation. 
 \end{itemize}
@@ -112,8 +112,6 @@ The original Java source code remains untouched after applying the transformatio
 In the following sub-section we provide some transformation examples. We first show the Java and Umple grammar for the single constructs we transform as well as the TXL transformations rules that guide the transformation.
 
 \subsubsection{Transformation 1: Transforming the Class Header} 
-% The above is a sort of 5th-level heading, however because you only specified boldface text, it just appears as a line at the bottom of the page currently. My suggestion is to refactor the chapter such that this is actually a numbered 4th-level item, and always use proper headings for this sort of thing.
-%FIXED while recovering changes
 
 In order to transform a Java class into an Umple class, we need to first transform the class header. The code excerpt in Listing \ref{lst:bnftxl} below shows the EBNF grammar for class definitions in both Java and Umple languages. An example of class definitions is also provided in Listing \ref{lst:sampletxl}.
 
@@ -271,11 +269,10 @@ The transformation program above uses the two grammar files to map Java and Umpl
 \subsection{ATL}
 
 ATL (ATL Transformation Language) \cite{atl} is a model transformation language that provides ways to produce a set of target models from a set of source models and allows users to define model-to-model transformations in both a declarative and imperative way.
-ATL has been developed in Eclipse as a set of plug-ins by the Institut National de Recherche en Informatique et en Automatique (INRIA) as an answer to the Object Management Group's QVT language request for proposals \cite{Jouault200831}.  The ATL environment in Eclipse offers an ATL editor with syntax highlighting and code completion capabilities, a debugger and a profiler that aims to ease the development and testing of model transformations.
-% Missing reference above 
-% MG FIXED
 
-In this section, we describe how queries, views and transformations are handled in ATL. Additionally, we explore the ATL transformations required to umplify a Java system. Figure \ref{fig:atl} presents the necessary components to implement and ATL transformation between Java and Umple. An ATL program (\textit{JavaToUmple.atl} in the Figure) takes model \textit{Java.xmi} as input and produces model \textit{Umple.xmi} as output. Both models need to be expressed in the OMG XMI standard \cite{xmispec}. The Java model conforms to metamodel \textit{Java.ecore} and the Umple model to metamodel \textit{umple.ecore}. The ecore \cite{ecore} notation is a simple metamodel specification language. The ATL program \textit{JavaToUmple.atl} is also a model, so it conforms to a metamodel (the ATL metamodel). As we will see in Section \ref{subsubsec:exampleATL}, the program is composed of a header, of a set of helper functions and of a set of (transformation) rules.
+ATL has been developed in Eclipse as a set of plug-ins by the Institut National de Recherche en Informatique et en Automatique (INRIA) as an answer to the Object Management Group's QVT language request for proposals \cite{Jouault200831}.  The ATL environment in Eclipse offers an ATL editor with syntax highlighting and code completion capabilities, a debugger and a profiler that aims to ease the development and testing of model transformations.
+
+In this section, we describe how queries, views and transformations are handled in ATL. Additionally, we explore the ATL transformations required to umplify a Java system. Figure \ref{fig:atl} presents the necessary components to implement and ATL transformation between Java and Umple. An ATL program (\textit{JavaToUmple.atl} in the Figure) takes model \textit{Java.xmi} as input and produces model \textit{Umple.xmi} as output. Both models need to be expressed in the OMG XMI standard \cite{xmispec}. The Java model conforms to metamodel \textit{Java.ecore} and the Umple model to metamodel \textit{umple.ecore}. The ecore \cite{ecore} notation is a simple metamodel specification language. The ATL program \textit{JavaToUmple.atl} is also a model, so it conforms to a metamodel (the ATL metamodel). As we will see in Section \ref{subsubsec:exampleATL}, the program is composed of a header, a set of helper functions and a set of (transformation) rules.
 
 \begin{figure}[h]
 \centering
@@ -284,15 +281,14 @@ In this section, we describe how queries, views and transformations are handled 
 \label{fig:atl}
 \end{figure}
 
-%The figure is not pretty. Can you reduce the font size and avoid all capital letters? When I look back, I see a similar thing in Figure 5.1, although the text is not so large. Text in figures should be not much larger than text in the main body
-%MG Fixed, I have included more useful details on it
+
 \subsubsection{The basics of ATL}
 
 The ATL language is composed of expressions to query model elements (queries), views to handle incremental transformations and transformation rules to direct the transformations of  a set of source models to a set of target models.
 
 \textbf{Queries}
 
-A query in ATL is an expressions allowing one to search and return model elements from a model defined in an OMG-compliant format. A query is an OCL expression that can return primitive values, model elements or a combination of these. A query can not alter the source model. It is possible to navigate across model elements and call query operations on these. For instance, when the following query is executed on a Java model, it first gets the set of all existing JavaElement classes in the model and gets the size of the computed set. The computed integer value is cast into a string before being written into the file 'metrics.txt'. 
+A query in ATL is an expression allowing one to search and return model elements from a model defined in an OMG-compliant format. A query is an OCL expression that can return primitive values, model elements or a combination of these. A query can not alter the source model. It is possible to navigate across model elements and call query operations on these. For instance, when the following query is executed on a Java model, it first gets the set of all existing JavaElement classes in the model and gets the size of the computed set. The computed integer value is cast into a string before being written into the file 'metrics.txt'. 
 
 \vspace{\baselineskip}
 \begin{lstlisting}[style=umplePlain]
@@ -306,7 +302,7 @@ query JavaElementNb  =
 Views in the ATL world are a special case of transformation. Views offer support for incremental transformations. The user can query a model; perform a transformation on a subset of the source model and save results on a view. Then, she can update the view from its source without executing the whole transformation again. 
 
 \textbf{Transformation Rules}
-There are different kind of rules in ATL based on the way they are called and how they specify the results: matched rules, lazy rules and called rules \cite{stephan2009comparative}.
+There are different kinds of rules in ATL based on the way they are called and how they specify the results: matched rules, lazy rules and called rules \cite{stephan2009comparative}.
 
 \begin{itemize}
 \item \textbf{Matched Rules}: 	This kind of rule specifies which source element is to be matched, along with the target element that is to be produced.
@@ -317,7 +313,7 @@ There are different kind of rules in ATL based on the way they are called and ho
 
 \end{itemize}
 
-\subsubsection{ATL Tool Support –- Eclipse M2M}
+\subsubsection{ATL Tool Support \textemdash Eclipse M2M}
 %The long-dash above doesn't appear in the output
 % MG Fixed
 The ATL project is composed of four parts (or four different plug-ins in Eclipse). The Core, Compiler, Parser and the Virtual Machine (VM) \cite{Jouault200831}, which are described below:
@@ -332,7 +328,7 @@ The ATL project is composed of four parts (or four different plug-ins in Eclipse
 \subsubsection{Transformations Examples with ATL}
 \label{subsubsec:exampleATL}
 
-In this section we provide some transformation examples in ATL. We present parts of the metamodels, models, mapping rules and the final results (umple code) of some Java to Umple ATL model transformations.
+In this section we provide some transformation examples in ATL. We present parts of the metamodels, models, mapping rules and the final results (Umple code) of some Java to Umple ATL model transformations.
 The JavaModel to UmpleModel examples describe a transformation from a simplified Java Model to an Umple model. 
 
 \textbf{Metamodels} 
@@ -360,6 +356,9 @@ Both metamodels have been defined in XMI format, as required by the ATL metamode
 \textbf{Transformation rules} \\
 
 These are the rules to transform a Java Model to an Umple model. The ATL code for the transformation, shown in Listing \ref{lst:atlrules} consists of several functions and rules. Among the functions, we can mention the \textit{getExtendedName} in Lines 4-8 which recursively explores the namespace to concatenate a full path name.
+
+%The following listing results in the caption at the bottom of a page, a figure injected, and then the listing itself. Is it possible to force the caption to always stick to the rest of the listing (i.e. 'keep with next' in Word)
+% to be fixed later
 
 \begin{lstlisting}[style=atl, label=lst:atlrules, caption=ATL Transformations rules]
 module JavaToUmple;
@@ -398,7 +397,9 @@ rule F2A {
 
 \end{lstlisting}
 
-The three rules presented above are part of the set of rules required to transform a Java Model to an Umple model.  The first rule '\textit{P2P}' in Lines 10-14  specifies how to map a Java package to an Umple namespace. The second rule '\textit{C2C}' in Lines 16-23 declares how we can match a Java Class to an Umple Class. The last rule \textit{F2A} aims at transforming a Java Field to an Umple Attribute. This rule is a 'called rule' as it is just called whenever a Java Field matches an Umple Attribute. Remember that a Java Field can match an Attribute, Association or State Machine in Umple.
+% In Latex you have to use quotes like this `quoted' and ``double''. I fixed some cases in the next paragraph. You will want to search the thesis for more.
+
+The three rules presented above are part of the set of rules required to transform a Java Model to an Umple model.  The first rule `\textit{P2P}' in Lines 10-14  specifies how to map a Java package to an Umple namespace. The second rule `\textit{C2C}' in Lines 16-23 declares how we can match a Java Class to an Umple Class. The last rule `\textit{F2A}' aims at transforming a Java Field to an Umple Attribute. This rule is a \textit{called rule} as it is just called whenever a Java Field matches an Umple Attribute. Remember that a Java Field can match an Attribute, Association or State Machine in Umple.
 
 The \textit{FieldHelper} (Lines 29-33) used in rule \textit{F2A} is an utility class used to determine certain properties of a Java field that can derive into properties of a Umple attribute. For instance the \textit{FieldHelper.isLazy(aJavaField)} returns \textit{true} if the java field passed as parameter is not one of the constructor parameters of its parent class. This helper class is also used to compute components of a Java Field not having a one-to-one match to an Umple class. The (static) method \textit{FieldHelper.getValue(aJavaField)} extracts the value of a field (if any). 
 
@@ -491,7 +492,7 @@ The different components of the Umplificator as well as the third-party technolo
 \subsection{Parser and Model Extractor}
 
 The parser component receives a set of source code files in the base language and/or Umple and creates an abstract syntax tree (AST) as representation of the code. Umple code is allowed as input to allow repeated application to refine the model. To implement its parsing and base language model extraction capabilities, the Umplificator uses various Eclipse Projects, as summarized in the following table. These projects provide APIs to access and manipulate object-oriented source code.
-They also provide access to the  source code via two different means: a base language model within eclipse Workspace and a Abstract Syntax Tree (AST) for a standalone usage (outside Eclipse IDE). Table \ref{table:xdtProjects} summarizes the Eclipse projects used in the Umplificator for \textbf{parsing} purposes. We then provide some details about the capabilities and usage of each project. 
+They also provide access to the  source code via two different means: a base language model within the Eclipse Workspace and an Abstract Syntax Tree (AST) for a standalone usage (outside the Eclipse IDE). Table \ref{table:xdtProjects} summarizes the Eclipse projects used in the Umplificator for \textbf{parsing} purposes. We then provide some details about the capabilities and usage of each project. 
 
 \begin{table}[h]
 \caption{Eclipse projects used in the Umplificator}
@@ -508,13 +509,16 @@ They also provide access to the  source code via two different means: a base lan
 
 Eclipse is not simply a programming language IDE. In fact,  Eclipse is an extensible platform for building IDEs. Eclipse functionality is wrapped into pluggable components called \textit{plug-ins}. These plug-ins allow developers to extend the basic functionality offered by Eclipse. The projects mentioned in the above table, are plug-ins that can be used in other projects inside Eclipse or as a standalone component, as in our case.
 
-Architecturally, the JDT/CDT/PDT projects are divided into two domains: the model (core) and the user interface. The model is a representation of the Base language elements; the user interface is a set of views, actions, perspectives and menus that work together. The user interface domain can be extended but only works inside Eclipse (no intended for standalone usage).  The Umplificator uses the model component of these projects to \textbf{parse} and \textbf{extract} a base language model from source code. 
+Architecturally, the JDT/CDT/PDT projects are divided into two domains: the model (core) and the user interface. The model is a representation of the Base language elements; the user interface is a set of views, actions, perspectives and menus that work together. The user interface domain can be extended but only works inside Eclipse (not intended for standalone usage).  The Umplificator uses the model component of these projects to \textit{parse} and \textit{extract} a base language model from source code. 
 
 \textbf{Java Development Tooling (JDT)}
 
- Eclipse Java Development Tooling (JDT) \cite{jdtProject}. JDT offers a comprehensive Java development environment. JDT also provides APIS for analyzing Java source code. It provides several levels of source code analysis that can be reused. The level of source code analysis used in the Umplificator is the Abstract Syntax Tree (AST) framework. We use the AST to analyze the Java source code as a tree of nodes, where each node represents a part of the source code (for instance a variable declaration, a method body, a contructor and so on). The AST framework defines over \textit{ASTNode} \cite{astnodeapi} subclasses representing the different elements of the Java language. 
+ Eclipse Java Development Tooling (JDT) \cite{jdtProject} offers a comprehensive Java development environment. JDT also provides APIs for analyzing Java source code. It provides several levels of source code analysis that can be reused. The level of source code analysis used in the Umplificator is the Abstract Syntax Tree (AST) framework. We use the AST to analyze the Java source code as a tree of nodes, where each node represents a part of the source code (for instance a variable declaration, a method body, a contructor and so on). The AST framework defines over 60 \textit{ASTNode} \cite{astnodeapi} subclasses representing the different elements of the Java language. 
+ 
+% I dpn't get 'over ASTNODE' above
+% MG. Over 60 subclasses...
   
-AST framework includes also interfaces that help retrieve specific source information beyond what is indicated by the ASTNode source pointers. To traverse the nodes returned by the parser (ASTParser) and collect the desired information about the source code, we employ multiple visitor classes that follows the Visitor software design pattern \cite{gamma1994design}. 
+The AST framework includes also interfaces that help retrieve specific source information beyond what is indicated by the ASTNode source pointers. To traverse the nodes returned by the parser (ASTParser) and collect the desired information about the source code, we employ multiple visitor classes that follows the Visitor software design pattern \cite{gamma1994design}. 
 The visitor pattern is a standard way to decouple the data from the operations that process the data.
 For each different AST node type T, two methods are offered:
 
@@ -583,15 +587,17 @@ a \textit{PackageDeclaration}, \textit{ImportDeclaration}, and one or more of th
 
 The code on the right of Table \ref{table:astanalysis} shows several examples of what can be done inside a visitor method:
 
+% change the phrasing below to avoid the second person 'you'. i.e. get rid of 'Do you ...'
+% MG FIXED
 \begin{itemize}
-\item Do you need to know the name of the package? Code a \textit{visit(PackageDeclaration)} and get its name as an instance of \textit{SimpleName} (e.g. package test)  or \textit{QualifiedName} (e.g. package cruise.compiler.*).
-\item Do you need to know get the list of types referenced in a compilation unit? Code a \textit{visit(TypeDeclaration)} and get theirs names as instances of \textit{Simple} or \textit{QualifiedName}.
-\item Do you want to find all literal integers referenced only within methods and not fields? Code a 'sub' \textit{visit(IntegerLiteral)} inside the visit method for \textit{MethodDeclaration}.
+\item Extracting the name of the package: Code a \textit{visit(PackageDeclaration)} and get its name as an instance of \textit{SimpleName} (e.g. package test)  or \textit{QualifiedName} (e.g. package cruise.compiler.*).
+\item Getting the list of types referenced in a compilation unit? Code a \textit{visit(TypeDeclaration)} and get theirs names as instances of \textit{Simple} or \textit{QualifiedName}.
+\item Finding all literal integers referenced only within methods and not fields? Code a 'sub' \textit{visit(IntegerLiteral)} inside the visit method for \textit{MethodDeclaration}.
 \end{itemize}
 
 \textbf{Java Development Tooling (CDT)}
 
-In the same manner as the JDT technology and using the same concepts for parsing an model extraction, the CDT provides powerful features to analyze code. CDT contains two parsers, for C and C++, that generate an AST representation from source code. The CDT project, as we have explained for JDT, is a set of plug-ins that adds full support for parsing, analyzing and developing C/C++ applications. The Umplificator uses the core component of CDT to implement its reverse engineering capabilities (org.eclipse.cdt.core). The following are some fo the CDT core features that are used in the Umplificator:
+In the same manner as the JDT technology and using the same concepts for parsing an model extraction, the CDT provides powerful features to analyze code. CDT contains two parsers, for C and C++, that generate an AST representation from source code. The CDT project, as we have explained for JDT, is a set of plug-ins that adds full support for parsing, analyzing and developing C/C++ applications. The Umplificator uses the core component of CDT to implement its reverse engineering capabilities (org.eclipse.cdt.core). The following are some of the CDT core features that are used in the Umplificator:
 
 
 \begin{itemize}
@@ -615,13 +621,13 @@ int main() {
 
 Comments are preserved in the AST and can be accessed as comment nodes.
 
-\textbf{Java Development Tooling (PDT)}
+\textbf{PHP Development Tooling (PDT)}
 
 The PHP Development Tools (PDT) is a toolset intended to encompass all tools necessary to develop PHP based software. 
-It provides the primary modules: the core, the debug and the user interface. The \textbf{core} component is, as in the previous cases, used in the Umplificator to parser and analyze PHP source code.
+It provides the primary modules: the core, the debug and the user interface. The \textit{core} component is, as in the previous cases, used in the Umplificator to parser and analyze PHP source code.
 We will not provide further detail on the PDT, since it follows the same architecture and model extraction concepts, that we have already covered in the discussion of JDT and CDT eclipse technologies.
 
-To recapitulate this sub-section, the \textbf{parser} component of the Umplificator, leveraging various parsing technologies, parses source code, creates a AST representation of the code that is traversed by the \textbf{model extractor} to finally obtain a base language model. The base language model is then traverse using a series of visitors. The input/output relationship of the parser and model extractor components is illustrated in Figure \ref{fig:parserINOut}. 
+To recapitulate this sub-section, the \textit{parser} component of the Umplificator, leveraging various parsing technologies, parses source code, creates a AST representation of the code that is traversed by the \textit{model extractor} to finally obtain a base language model. The base language model is then traverse using a series of visitors. The input/output relationship of the parser and model extractor components is illustrated in Figure \ref{fig:parserINOut}. 
 
 \begin{figure}[h]
 \centering
@@ -632,7 +638,7 @@ To recapitulate this sub-section, the \textbf{parser} component of the Umplifica
 
 \subsection{Transformer}
 
-The core of the tool suite is the Transformer. The Transformer receives a Base language model (e.g. JavaModel, CPPModel OR PHPModel) from the extractor and an empty umple model which is then populated. In fact, the base language model is decomposed into a series of objects representing each particular piece of the source code (a package, an import, a field and so on). Furthermore, the base-language model is transformed using a predefined set of mapping rules. If the input model is Umple code, the transformer produces an Umple model with additional modeling constructs (abstractions). The input/output relationship for the Transformer component is illustrated in Figure 
+The core of the tool suite is the Transformer. The Transformer receives a base language model (e.g. JavaModel, CPPModel OR PHPModel) from the extractor and an empty Umple model which is then populated. In fact, the base language model is decomposed into a series of objects representing each particular piece of the source code (a package, an import, a field and so on). Furthermore, the base-language model is transformed using a predefined set of mapping rules. If the input model is Umple code, the transformer produces an Umple model with additional modeling constructs (abstractions). The input/output relationship for the Transformer component is illustrated in Figure 
 \ref{fig:transformerInOut}.
 
 \begin{figure}[h]
@@ -649,10 +655,10 @@ As we have seen in Table \ref{table:technologies}, the Transformer component lev
 The rule engine interprets and executes the mapping rules on the source model and target model to produce the umplified version of the target model.
 The Drools engine used by the Umplificator is composed of an inference engine that is able to scale to a large number of rules and facts.  The inference component matches facts and data (base language models) against rules to infer conclusions, which result in actions (model transformations). A rule is a two-part structure (Left-hand-side part and Right-hand-side part) using first order logic for reasoning over knowledge representation.
 
-At a high level view of it structure, the Rule Engine consists of an: \textit{Inference Engine}, \textit{Agenda}, \textit{Pattern Matcher} and a \textit{Production} and \textit{Working Memory}. 
+At a high level structural view, the Rule Engine consists of an: \textit{Inference Engine}, \textit{Agenda}, \textit{Pattern Matcher} and a \textit{Production} and \textit{Working Memory}. 
 The rules are stored in the \textit{Production Memory} and the facts that the Inference Engine matches against are kept in the \textit{Working Memory}.
 Facts are the data in which the rules act (Model elements in our case).
-Pattern matching is performed to match facts against rules and is implemented using the Rete algorithm \cite{reteDROOLS}.Facts are evaluated into the Working Memory where they may be modified or retracted. The \textit{Agenda} manages the execution order of the rules. Figure \ref{fig:RuleEngineArchitecture} shows the difference components of the Rule Engine.
+Pattern matching is performed to match facts against rules and is implemented using the Rete algorithm \cite{reteDROOLS}. Facts are evaluated into the Working Memory where they may be modified or retracted. The \textit{Agenda} manages the execution order of the rules. Figure \ref{fig:RuleEngineArchitecture} shows the difference components of the Rule Engine.
 
 \begin{figure}[h]
 \centering
@@ -661,7 +667,10 @@ Pattern matching is performed to match facts against rules and is implemented us
 \label{fig:RuleEngineArchitecture}
 \end{figure}
 
-Traditionally, rule engines have two methods of execution \cite{RulebasedSystems} forward chaining and backward chaining. In forward chaining, the facts are asserted into working memory resulting in one or more rules being concurrently true and scheduled for execution. In backward chaining (goal driven), one starts with a conclusion, which the engine tries to satisfy. Drools is a Hybrid Chaining System because it implements both forward and backward mechanisms. Our Umplificator uses the forward chaining method of operation in which the inference engine starts with facts, propagates through the rules, and produces a conclusion (e.g. a transformation). Figure \ref{fig:backwardForward} contrasts the two modes of execution. In Forward Chaining, we discover what conclusions can be derived from the data, whereas in Backward chaining we start with the goals and search how to satisfy that (as in Prolog). Consider the scenario of a model transformation in the Figure below: if the conditions C1,C2 and C3 apply on a base language element, then we can perform the transformation as dictated bv D1. 
+Traditionally, rule engines have two methods of execution \cite{RulebasedSystems} forward chaining and backward chaining. In forward chaining, the facts are asserted into working memory resulting in one or more rules being concurrently true and scheduled for execution. In backward chaining (goal driven), one starts with a conclusion, which the engine tries to satisfy. Drools is a Hybrid Chaining System because it implements both forward and backward mechanisms. Our Umplificator uses the forward chaining method of operation in which the inference engine starts with facts, propagates through the rules, and produces a conclusion (e.g. a transformation). Figure \ref{fig:backwardForward} contrasts the two modes of execution. In Forward Chaining, the engine discovers what conclusions can be derived from the data and asserts them (iteratively), whereas in Backward chaining the engine starts with the goals and searches how to satisfy them (as in Prolog).
+
+% Reference the figure number when you say 'figure below'
+Consider the scenario of a model transformation in the Figure below \ref{fig:backwardForward}: if the conditions C1,C2 and C3 apply on a base language element, then we can perform the transformation as dictated bv D1. 
 On the other hand, in backward chaining, we perform the transformation and then attempt to determine if it was correct based on the available information (C1,C2,C3 and input model element).
 
 \begin{figure}[h]
@@ -681,7 +690,7 @@ A rule file in Drools (and in our implementation) is a file with a .drl extensio
 \item \textbf{Imports}: These are used to import Java types referenced by the rules.
 \item \textbf{Global Variables:} A Global variable is a variable visible to all the rules inside a rule file. These are not inserted into the Working Memory and are most commonly used to log information on the execution of rules.
 \item \textbf{Functions}: These are used for invoking actions on the consequence (then) part of the rule, especially if that particular action is used over and over again. 
-\item \textbf{Queries}: These provide a means to search working memory and store the results under a named value. In the Umplificator, they are used to gather metric information about the models analyzed. For instance, the query  numberOfPublicMethods(..) returns the number of methods having 'public' as modifier. Queries do not have side effects, meaning that their evaluation cannot alter the state of the corresponding executing unit. 
+\item \textbf{Queries}: These provide a means to search working memory and store the results under a named value. In the Umplificator, they are used to gather metric information about the models analyzed. For instance, the query  numberOfPublicMethods(..) returns the number of methods having `public' as modifier. Queries do not have side effects, meaning that their evaluation cannot alter the state of the corresponding executing unit. 
 \end{itemize}
 
 The rules as explained in this section are instructions indicating how a piece of the Base language model (Java Model, C++ model, etc.) is mapped to a piece of an Umple model. In the Umplificator, the logic used for model transformations resides in the rules. Moreover, by using rules, we have a single point of truth, a centralized repository of knowledge. Rules can be also read and understood easily, so they can also serve as documentation.
@@ -719,7 +728,7 @@ end
 The rules are grouped in files for each of the cases (levels of refactoring) discussed earlier. In other words, there is a rule file containing rules, functions and queries to transform classes, namespace and imports; another file containing those to transform variables into attributes, another file containing those to transform variables into associations and so on.
 
 To activate the groups on the required order, we used agenda groups. Agenda groups are a way to partition the activation. At any one time, only one group has 'focus' meaning that activation for rules in that group will take effect. 
-In other words, agenda groups provide a way to create a flow between grouped rules. The work as a stack. When we set the focus to a given agenda group, that group is placed on top of the stack. When the engine tries to fire the next activation and there are no more activation in a given group, that group is removed from the top of the stack and the group bellow receives focus again.
+In other words, agenda groups provide a way to create a flow between grouped rules. They work as a stack. When we set the focus to a given agenda group, that group is placed on top of the stack. When the engine tries to fire the next activation and there are no more activations in a given group, that group is removed from the top of the stack and the group below receives focus again.
 
 The Umplificator executes the rules to transform classes first, followed by the rules transforming attributes and finally by the rules transforming associations. 
 
@@ -770,6 +779,13 @@ The Generator component validates the received UmpleModel and generates Umple co
 \caption{The Generator component inputs and outputs}
 \label{fig:generatorInOut}
 \end{figure}
+
+The Generate supports different options when it comes to generation of output files.  One way to do this is to follow the Java convention of having one .ump file per class. Another common approach is to have one or more files for the model code (just the pure UML elements such as classes with their attributes, associations and state machines) and separate files for the methods; we can in fact have some files for Java methods, and other files for PHP or Ruby methods. The same model can then be used to develop systems that are deployed in multiple base languages. For instance, for the Java  input class\textit{A.java}, the two following files would be generated:
+
+\begin{enumerate}
+\item \textit{A.ump}: containing methods, algorithmic and logic code for class A.
+\item \textit{A\_model.ump}: Modeling constructs for class A.
+\end{enumerate}
 
 \subsection{Automated Umplification Example}
 

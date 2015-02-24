@@ -2,23 +2,25 @@
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {2.1}{\ignorespaces API generated methods from Umple attributes\relax }}{10}{table.caption.84}
 \contentsline {table}{\numberline {2.2}{\ignorespaces API generated methods (mutator) from Umple attributes\relax }}{10}{table.caption.85}
+\contentsline {table}{\numberline {2.3}{\ignorespaces API generated from Umple Associations - Accessor Methods\relax }}{12}{table.caption.106}
+\contentsline {table}{\numberline {2.4}{\ignorespaces API generated from Umple Associations - Mutator Methods\relax }}{12}{table.caption.107}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Refactorings to methods required for each transformation\relax }}{18}{table.caption.141}
+\contentsline {table}{\numberline {3.1}{\ignorespaces Refactorings to methods required for each transformation\relax }}{18}{table.caption.145}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Analyzing instance variables for presence in the constructor and getter/setters\relax }}{21}{table.caption.149}
-\contentsline {table}{\numberline {4.2}{\ignorespaces Umple Primitive Data Types\relax }}{22}{table.caption.150}
-\contentsline {table}{\numberline {4.3}{\ignorespaces Accessor Methods parsed and analyzed\relax }}{23}{table.caption.156}
-\contentsline {table}{\numberline {4.4}{\ignorespaces Mutator methods parsed and analyzed\relax }}{23}{table.caption.157}
+\contentsline {table}{\numberline {4.1}{\ignorespaces Analyzing instance variables for presence in the constructor and getter/setters\relax }}{37}{table.caption.501}
+\contentsline {table}{\numberline {4.2}{\ignorespaces Umple Primitive Data Types\relax }}{38}{table.caption.502}
+\contentsline {table}{\numberline {4.3}{\ignorespaces Accessor Methods parsed and analyzed\relax }}{39}{table.caption.508}
+\contentsline {table}{\numberline {4.4}{\ignorespaces Mutator methods parsed and analyzed\relax }}{39}{table.caption.509}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {5.1}{\ignorespaces Third Party Technologies employed in the Umplificator tool\relax }}{42}{table.caption.333}
-\contentsline {table}{\numberline {5.2}{\ignorespaces Eclipse projects used in the Umplificator\relax }}{43}{table.caption.335}
-\contentsline {table}{\numberline {5.3}{\ignorespaces Sample Uses of an AST for Code Analysis\relax }}{45}{table.caption.359}
-\contentsline {table}{\numberline {5.4}{\ignorespaces Rule attributes\relax }}{51}{table.caption.377}
-\contentsline {table}{\numberline {5.5}{\ignorespaces The input Java Model elements\relax }}{54}{table.caption.433}
-\contentsline {table}{\numberline {5.6}{\ignorespaces Artifacts deployed during the building process of the Umplificator\relax }}{60}{table.caption.534}
+\contentsline {table}{\numberline {5.1}{\ignorespaces Third Party Technologies employed in the Umplificator tool\relax }}{57}{table.caption.685}
+\contentsline {table}{\numberline {5.2}{\ignorespaces Eclipse projects used in the Umplificator\relax }}{58}{table.caption.687}
+\contentsline {table}{\numberline {5.3}{\ignorespaces Sample Uses of an AST for Code Analysis\relax }}{60}{table.caption.711}
+\contentsline {table}{\numberline {5.4}{\ignorespaces Rule attributes\relax }}{66}{table.caption.729}
+\contentsline {table}{\numberline {5.5}{\ignorespaces The input Java Model elements\relax }}{69}{table.caption.787}
+\contentsline {table}{\numberline {5.6}{\ignorespaces Artifacts deployed during the building process of the Umplificator\relax }}{75}{table.caption.888}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {6.1}{\ignorespaces Small examples used for first phase of validation\relax }}{77}{table.caption.748}
-\contentsline {table}{\numberline {6.2}{\ignorespaces Open-source systems umplified\relax }}{78}{table.caption.872}
+\contentsline {table}{\numberline {6.1}{\ignorespaces Small examples used for first phase of validation\relax }}{93}{table.caption.1102}
+\contentsline {table}{\numberline {6.2}{\ignorespaces Open-source systems umplified\relax }}{94}{table.caption.1226}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
