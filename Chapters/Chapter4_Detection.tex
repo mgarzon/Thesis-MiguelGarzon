@@ -2,20 +2,192 @@
 
 \chapter{Detection Mechanisms for UML/Umple Constructs}
 \label{chap:detections}
-In this chapter we will present the different mechanisms to detect UML/Umple attributes, associations and state machines from source code written in a object-oriented programming language. The methodology followed to ensure that our approach is able to identify Umple/UML constructs in source code in most of the situations, involves four main steps:
-\begin{enumerate}
-\item 	Identify in the literature the typical implementations of attributes, associations and state machines in high level programming languages. We have included the CASE tools aiming at generating code from state machine models (Forward engineering).
-\item 	Identify in the literature the techniques aiming at discovering the modeling constructs in object-oriented source code (Reverse Engineering).
-\item 	Inspect various open source system written in object-oriented programming languages and verify that the existing techniques for reverse-engineering of modeling constructs can detect them.
-\end{enumerate}
-At the end of the chapter, we will present the set of mapping rules derived from our analysis. 
 
+In this chapter we will present the different mechanisms to detect UML/Umple attributes, associations and state machines from source code written in an object-oriented programming language. We started to build our detection rules based on the following::
+
+\begin{enumerate}
+
+\item Documented implementations of attributes, associations and state machines in high level programming languages mentioned in the literature. In particular, we have considered research that discusses how to generate code from state machine models (Forward engineering).
+
+\item Documented techniques in the literature for discovering  modeling constructs in object-oriented source code (Reverse Engineering).
+
+\item Our own analysis of open source systems written in object-oriented programming languages.
+
+\end{enumerate}
+
+To present the set of transformation rules we developed from the above, we will employ a semi-formal notation. The rules define mappings between the input (e.g. JavaModel, CPPModel) and output (UmpleModel) models.  It must be pointed out that these transformations have been implemented in the Drools Language and will be presented more formally in Chapter \ref{chap:tool}.
+
+\section{A Notation for Transformation Rules}
+
+Transformation rules presented in this chapter will contain the following information:
+
+\begin{enumerate}
+
+\item A name for each transformation rule used for reference purposes.
+
+\item The source language reference
+
+\item Constants used in the generation of the target
+
+\item Helper methods used in the extraction of information from target or input models.
+
+\item A set of named source language model elements from the source language metamodel that we call B.
+
+\item A set of named target language model elements from the target language metamodel that we call U.
+
+\item The source language conditions: invariants that state the conditions that must hold in the source model for this transformation to be applied.
+
+\item The target language conditions: invariants that state the conditions that must hold in the target model for this transformation to be applied.
+
+\end{enumerate}
+
+% It would be better in this template if the keyword 'conditions' and 'mappings' would be in blue, just like 'in' and 'out'
+
+Listing \ref{lst:templateTransform} presents a template definition for the transformations rules.
+
+\begin{lstlisting}[style=mine,caption=Template definition for Transformation rules,label=lst:templateTransform]
+Transformation Name  (InputModel, OutputModel){
+ params
+ 	...
+ in
+   sourceElement: ...
+ out
+   targetElement: ...
+ in conditions
+    ...
+ out conditions
+ 	...
+ mappings
+    sourceElement.propertyA -> targetElement.propertyA;
+    sourceElement.propertyB -> targetElement.propertyB;
+}
+\end{lstlisting}
+
+The various parts of a transformation rule have their own  specific notation:
+
+\begin{itemize}
+
+\item Line 1. Every transformation possess a name.
+
+\item Line 1. The source and target languages are referenced by stating both language names after the transformation name.
+
+\item Line 2. Local and global variables to be used in the transformation rule are specified following the keyword \textit{params}.
+
+\item Lines 4 and 6. The source model and target elements are written as variable declarations following the keywords \textit{in} and \textit{out} respectively.
+
+\item Lines 8 and 10. The conditions that must hold on the source and target model elements are specified following the keywords \textit{in conditions} and \textit{out conditions} respectively. The mappings are performed only if both the in and out conditions are true. 
+
+\item Line 12. The mapping rules come after the keyword \textit{mappings}. The symbol -\textgreater  is used as an infix operator with two operands. The symbol specifies a transformation of the left hand side operand to the right side operand (rules are unidirectional).
+\end{itemize}
+
+We will now introduce the transformation rules for each of the transformation steps presented in Chapter \ref{chap:core}.
+The set of rules for each transformation case constitutes a transformation case definition. Rules in the set are to be executed in sequence.
+
+\section{Transformation Rules for the Initial Transformation Step}
+
+Transformations rules for this step are straightforward and aim at transforming the package declaration, namespace declarations, import declaration and the generalization notation into the corresponding Umple notation. 
+
+The mapping rule in Listing \ref{lst:4.1.1} specifies the transformation of a Java class into an Umple class using the language defined in the previous section. The only required condition is that the \textit{typeDeclaration} declares a Java class and not a Java interface. A very similar rule is then required for the transformation of a \textit{typeDeclaration} into an Umple Interface. The relationship between the source model, the target model and the mapping rule are illustrated in Figure \ref{fig:4.1.1}. Transformation rules defined in a general but formal language can then be adapted to specific languages such as Java or C++. For instance, the name of a typeDeclaration if the input language is Java can be extracted using the \textit{getName().getFullyQualifiedName()} call sequence. Actual implementation of the mapping rules will be presented in Chapter \ref{chap:tool}.
+
+% The following Listing is totally mixed up with the subsequent figure in the tool, but when I export a pdf it looks OK. Very strange.
+
+% Also, you are using tabs, which Latex doesn't process properly in listings. You need to use two spaces instead of tabs. I have made this change in this case, but make the change elsewhere and watch out in other code.
+
+% Readers will be confused as to the detailed sublanguages (e.g. the reference to isInterface(), ::TypeDeclariation, .name and so on. How are you going to define these? I know you say this is 'informal' (actually I changed it to 'semiformal' which is the correct term), but nonetheless it should be understandable. Are you referring to JDT contstructs? If so then there is the problem that you haven't introduced JDT yet. Perhaps the solution is to put much of Chapter 5 before this (discussing how you tried ATL, TXL and then briefly xDT), then have this chapter, which can now refer to JDT, and finally discuss the implification in another separate chapter. There would end up being one more chapter than there is now.
+% But there may be another way to make this all make sense, such as defining the semi-formal language in a simple way here.
+
+\begin{lstlisting}[style=mine,caption=Rule JavaTypeToUmpleClass,label=lst:4.1.1]
+Transformation JavaTypeToUmpleClass (BaseLanguageMetamodel, UmpleMetamodel){ 
+ in
+   typeDeclaration : BaseLanguageModel::TypeDeclaration;
+ out
+   UmpleClass: UmpleMetamodel::UmpleClass;
+ in conditions
+   (typeDeclaration.isInterface() = false);
+ mappings
+   typeDeclaration.name -> UmpleClass.name;
+}
+\end{lstlisting}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.99\textwidth]{Figures/ch4InitialMapping.pdf}
+\caption{Input-Output relationships for rule JavaTypeToUmpleClass}
+\label{fig:4.1.1}
+\end{figure}
+
+Similarly, rule  \textit{JavaImportToUmpleDepend} in Listing \ref{lst:4.1.2} specifies the transformation of a Java declaration into a depend declaration and rule \textit{JavaPackageToUmpleNamespace} in Listing \ref{lst:4.1.3} specifies the transformation between a Java package declaration into a namespace declaration.
+
+\begin{lstlisting}[style=mine,caption=Rule JavaImportToUmpleDepend,label=lst:4.1.2]
+Transformation JavaImportToUmpleDepend (BaseLanguageMetamodel, UmpleMetamodel){ 
+ in
+   importDeclaration : BaseLanguageModel::ImportDeclaration;
+ out
+   depend: UmpleMetamodel::Depend;
+ in-out conditions
+   UmpleClass:name = typeDeclaration.name	;
+ mappings
+   importDeclaration.name -> depend.name;
+   fieldDeclaration.importDeclaration -> UmpleClass.depend;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[style=mine,caption=Rule PackageToUmpleNamespace,label=lst:4.1.3]
+Transformation PackageToUmpleNamespace (BaseLanguageMetamodel, UmpleMetamodel){ 
+ in
+   packageDeclaration : BaseLanguageModel::PackageDeclaration;
+   typeDeclaration : BaseLanguageModel::TypeDeclaration;
+ out
+   UmpleClass: UmpleMetamodel::UmpleClass;
+ in-out conditions
+   UmpleClass:name = typeDeclaration.name;
+ mappings
+   packageDeclaration.name -> UmpleClass.namespace;
+}
+\end{lstlisting}
+
+Furthermore, the generalization in the base language notation is transformed into the Umple notation \textit{isA} as shown in Listing \ref{lst:4.1.5}.
+
+\begin{lstlisting}[style=mine,caption=Rule GeneralizationToUmpleIsA,label=lst:4.1.5]
+Transformation GeneralizationToUmpleIsA (BaseLanguageMetamodel, UmpleMetamodel){ 
+ in
+   fieldDeclaration : BaseLanguageModel::FieldDeclaration;
+ out
+   UmpleClass: UmpleMetamodel::UmpleClass;
+ in conditions
+   (typeDeclaration.isInterface() = false);
+ mappings
+   typeDeclaration.superInterfaceTypes -> UmpleClass.parentInterfaces;
+   typeDeclaration.superClassType -> UmpleClass.extendsClass;
+}
+\end{lstlisting}
+
+Finally, since at this transformation step, we do not attempt to transform any variable into an Umple attribute, association end or state machine. Therefore, the field declarations and related method declarations are simply appended to the body of the Umple class; some of these will be transformed later. The rule \textit{ClassBodyToUmpleClassExtracode} in Listing \ref{lst:4.1.4} performs the desired operation. We employ the OCL feature \textit{iterate} to traverse the collection of methods and fields belonging to the field declaration. 
+
+\begin{lstlisting}[style=mine,caption=Rule ClassBodyToUmpleClassExtracode,label=lst:4.1.4]
+Transformation ClassBodyToUmpleClassExtracode (BaseLanguageMetamodel, UmpleMetamodel){ 
+ in
+   fieldDeclaration : BaseLanguageModel::FieldDeclaration;
+   methodDeclaration : BaseLanguageModel::MethodDeclaration;
+   typeDeclaration : BaseLanguageModel::TypeDeclaration;
+ out
+   UmpleClass: UmpleMetamodel::UmpleClass;
+ in conditions
+   (typeDeclaration.isInterface() = false);
+ mappings
+   typeDeclaration->iterate( f: FieldDeclaration | 
+     fieldDeclaration.toString -> UmpleClass.extraCode);
+   methodDeclaration->iterate( f: FieldDeclaration | 
+     fieldDeclaration.toString -> UmpleClass.extraCode);
+}
+\end{lstlisting}
+
+Rules aiming at transforming field declarations into Umple interfaces are very similar to those presented above except for the inclusion of the condition '\textit{typeDeclaration.isInterface()}'.
 
 \section{Member Variables Analysis}
 Member variables can represent not only attributes, but also associations, state machine variables, and internal data such as counters, caching, or sharing of local data. In this section, we analyze the characteristics of member variables and present the mapping rules guiding the transformation of
 these member variables into attributes, associations or state machines variables. Furthermore, we analyze the different patterns supported by existing reverse engineering tools when it comes to the detection of these UML/Umple constructs. We demonstrate our reverse engineering patterns for attributes, associations and state machines variables using Java as the input language.  
 \subsection{Refactoring to Create Attributes}
-
  
 We start by analyzing all instance variables for their presence in constructor and get/set methods and decide whether the member variable is a good candidate to become an Umple attribute [12].  In Table \ref{table:attributes}, we present the developed (programmable) heuristics used for the partial analysis of member variables. The instance variables with a low or very low probability of being attributes are ignored for now. Those with high and medium probability are further analyzed. 
 

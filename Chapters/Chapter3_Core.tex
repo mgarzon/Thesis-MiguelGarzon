@@ -13,7 +13,7 @@ Umplification, as illustrated in Figure \ref{fig:umplificationLoop}, involves re
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.50\textwidth]{Figures/UmplificationProcess.png}
+\includegraphics[width=0.50\textwidth]{Figures/UmplificationProcess.pdf}
 \caption{The Umplification process generalized}
 \label{fig:umplificationLoop}
 \end{figure}
@@ -89,7 +89,7 @@ As mentioned before, as part of each transformation step, the accessor, mutator,
         Accessor (getter) and mutator (setter) methods are removed from the original code if they are simple since 		Umple-generated code replaces them. Custom accessors and mutators are refactored so Umple generates code 			that maintains the original
         semantics.         		\\ \hline
         \textbf{(2b) Associations }   & 
- 		Accessor and mutator methods are removed or correctly injected into the umple code.        
+ 		Accessor and mutator methods are removed or correctly injected into the Umple code.        
 		\\ \hline
         \textbf{(2c) State Machines  }  & 
 		Methods triggering state change are removed if they are simple (just change state) or modified to call 				Umple-generated event methods.  	
@@ -111,8 +111,10 @@ Transformations made as part of these first refactoring steps, are one-to-one di
 
 \subsubsection{Details of the Transformations to Create Attributes}
 
-The goal of this transformation step is to transform member variables meeting certain conditions into Umple attributes (Transformation 2a). An Umple attribute, as discussed in Chapter 2, it is more than just a plain private variable: It is designed to be operated on by mutator methods, and accessed by accessor methods. These methods, in turn can have semantics such as preconditions and tracing injected into them. 
-We start by analyzing all instance variables for their presence in constructor and get/set methods and decide whether the member variable is a good candidate to become an Umple attribute. In addition to the previous conditions, if the candidate attribute has as its type either: 
+The goal of this step is to transform member variables meeting certain conditions into Umple attributes (Transformation 2a). An Umple attribute, as discussed in Chapter 2, it is more than just a plain private variable: It is designed to be exclusively operated on by mutator methods, accessed by accessor methods and (depending on its properties) automatically initialized in the constructor. These methods, in turn can have semantics such as preconditions and tracing injected into them. 
+
+We start by analyzing all instance variables for their presence in constructor and get/set methods and decide whether the member variable is a good candidate to become an Umple attribute. In addition to the previous conditions, if the candidate attribute has as its type either:
+
 \begin{enumerate}
 \item a simple data type
 \item a class that only itself contains instance variables meeting conditions in a and b (for attributes with 'many' multiplicity)
@@ -120,7 +122,7 @@ We start by analyzing all instance variables for their presence in constructor a
 
 Then, the member variable is transformed into an Umple Attribute. If it is not possible to draw a conclusion regarding whether or not the member variable corresponds to an Umple Attribute, the member variable is left to be later transformed into an association or a state machine. If the member variable does not meet any of the criteria required to perform the transformations, the member variable (and its accessors/mutators) is not processed. Further details on this decision making process will be provided in the next chapter of this thesis. 
 
-We culminate this refactoring step by removing or refactoring getters and setters of the previously identified attributes. More specifically, the getters and setters need to be refactored if they are not simple, but are custom. Simple getters/setters are those that only return/update the attribute value.  Custom getters/setters are those that provide behavior apart from setting the variable such as validating constraints, managing a cache or filtering the input.
+We culminate this refactoring step by removing or refactoring getters and setters of the previously identified attributes. More specifically, the getters and setters need to be refactored if they are custom. Simple getters/setters are those that only return/update the attribute value.  Custom getters/setters are those that provide behavior apart from getting and setting the variable such as validating constraints, managing a cache or filtering the input.
 
 \subsubsection{Transformations to Create Associations}
 
@@ -130,9 +132,14 @@ As discussed earlier, in the various cases of the refactoring steps, analyses ar
 \item Its declared type is a Reference type (generally a class in the current system).
 \item The variable field is simple, or the variable field is a container (also known as a collection).
 \item The class in which the variable is declared, stores, access and/or manipulates instances of the variable type.
-\item The class in which the variable is declared, stores, access and/or manipulates instances of the variable type.
+
+% You had a duplication of the last bullet, which I took out, however is it possible there was originally some different 4th item?
+
 \end{itemize}
 
+The sort of refactoring discussed above for attributes is also performed when associations are found, although the actual code logic is more sophisticated.
+
+% Here you should add a forward reference to where you will talk about the actual rules and mechanism used to do the transformations. You should also mention state machines I think
 
 \section{Motivations}
 
@@ -162,11 +169,11 @@ The Umplification technique improves program comprehension by:
 \begin{itemize}
 \item Allowing developers to describe and develop a system at a more abstract level and
 
-\item removing boilerplate code when incorporating a new abstraction
+\item Removing boilerplate code when incorporating a new abstraction
 
-\item By reducing the complexity when an Umple association is incorporated. An Umple association consists of a single line of umple code. To implement the association in a language like Java, we need to include member variables in both classes, methods to add, delete, query an iterate through links, as well as some code in the constructors.
+\item Reducing the complexity when an Umple association is incorporated. An Umple association consists of a single line of Umple code. To implement the association in a language like Java, we need to include member variables in both classes, methods to add, delete, query an iterate through links, as well as some code in the constructors.
 
-\item By reducing the complexity when an Umple attribute is incorporated. First, attributes can remain untyped (defaulted to a String implementation) and generate both set/get accessor methods, which further reduces the code volume and code density. Complexity is also significantly reduced since the mechanism to manage a list attribute does not have to be coded. This API includes methods like adding and removing entities, retrieving one or all entities as well as asking how many entities belonging to the instance.
+\item Reducing the complexity when an Umple attribute is incorporated. First, attributes can remain untyped (defaulted to a String implementation) and generate both set/get accessor methods, which further reduces the code volume and code density. Complexity is also significantly reduced since the mechanism to manage a list attribute does not have to be coded. This API includes methods like adding and removing entities, retrieving one or all entities as well as asking how many entities belonging to the instance.
 \end{itemize}
 
 \section{School System - Manual Umplification Example}
@@ -259,18 +266,19 @@ public class Person {
 
 \subsection{School system: Initial Transformation}
 
-We create the .ump files, one umple file per input class.3 umple files in total are created as result of this initial transformation.
+We create the .ump files, one Umple file per input class. Three Umple files in total are created as result of this initial transformation.
+% Make a reference to the relevant listings for the three files
 
-The dependency, package and generalization notation is changed to their respective umple notation. For instance, the Java code of class Mentor shown in Listing \ref{lst:mentorJava} would result in  Umple implementation shown in Listing  \ref{lst:mentorUmple} (in file Mentor.ump). The following give details of the initial transformation:
+As discussed earlier, the dependency, package and generalization notation is changed to their respective Umple notation. For instance, the Java code of class Mentor shown in Listing \ref{lst:mentorJava} would result in  Umple implementation shown in Listing  \ref{lst:mentorUmple} (in file Mentor.ump). The following give details of the initial transformation:
 
 \begin{itemize}
 \item Package declaration in \ref{lst:mentorJava} becomes an Umple namespace declaration in Listing \ref{lst:mentorUmple}.
 \item Import declaration in \ref{lst:mentorJava} becomes an Umple depend declaration in Listing \ref{lst:mentorUmple}.
 \item Generalization notation in \ref{lst:mentorJava} is transformed to the 'isA' notation (Line 5) in Listing \ref{lst:mentorUmple}.
-\item Code in Lines 6-26 in Listing \ref{lst:mentorJava} is not touched by the initial trasnformation; The same exact code is found in the umple file in Listing \ref{lst:mentorUmple} (Lines 7-27).
+\item Code in Lines 6-26 in Listing \ref{lst:mentorJava} is not touched by the initial trasnformation; The same exact code is found in the Umple file in Listing \ref{lst:mentorUmple} (Lines 7-27).
 \end{itemize}
 
-\begin{lstlisting}[style=umpleIn,caption=Mentor.ump,label=lst:mentorUmple]
+\begin{lstlisting}[style=UmpleIn,caption=Mentor.ump,label=lst:mentorUmple]
 namespace university;
 class Mentor { 
 
@@ -300,7 +308,7 @@ class Mentor {
 }
 \end{lstlisting}
 
-The visual representation of the umple model at the end of this transformation step is shown in Figure \ref{fig:Example1a1}. At this point, we have gained knowledge about the hierarchical structure of the system. Attributes and associations are not shown in the diagram since they have not been yet reverse-engineered.
+The visual representation of the Umple model at the end of this transformation step is shown in Figure \ref{fig:Example1a1}. At this point, we have gained knowledge about the hierarchical structure of the system. Attributes and associations are not shown in the diagram since they have not been yet reverse-engineered.
 
 \begin{figure}[h]
 \centering
@@ -312,7 +320,7 @@ The visual representation of the umple model at the end of this transformation s
 \subsection{School system: Transformations to Create Attributes}
 
 Assuming that we have successfully performed the initial transformation on all the input files, at this point the input for the second transformation step are three Umple files.
-We first analyze the variables (they are still variables even if they are inside an umple class) to determine certain characteristics such as the following:
+We first analyze the variables (they are still variables even if they are inside an Umple class) to determine certain characteristics such as the following:
 
 \begin{enumerate}
 \item Is the field present in the parameters of the constructor?
@@ -323,9 +331,11 @@ We first analyze the variables (they are still variables even if they are inside
 
 For instance, if we analyze the member variables in class Student, we obtain the results in Table \ref{table:analysisStudent}.
 
-The results of this analysis allow us to generate Umple code with the required types and stereo-types. For example the stereotype 'lazy' is added of 'isActive' because it should not appear in the constructor, and the stereotype 'immutable' is added to \textit{name} since there is no setter. The trans-formed Umple code after completion of this refactoring step (transformation 2a) is shown below in Listing \ref{lst:studentUmple}. Note that this continues to generate a program that is semantically identical to pre-transformation version.
+% The above table does not exist.
 
-\begin{lstlisting}[style=umpleOut,caption=Student.ump,label=lst:studentUmple]
+The results of this analysis allow us to generate Umple code with the required types and stereotypes. For example the stereotype `lazy' is added to `isActive' because it should not appear in the constructor, and the stereotype `immutable' is added to \textit{name} since there is no setter. The transformed Umple code after completion of this refactoring step (transformation 2a) is shown in Listing \ref{lst:studentUmple}. Note that this continues to generate a program that is semantically identical to the pre-transformation version.
+
+\begin{lstlisting}[style=UmpleOut,caption=Student.ump,label=lst:studentUmple]
 namespace university;
 
 class Student { 
@@ -348,32 +358,40 @@ class Student {
 }
 \end{lstlisting}
 
+% I am confused by the colours. The colour of this background is light blue. The colour of the previous listing is dark blue-grey, but they are both Umple.
+
 The following gives details of Listing \ref{lst:studentUmple}:
 \begin{itemize}
 \item Line 2: Field id becomes an Umple attribute. Getter getId() and setter setId() are removed.
 
-\item Line 3: Field isActive becomes an Umple attribute of Boolean type.  As the field is not required in the constructor we marked as 'lazy' so the umple compiler does not generate a constructor argument for this attribute. 
+% line numbers are off by 2 in these items
+
+\item Line 3: Field isActive becomes an Umple attribute of Boolean type.  As the field is not required in the constructor we marked as 'lazy' so the Umple compiler does not generate a constructor argument for this attribute. 
 
 \item Line 4: Field name becomes an Umple attribute and is marked as 'immutable'. Immutable attributes must be specified in the constructor, and no setter is provided.
 
+% explain why we would know this should be immutable - you find no code that sets it anywhere.
+
 \item Line 5: Field MAX\_PER\_GROUP becomes a constant (special type of Umple attribute). We have drawn this conclusion because of the field modifiers (e.g. static final) and because of the ALL\_CAPS convention. 
 
-\item Line 7-10: As the getter for field name was custom in Listing \ref{lst:StudentJava}, we have adapted it so it conforms to the one that can be generated by the umple compiler. A code injection, code that is injected before and/or after statements, have been used for this purpose.
+\item Line 7-10: As the getter for field name was custom in Listing \ref{lst:StudentJava}, we have adapted it so it conforms to the one that can be generated by the Umple compiler. A code injection, code that is injected before and/or after statements, have been used for this purpose.
 
-\item Code in Lines 32-37 in Listing \ref{lst:studentJava} is not touched by this transformation; The same exact code is found in the umple file in Listing \ref{lst:studentUmple} (Lines 13-19).
+\item Code in Lines 32-37 in Listing \ref{lst:studentJava} is not touched by this transformation; The same exact code is found in the Umple file in Listing \ref{lst:studentUmple} (Lines 13-19).
+% reference to lst:studentJava not resolved above.
+
 \end{itemize}
 
 In the same manner, we umplify the attributes of classes Mentor and Person.
-The umple code for class Mentor remains identical as in Listing \ref{lst:mentorUmple}, since we could not find any member variables in this class meeting the conditions to become an umple attribute. On the other hand, the member variable 'name' in class Mentor has been transformed into an attribute of String type. Resulting umple code for class Person, after this transformation is shown below in Listing \ref{lst:personUmple}.
+The Umple code for class Mentor remains identical as in Listing \ref{lst:mentorUmple}, since we could not find any member variables in this class meeting the conditions to become an Umple attribute. On the other hand, the member variable 'name' in class Mentor has been transformed into an attribute of String type. The resulting Umple code for class Person, after this transformation is shown below in Listing \ref{lst:personUmple}.
 
-\begin{lstlisting}[style=umpleOut,caption=Person.ump,label=lst:personUmple]
+\begin{lstlisting}[style=UmpleOut,caption=Person.ump,label=lst:personUmple]
 namespace university;
 class Person {
  String name;
 }
 \end{lstlisting}
 
-The visual representation of the umple model at the end of this transformation step is shown in Figure \ref{fig:Example1a2}. At this point, we have gained knowledge about the hierarchical structure of the system and the attributes of each class. Associations are not shown in the diagram since they have not been yet reverse-engineered.
+The visual representation of the Umple model at the end of this transformation step is shown in Figure \ref{fig:Example1a2}. At this point, we have gained knowledge about the hierarchical structure of the system and the attributes of each class. Associations are not shown in the diagram since they have not been yet reverse-engineered.
 
 \begin{figure}[h]
 \centering
@@ -384,11 +402,11 @@ The visual representation of the umple model at the end of this transformation s
 
 \subsection{School system: Transformations to Create Associations}
 
-Assuming again that the source code  has already passed through the two first refactoring steps and the input at this point is the umple code found in Listings \ref{lst:personUmple}, \ref{lst:mentorUmple} and \ref{lst:studentUmple}.
+Assume again that the source code has already passed through the two first refactoring steps and the input at this point is the Umple code found in Listings \ref{lst:personUmple}, \ref{lst:mentorUmple} and \ref{lst:studentUmple}.
 
 The resulting Umple code for class Mentor after completion of this refactoring step (transformation 2b) is shown below in Listing \ref{lst:mentorUmple2}. Line 2 contains the association derived from the Java code that can be read as: a mentor can have many students associated but a student can only be associated to at most one mentor. 
 
-\begin{lstlisting}[style=umpleOut,caption=Mentor.ump,label=lst:mentorUmple2]
+\begin{lstlisting}[style=UmpleOut,caption=Mentor.ump,label=lst:mentorUmple2]
 namespace university;
 class Mentor {
  0..1 -- 0..* Student; 
@@ -401,7 +419,7 @@ class Mentor {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[style=umpleOut,caption=Student.ump,label=lst:studentUmple2]
+\begin{lstlisting}[style=UmpleOut,caption=Student.ump,label=lst:studentUmple2]
 namespace university;
 class Student {
  Integer id; 
@@ -423,7 +441,10 @@ In class \textit{Mentor}:
 \begin{enumerate}
 \item The students variable in class Mentor is of a reference type and possesses a getter and a setter.
 \item We inferred the multiplicity of the association end "0..*" by a) inspecting the cardinality of the member, and b) by analyzing the getter/setter of the member variable.
-\item We inferred the navigability of the association "--" by inspecting the two classes involved. In this case, each class can access the linked objects of the other class.  The notation "->" would otherwise have been used to represent a unidirectional association. 
+\item We inferred the navigability of the association "--" by inspecting the two classes involved. In this case, each class can access the linked objects of the other class.  The notation "-$>$" would otherwise have been used to represent a unidirectional association. 
+
+% The -> above was rendering wrongly; note how I fixed it. You might need to deal with this elsewhere.
+
 \item The association end is optional-many because the member is not present as a parameter in the constructor (not required upon construction) of an instance of the class Mentor and because the member represents a collection of elements. 
 \end{enumerate}
 
@@ -432,7 +453,7 @@ In class \textit{Student}:
 
 \item The mentor in class Student is of a Reference type and it possesses a getter and a setter.
 \item We inferred the multiplicity of the association end "0..1" by inspecting the constructor of the class Student. It is optional-one because it is not required upon construction of class Student. 
-\item Methods \textit{setMentor()} and \textit{getMentor()} are not longer needed in class Student and therefore removed.
+\item Methods \textit{setMentor()} and \textit{getMentor()} are no longer needed in class Student and therefore removed.
 \end{enumerate}
 
 Consider again the previous example.  If we inject now the constructor of Listing \ref{lst:studentConstructor} into the Student class, the multiplicity for the association end would become "1" instead of "0..1". 
@@ -443,11 +464,11 @@ public Student(Mentor aMentor){
 }
 \end{lstlisting}
 
-Note that in the examples, the Java input made use of generics (templates using '<>' syntax) for the specification of a collection of elements. For those cases in which the type of the member variable cannot be directly inferred (in older Java code), we analyze the add/remove methods to determine the type of the element that is added to the collection. We will explore all possible detection mechanisms for associations in Chapter \ref{chap:detections}.
+Note that in the examples, the Java input made use of generics (templates using '$<>$' syntax) for the specification of a collection of elements. For those cases in which the type of the member variable cannot be directly inferred (in older Java code), we analyze the add/remove methods to determine the type of the element that is added to the collection. We will explore all possible detection mechanisms for associations in Chapter \ref{chap:detections}.
 
 Ultimately, each refactoring step should involve testing (running the test suites) to check that the program's semantics are preserved. 
 
-The visual representation of the umple model at the end of this transformation step is shown in Figure \ref{fig:Example1a3}. As a result,we have gained knowledge about the hierarchical structure of the system, attributes and associations of each class. 
+The visual representation of the Umple model at the end of this transformation step is shown in Figure \ref{fig:Example1a3}. As a result,we have gained knowledge about the hierarchical structure of the system, attributes and associations of each class. 
 
 \begin{figure}[h]
 \centering
@@ -456,13 +477,13 @@ The visual representation of the umple model at the end of this transformation s
 \label{fig:Example1a3}
 \end{figure}
 
-Finally, for this small system, the umple code extracted (33 LOC) contains substantially fewer lines of code the original system written in Java (77 LOC). Despite being a simple metric, the number of lines of code is a fair indicator of complexity \cite{LOCMetric}. 
+Finally, for this small system, the Umple code extracted (33 LOC) contains substantially fewer lines of code the original system written in Java (77 LOC). Despite being a simple metric, the number of lines of code is a fair indicator of complexity \cite{LOCMetric}. 
 
 \section{ATM system - Manual Umplification Example}
 
 We will now illustrate the transformations steps through an example. This will show how umplification is performed manually. In Chapter 5 we will show how to perform automated umplification.
 
-In this section, we will umplify a moderate size Java system  comprised of:
+In this section, we will umplify a moderately-sized Java system  comprised of:
 
 \begin{itemize}
  \item 24 files, 2470 Lines of Code.
@@ -476,9 +497,9 @@ In this section, we will umplify a moderate size Java system  comprised of:
  \item Two 'top-level' classes: ATMMain and ATMApplet allowing the system to be run as an application or as an applet.
 \end{itemize}
 
-The original Java source code has been taken from \cite{atmsystem}. Although this can be considered as small application, by going through the source code of the ATM program it is not easy to understand how the classes are organized, how they interact with each other and how the responsibilities are distributed among the classes. A programmer aiming to use, document or extend the system this ATM application may want to know the impact of a change by looking at the dependencies, generalizations and associations connecting the entities or to obtain a high level view of the system for program understanding. The reader can take any versions of the code, at each step of umplification (obtained from \cite{UmplificationBasicExampleURL}), and paste it into UmpleOnline \cite{UmpleOnline} or our Eclipse-based Umple environment. 
+The original Java source code has been taken from \cite{atmsystem}. Although this can be considered as a small application, by going through the source code of the ATM program it is not easy to understand how the classes are organized, how they interact with each other and how the responsibilities are distributed among the classes. A programmer aiming to use, document or extend this ATM application may want to know the impact of a change by looking at the dependencies, generalizations and associations connecting the entities or to obtain a high level view of the system for program understanding. The reader can take any versions of the code, at each step of umplification (obtained from \cite{UmplificationBasicExampleURL}), and paste it into UmpleOnline \cite{UmpleOnline} or our Eclipse-based Umple environment. 
 
-In the following sub-sections, we present the transformation details for the classes in package 'atm.banking' and the main program class for the system 'ATMMain.java'. Note that the comments have been ignored and code in some methods have been omitted to save space.  Listings \ref{lst:CardJava} - \ref{lst:ATMMainJava} present each of the classes in this package, the input code. The umple code resulting from each step will be shown as well as the UML class diagram (visual representation of the model). 
+In the following sub-sections, we present the transformation details for the classes in package 'atm.banking' and the main program class for the system 'ATMMain.java'. Note that the comments have been ignored and code in some methods have been omitted to save space.  Listings \ref{lst:CardJava} - \ref{lst:ATMMainJava} present each of the classes in this package, the input code. The Umple code resulting from each step will be shown as well as the UML class diagram (visual representation of the model). 
 
 \noindent\begin{minipage}{.45\textwidth}
 \begin{lstlisting}[style=java,caption=Card.java,label=lst:CardJava]{Name}
@@ -642,9 +663,9 @@ public class Money
 \end{minipage}
 
 \subsection{ATM system: Initial Transformation}
-We create the .ump files, one umple file per input class. 24 umple files in total (7 for the package 'atm.banking') are created as result of this initial transformation.
+We create the .ump files, one Umple file per input class. 24 Umple files in total (7 for the package 'atm.banking') are created as result of this initial transformation.
 
-The dependency, package and generalization notation is changed to their respective umple notation.
+The dependency, package and generalization notation is changed to their respective Umple notation.
 
 For instance, the Java code (in file ATMMain.java) shown in Listing  \ref{lst:ATMMainJava} would result in  Umple implementation shown in Listing  \ref{lst:ATMMainUmple} (in file ATMMain.ump). Only the code transformed has been shown in Listings \ref{lst:ATMMainJava} -- \ref{lst:ATMMainJava}. 'The rest of the code' corresponds to the code that has not been touched during the transformation. 
 
@@ -663,7 +684,7 @@ public class ATMMain
 \end{lstlisting}
 \end{minipage}\hfill
 \begin{minipage}{.45\textwidth}
-\begin{lstlisting}[style=umpleIn,caption=ATMMain.ump,label=lst:ATMMainUmple]{Name1}
+\begin{lstlisting}[style=UmpleIn,caption=ATMMain.ump,label=lst:ATMMainUmple]{Name1}
 // Main program  
 class ATMMain
 {
@@ -686,5 +707,4 @@ At the end of this transformation step, the visual representation of the umplifi
 
 Umplification is a process for converting a base language program into an Umple program, involving a set of transformation steps. Umplification responds to two needs: The first concerns models that become obsolete very quickly. The second is the desire to simplify existing systems.
 
-In this chapter we have discussed the different transformations steps of the Umplification process. In the next Chapter, we discuss in details all detection mechanisms for the transformation of attributes and associations. 
-Rules derived from these mechanisms are then presented in Chapter \ref{chap:tool}.
+In this chapter we have discussed the different transformations steps of the Umplification process. In the next Chapter, we will present the mapping rules derived from each of the transformations steps. These transformation rules will be necessary to automate our reverse engineering process. Implementation of the mapping rules are then presented in Chapter \ref{chap:tool}.

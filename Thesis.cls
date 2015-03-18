@@ -117,6 +117,7 @@
 \usepackage{listings}
 \usepackage{lstpatch}
 \usepackage{accsupp}
+\usepackage[tikz]{bclogo}
 
 \definecolor{commentGreen}{RGB}{128,127,41}
 \definecolor{stringGreen}{RGB}{0,127,38}
@@ -155,6 +156,7 @@
     moredelim=[s][\color{annotationBlue}\itshape]{@[}{]},
     morestring=[b]",
     morestring=[d]',
+    breaklines=true,
 %%% default style
     basicstyle=\ttfamily\footnotesize\mysinglespacing,
     % identifierstyle=\normalfont,
@@ -168,10 +170,11 @@
     stringstyle=\color{stringGreen}
 }[comments,keywords,strings]
 
-\lstdefinestyle{UmplePlainFrame}{backgroundcolor=\color{flashwhite},keywordstyle=\color{cobalt},frame=shadowbox, basicstyle=\ttfamily\footnotesize\mysinglespacing}
-\lstdefinestyle{UmpleInFrame}{backgroundcolor=\color{grannysmithapple},keywordstyle=\color{cobalt},keywordstyle=\color{blue},frame=shadowbox,basicstyle=\ttfamily\footnotesize\mysinglespacing}
-\lstdefinestyle{UmpleOutFrame}{backgroundcolor=\color{columbiablue},keywordstyle=\color{cobalt},frame=shadowbox,basicstyle=\ttfamily\footnotesize\mysinglespacing}
-\lstdefinestyle{JavaFrame}{backgroundcolor=\color{amber},frame=shadowbox, basicstyle=\normalfont\ttfamily\mysinglespacing}
+\usepackage{float}
+\lstdefinestyle{UmplePlainFrame}{ breaklines=true, backgroundcolor=\color{flashwhite},keywordstyle=\color{cobalt},frame=shadowbox, basicstyle=\ttfamily\footnotesize\mysinglespacing}
+\lstdefinestyle{UmpleInFrame}{ breaklines=true,backgroundcolor=\color{grannysmithapple},keywordstyle=\color{cobalt},keywordstyle=\color{blue},frame=shadowbox,basicstyle=\ttfamily\footnotesize\mysinglespacing}
+\lstdefinestyle{UmpleOutFrame}{ breaklines=true,backgroundcolor=\color{grannysmithapple},keywordstyle=\color{cobalt},frame=shadowbox,basicstyle=\ttfamily\footnotesize\mysinglespacing}
+\lstdefinestyle{JavaFrame}{ breaklines=true,backgroundcolor=\color{amber},frame=shadowbox, basicstyle=\normalfont\ttfamily\mysinglespacing}
 
 \lstdefinestyle{java} {language=Java,style=numbers,style=JavaFrame,frame=lines,basicstyle=\ttfamily\footnotesize\mysinglespacing, morekeywords={include,printf}}
 
@@ -181,6 +184,7 @@
 
 \lstdefinestyle{atl} {language=Java,style=numbers, style=UmplePlainFrame, morekeywords={isA, depend,const, after, lazy, immutable,namespace, String, association,Integer,autounique,unique,Float, Double, Date, Time,before,key, associationClass, function, replace, by, end, include,module, OUT, from, IN, helper, context, if, else, rule, out,to,endif}}
 
+\lstdefinestyle{mine} {language=Java,style=numbers, style=UmplePlainFrame, morekeywords={Transformation, params, helpers, out, in, mapping condition}}
 
 \lstdefinestyle{umpleOut} {language=Java,style=numbers,style=UmpleOutFrame,frame=lines,morekeywords={isA, depend,const, after, lazy, immutable,namespace, String, association,Integer,autounique,unique,Float, Double, Date, Time,before,key, associationClass}}
 
@@ -190,6 +194,7 @@
         basicstyle=\scriptsize\ttfamily,
         showstringspaces=false,
         keepspaces=true}
+        
 \lstdefinestyle{matlab} {
         language=Matlab,
         keywordstyle=\color{blue},
