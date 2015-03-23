@@ -184,7 +184,26 @@
 
 \lstdefinestyle{atl} {language=Java,style=numbers, style=UmplePlainFrame, morekeywords={isA, depend,const, after, lazy, immutable,namespace, String, association,Integer,autounique,unique,Float, Double, Date, Time,before,key, associationClass, function, replace, by, end, include,module, OUT, from, IN, helper, context, if, else, rule, out,to,endif}}
 
-\lstdefinestyle{mine} {language=Java,style=numbers, style=UmplePlainFrame, morekeywords={Transformation, params, helpers, out, in, mapping condition}}
+\lstdefinestyle{mine} {style=numbers, style=UmplePlainFrame, morekeywords={Transformation, params, helpers, out, in, mappings, conditions}}
+
+\lstdefinelanguage{grammar}{
+    sensitive=true,
+    captionpos=t,
+    numbers=left,
+    morekeywords=[2]{classDefinition,methodBody, classContent,attribute, autouniqueAttribute,derivedAttribute,complexAttribute,association,symmetricReflexiveAssociation inlineAssociation,inlineAssociationEnd,singleAssociationEnd ,associationEnd,multiplicity,isSorted,
+   classDefinition, trace, emitMethod, templateAttributeDefinition, primitiveDefinition, portDefinition, portBindingDefinition, position ,displayColor, abstract, keyDefinition, softwarePattern, depend, symmetricReflexiveAssociation, attribute ,stateMachine, activeMethodDefinition, inlineAssociation, concreteMethodDeclaration ,constantDeclaration, modelConstraint ,invariant ,exception ,extraCode,codeLangs, precondition, postcondition, comment},
+    morekeywords=[3]{self, sorted, settable, internal, defaulted, const,immutable, unique, lazy,class},
+    morekeywords=[4]{type, roleName, lowerBound, upperBound, bound, priority,name},  %green
+    breaklines=true,
+%%% default style
+    basicstyle=\ttfamily\footnotesize\mysinglespacing,
+    % identifierstyle=\normalfont,
+    commentstyle=\color{commentGreen},
+    keywordstyle=\color{keywordRed},
+    keywordstyle=[2]\color{variableBlue},
+    keywordstyle=[3]\color{keywordRed},
+    keywordstyle=[4]\color{stringGreen},
+}[comments,keywords,strings]
 
 \lstdefinestyle{umpleOut} {language=Java,style=numbers,style=UmpleOutFrame,frame=lines,morekeywords={isA, depend,const, after, lazy, immutable,namespace, String, association,Integer,autounique,unique,Float, Double, Date, Time,before,key, associationClass}}
 

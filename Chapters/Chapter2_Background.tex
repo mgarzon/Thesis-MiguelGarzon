@@ -31,98 +31,87 @@ In this sub-section we present the grammar and metamodel defining the syntax and
 
 \subsubsection{Grammar}
 
-Umple's language description is written in a slightly non-standard EBNF syntax. In standard EBNF grammars all tokens have to be strictly defined, yet Umple, supports blocks of code written in the different programming languages that don't need to be parsed. This means that an Umple developer/user can choose to embed a wide variety of blocks of native code within Umple code. The following are the main elements of the Umple grammar notation:
+Umple's language description is written in a slightly non-standard EBNF syntax. In standard EBNF grammars all tokens have to be strictly defined. Umple, however, supports blocks of code written in the different programming languages that don't need to be parsed. This means that an Umple developer/user can choose to embed a wide variety of blocks of native code within Umple code. The following are the main elements of the Umple grammar notation:
 
-\paragraph{Non-Terminals} A \textit{rule-based} non-terminal uses double square brackets and represents a sub-rule that refer to other rules. In the example in Listing \ref{lst:grammarNT}, \textit{classContent} is a rule-based non terminal. 
+% You got a lot of the following few paragraphs about the grammar language completely wrong; I have corrected it, but it has alarmed me. Be extra careful about your facts, since I can't fact-check everything.
+% MG. I will double check next time.
 
-\begin{lstlisting}[style=umplePlain, label=lst:grammarNT,caption=Grammar for Umple classes]
+\paragraph{Non-Terminals} A \textit{rule-based} non-terminal uses double square brackets and represents a references to a another rule. In the example in Listing \ref{lst:grammarNT}, \textit{classContent} is a rule-based non terminal referring to the ClassContent rule. This allows reuse of such rules.  If the rule is declared with a minus sign following it, then the rule name is not added to the resulting tokenization string (abstract syntax tree) for simplicity; an example of this is found in \ref{lst:grammarExtra}. The definition of rule \textit{classContent} is shown in Listing \ref{lst:fullGrammar1}.
+
+% Add the classContent rule to the Listing so people can see how it is used.
+% MG Fixed. ClassContent is in listing fullGrammar1. I added the cross-reference to the text above.
+
+\begin{lstlisting}[language={grammar}, label=lst:grammarNT,caption=Grammar for Umple classes]
  classDefinition : class [name] { [[classContent]]* }
 \end{lstlisting}
 
-\paragraph{Terminals} Terminals are symbols that are used to decide which parsing rule to invoke, but they are not added to the resulting tokenization string (output). In Listing \ref{lst:grammarNT}, \textit{name} is a terminal followed by a curly bracket, a space or a new line character; 
-\paragraph{Native code blocks}
-As we already discussed, blocks of native code are skipped. The rule in Listing \ref{lst:grammarExtra} defines the body of a method. The \textit{**code}  will match everything until a new line character is reached. This allows the grammar to stay unchanged as new languages are added. 
+\paragraph{Terminals} Terminals come in two types. Those shown in single square brackets match, by default, any alphanumeric string. In Listing \ref{lst:grammarNT}, \textit{name} is a terminal that matches an arbitrary alphanumeric string, and is expected to be followed by a curly bracket in this case. The second type of terminal is shown as actual text and guides the parsing. So for example in \ref{lst:grammarNT} 'class' is a terminal that must match exactly, as as are the open and close curly brackets. Note that the regular parentheses are metacharacters used for grouping, and the asterisk means means zero-or-more matches.
 
-\begin{lstlisting}[style=umplePlain, label=lst:grammarExtra,caption=Grammar for Umple classes]
+\paragraph{Native code blocks}
+As we already discussed, blocks of native code are skipped. The rule in Listing \ref{lst:grammarExtra} defines the body of a method. The \textit{**code}  will match everything until the ending curly bracket is reached, while properly dealing with nested pairs of curly brackets found in the code. This allows the grammar to stay unchanged as new languages are added. 
+
+In the following grammar examples, {\color{variableBlue}rules} are shown in blue, {\color{keywordRed}terminal} symbols are in red, {\color{stringGreen}identifiers} are in green and arbitrary input is in \textbf{black} and surrounded by [**]. 
+
+\begin{lstlisting}[language={grammar}, label=lst:grammarExtra,caption=Grammar for Umple classes]
 methodBody- : ( [[codeLangs]] { ( [[precondition]] | [[postcondition]] )* [**code] } )+
 \end{lstlisting}
 
 The grammar to parse classes (declarations), attributes, , and associations is presented in Listings \ref{lst:fullGrammar1}-\ref{lst:fullGrammar3} respectively.
 
-A class definition starts with a name, followed by a curly bracket and any of the items in Lines 3-14 of Listing \ref{lst:fullGrammar1} such as attributes, state machines or inline associations. 
+A class definition starts with a name, followed by a curly bracket and any of the items in Lines 3-14 of Listing \ref{lst:fullGrammar1} such as attributes, state machines or inline associations. Note that for conciseness reasons, some rules have been omitted from Listing \ref{lst:fullGrammar1}. Additional details about the grammar metalanguage can be obtained in the online Umple user manual at \url{http://cruise.eecs.uottawa.ca/umple/UmpleGrammar.html}. The entire Umple grammar definition is located at \url{http://grammar.umple.org}.
 
-\begin{lstlisting}[style=umplePlain, label=lst:fullGrammar1,caption=Umple Grammar for classes]
+% The listing has no line numbers - it ought to since you are referring to line numbers,
+% MG. Fixed
+% You should mention that additional details about the grammar metalanguage are located in the User Manual (give the exact URL) and that the entire Umple grammar is also located at http://grammar.umple.org
+% MG. Added 
+
+\begin{lstlisting}[language={grammar}, label=lst:fullGrammar1,caption=Umple Grammar for classes]
 classDefinition : class [name] { [[classContent]]* }
 
-classContent- : [[comment]] | [[classDefinition]] 
-| [[trace]] | [[emitMethod]] 
-| [[templateAttributeDefinition]] | [[primitiveDefinition]] 
-| [[portDefinition]] | [[portBindingDefinition]] | [[position]] | [[displayColor]] 
-| [[abstract]] | [[keyDefinition]] | [[softwarePattern]] | [[depend]] 
-| [[symmetricReflexiveAssociation]] | [[attribute]] | [[stateMachine]] 
-| [[activeMethodDefinition]] | [[inlineAssociation]] 
-| [[concreteMethodDeclaration]] 
-| [[constantDeclaration]] 
-| [[modelConstraint]] | [[invariant]] | [[exception]] 
-| [[extraCode]]
+classContent- : [[comment]] | [[abstract]] | [[keyDefinition]] | [[softwarePattern]] | [[depend]] | [[symmetricReflexiveAssociation]] | [[attribute]] | [[stateMachine]] | [[inlineAssociation]] |[[concreteMethodDeclaration]]| [[constantDeclaration]] [[invariant]] | [[exception]] |[[extraCode]]
 \end{lstlisting}
 
-
-\begin{lstlisting}[style=umplePlain, label=lst:fullGrammar2,caption=Umple Grammar for attributes]
+\begin{lstlisting}[language={grammar}, label=lst:fullGrammar2,caption=Umple Grammar for attributes]
 attribute : [[simpleAttribute]] | [[autouniqueAttribute]] | [[derivedAttribute]] | [[complexAttribute]]
 
 simpleAttribute- : [=gpIdentifier:%]? [~name] ;
-
 autouniqueAttribute- : [=autounique] [~name] ;
-
-derivedAttribute- : [=modifier:immutable  |settable  |internal |defaulted |const 
-  |fixml]? [[typedName]] = ( [[moreCode]] )+
-
-complexAttribute- : [=unique]? [=lazy]? [=modifier:immutable |settable |internal |defaulted  |const 
-   |fixml]? [[typedName]] (= [**value])? ;
+derivedAttribute- : [=modifier:immutable  |settable  |internal |defaulted |const |fixml]? [[typedName]] = ([[moreCode]] )+
+complexAttribute- : [=unique]? [=lazy]? [=modifier:immutable |settable |internal |defaulted  |const |fixml]?[[typedName]] (= [**value])? ;
 \end{lstlisting}
 
-\begin{lstlisting}[style=umplePlain, label=lst:fullGrammar3,caption=Umple Grammar for associations]
+\begin{lstlisting}[language={grammar}, label=lst:fullGrammar3,caption=Umple Grammar for associations]
 association : [=modifier:immutable]? [[associationEnd]] [=arrow:-- |-> |<- |>< |<@>- |-<@>] [[associationEnd]] ;
-
 symmetricReflexiveAssociation : [[multiplicity]] self [roleName] ;
-
 inlineAssociation : [=modifier:immutable]? [[inlineAssociationEnd]] [=arrow:-- |-> |<- |>< |<@>-  |-<@>] [[associationEnd]] ;
-
 inlineAssociationEnd : [[multiplicity]] [~roleName]? [[isSorted]]?
-
 singleAssociationEnd : [[multiplicity]] [type] [~roleName]? ;
-
 associationEnd : [[multiplicity]] [=gpIdentifier:%]? [type] [~roleName]? [[isSorted]]?
-
 multiplicity- : [!lowerBound:\d+|[**]] .. [!upperBound:\d+|[**]] | [!bound:\d+|[**]]
-
 isSorted- : sorted { [priority] } : [=modifier:immutable]? [[inlineAssociationEnd]] [=arrow:-- 
   |-> 
   |<- 
   |>< 
   |<@>- 
   |-<@>] [[associationEnd]] ;
-
 inlineAssociationEnd : [[multiplicity]] [~roleName]? [[isSorted]]?
-
 multiplicity- : [!lowerBound:\d+|[**]] .. [!upperBound:\d+|[**]] | [!bound:\d+|[**]]
 \end{lstlisting}
 
-The complete set of grammar files, published as part of the Umple Google code project \cite{umpleRepository}, can be found in the following directory:
+The complete set of grammar files, which are part of the source code of Umple \cite{umpleRepository}, can be found in the following directory:
+% Make sure this reference umpleRepository is referring to github, not Google Code.
+% MG. Verified.
+\url{cruise.umple/src/*.*.grammar}
 
-\url{svn/trunk/cruise.umple/src/*.*.grammar}
-
-The intent of discussing the underlying grammar is to help provide a context and completeness of the modeling syntax of Umple, but a true appreciation for the capabilities of Umple are better described by analyzing the semantics alongside the syntax as we will do through in the following sub-sections.
+The intent of discussing the underlying grammar of Umple is to help provide context. To obtain a deeper appreciation for the capabilities of Umple one needs to understand the semantics, which we will outline in the following subsections.
 
 \subsubsection{Metamodel}
-Umple is represented using a specific metamodel that describes all the elements and their relationships in Umple. The Umple metamodel is mature, full featured, and is developed in Umple itself. Figure \ref{fig:umpleMetamodel} gives an outline of the Umple metamodel. This class diagram was generated using our UmpleOnline tool. As shown in the metamodel, an UmpleClass can be associated with many attributes, association variables and code injections. For a complete view of the Umple metamodel refer at \cite{UmpleMetamodel}.
-%An Umple class can have multiple, or no, state machines. A state machine, however, may, or may not, be associated with an UmpleClass. This is because Umple supports standalone state machines; state machines that are not yet associated with any Umple Class.
+Umple is represented internally using a metamodel that describes all the elements and their relationships. The Umple metamodel is developed in Umple itself; figure \ref{fig:umpleMetamodel} gives a sample from of the core of it. This class diagram was generated using Umple's internal diagram-drawing mechanism. As shown in the metamodel, an UmpleClass can be associated with many attributes, association variables and code injections. For a complete view of the Umple metamodel refer to \cite{UmpleMetamodel}.
+% Tim, positioning of figure is fine when you download the pdf.
 
 \begin{figure}[h]
-\centering
-\includegraphics[width=1\textwidth]{Figures/metamodelUmple.png} 
-\caption{Umple Metamodel}
+\includegraphics[width=1\textwidth]{Figures/metamodelUmple.pdf} 
+\caption{Umple Metamodel (Partial)}
 \label{fig:umpleMetamodel}
 \end{figure}
 
@@ -177,8 +166,6 @@ class A
 \subsubsection{Defaulted attributes}
 A defaulted attribute is set in the constructor to the default value, and can be reset to the default any time by calling a reset method (in this example \textit{resetName()}). It can be also set to any other value using its setter method. In Listing \ref{lst:defaultedAttribute}, the attribute 'name' is initializated to the default value 'UOttawa'. This default value can be queried by calling \textit{getDefaultName()}.
 
-In Listing \ref{lst:defaultedAttribute}
-
 \begin{lstlisting}[style=umplePlain,label=lst:defaultedAttribute, caption=Defaulted Umple attribute]
 class School 
 {
@@ -220,7 +207,7 @@ class Student
 }
 \end{lstlisting}
 
-\subsubsection{Array attributes}
+\subsubsection{Array attributes}\emph{•}
 Umple supports attributes that might contain multiple values. The square brackets notation '[]' is used as illustrated in Listing \ref{lst:arrayAttribute}.
 
 \begin{lstlisting}[style=umplePlain,label=lst:arrayAttribute, caption=Array attributes]
@@ -234,7 +221,7 @@ In translating Umple attributes into object-oriented programming languages such 
 
 \begin{table}[h]
 \centering
-\caption{API generated methods from Umple attributes}
+\caption{API generated methods from Umple attributes - Accessor  methods \cite{UmpleAPI}}
 \label{table:apiAttrs1}
 \begin{tabular}{lccc}
 \toprule
@@ -256,7 +243,7 @@ In translating Umple attributes into object-oriented programming languages such 
 
 \begin{table}[h]
 \centering
-\caption{API generated methods (mutator) from Umple attributes}
+\caption{API generated methods from Umple attributes - Mutator methods \cite{UmpleAPI}}
 \label{table:apiAttrs2}
 \begin{tabular}{lcc}
 \toprule
@@ -288,9 +275,12 @@ More specifically, an Umple association is composed of the following information
 \item \textit{Role names:} These are used to clarify the relationship and avoid name collisions if two classes are associated in multiple ways. Role names are optional except in reflexive associations or in other situations when name collisions might exist. The Umple compiler will give an error message if a role name is needed.
 \end{itemize}
 
-The following code segment illustrates an association between instances of classes \emph{School} and \emph{Person}. In this example, an instance of class School can be associated to zero or more instances of class Student. The 'isA' notation is used to denote an inheritance relationship between the classes (Student is a subclass of Person). It should be noted that 'isA' is also used for other generalization relationships in Umple, such as implementation of Interfaces.
+% In the following, refer to the listing by number
+% MG Fixed.
 
-\begin{lstlisting}[style=umplePlain, caption=An example of an inline Umple Association]
+The code segment in Listing \ref{lst:inlineAssoc} illustrates an association between instances of classes \emph{School} and \emph{Person}. In this example, an instance of class School can be associated to zero or more instances of class Student. The 'isA' notation is used to denote an inheritance relationship between the classes (Student is a subclass of Person). It should be noted that 'isA' is also used for other generalization relationships in Umple, such as implementation of Interfaces.
+
+\begin{lstlisting}[style=umplePlain, caption=An example of an inline Umple Association, label=lst:inlineAssoc]
 class School {
  0..1 -- * Student student; //inline association
 }
@@ -300,10 +290,9 @@ class Student {
 class Person { }
 \end{lstlisting}
 
-Alternatively, in addition to showing an association embedded in one of the associated classes, it is also possible to show an association independently. 
+Alternatively, in addition to defining an association embedded in one of the associated classes, it is also possible to specify an association independently as shown in Listing \ref{lst:externalAssoc}. 
 
-\vspace{\baselineskip}
-\begin{lstlisting}[style=umplePlain, caption=An example of an independent Umple Association]
+\begin{lstlisting}[style=umplePlain, caption=An example of an independent Umple Association,label=lst:externalAssoc]
 class School {
 }
 class Student {
@@ -318,8 +307,11 @@ association {
 
 In Tables \ref{table:apiAssocs1} and \ref{table:apiAssocs2}, we show the generated API methods for accessing and mutating the links in the association. X is the name of the current class, W is the name of the class at the other association end and r is a role name used when referring to W.
 
+% I think in all these API tables, you should refer to the User Manual page, where they came from as a reference in the caption.
+% MG. Done in all four tables.
+
 \begin{table}[h]
-\caption{API generated from Umple Associations - Accessor Methods}
+\caption{API generated from Umple Associations - Accessor Methods \cite{UmpleAPI}}
 \label{table:apiAssocs1}
 \begin{tabularx}{\textwidth}{Y|Y}
 \toprule
@@ -335,7 +327,7 @@ int numberOfWs() & Return the cardinality;; \\
 \end{table}
 
 \begin{table}[h]
-\caption{API generated from Umple Associations - Mutator Methods}
+\caption{API generated from Umple Associations - Mutator Methods \cite{UmpleAPI}}
 \label{table:apiAssocs2}
 \begin{tabularx}{\textwidth}{Y|Y}
 \toprule
@@ -393,15 +385,18 @@ public Operation(String aQuery)
 } 
 \end{lstlisting}
 % NEW
-\subsection{Umple Architecture and tooling}
+\subsection{Umple Architecture and Tools}
 
-The Umple toolset and language, which were originally written in Java, were fully rewritten in Umple in 2008, and have been developed and maintained in Umple since then. The Umple Framework has a layered and pipelined architecture as shown in Figure \ref{fig:umpleArchitecture}. 
-The components of Umple includes: a parser, an analyzer as well as several code-generators and model-to-model transformation engines. These are described below:
+The Umple compiler, which was originally written in Java, was fully rewritten in Umple in 2008, and has been developed and maintained in Umple since then. 
+
+The compiler has a layered and pipelined architecture as shown in Figure \ref{fig:umpleArchitecture}. 
+The components of Umple includes: a parser, an analyzer as well as several code generators and model-to-model transformation engines. These are described below:
 
 \begin{enumerate}
 \item \textbf{Parser}: The parser receives an input model, written in Umple language, tokenizes it and passes it to the next component in the pipeline.
 
-\item \textbf{Analyzer}: This component processes the tokens previously obtained and converts them into an internal representation consistent with Umple's metamodel. 
+\item \textbf{Analyzer}: This component processes the tokens previously obtained and converts them into an internal representation consistent with Umple's metamodel. Errors and warnings are produced at this stage. Warnings mean that generation can occur, but there may be issues with the generated result. Errors mean that no code generation will be possible.
+
 \item \textbf{Code-Generator(s)}: The internal representation is then translated into other artifacts; either additional models like Papyrus XMI, EMF, Yuml, Xuml; various diagrams, or source code such as Java, C++, PHP, Ruby or SQL. The compiler generates various types of methods including mutators (to control changes to a variable) and accessors (to return the value of a variable) from the various Umple features. Sophisticated code for managing state machines, tracing \cite{UmpleTracing}, generation templates, patterns, aspects and concurrency can also be generated from models.
 
 \end{enumerate}
@@ -412,7 +407,10 @@ The components of Umple includes: a parser, an analyzer as well as several code-
 \label{fig:umpleArchitecture}
 \end{figure}
 
-Each component is tested independently to ensure that the input is processed correctly and the output produced is valid. Testing the Umple parser is centered on tokenization of Umple code. Testing the metamodel classes ensures that the analyzer component produces valid metamodel instances. Testing of generated systems is also performed.
+Each component is tested independently to ensure that the input is processed correctly and the output produced is valid. Testing the Umple parser is centered on tokenization of Umple code. Testing the metamodel classes ensures that the analyzer component produces valid metamodel instances. Testing of generated systems is also performed \cite{umpleTesting2014}.
+
+% add a reference to our past paper on testing
+% MG. Added above.
 
 In addition to the Eclipse plugin and command-line based compiler, UmpleOnline \cite{UmpleOnline}, a web-based application shown in Figure \ref{fig:uonline}, allows to instantly experiment with Umple on the Web. 
 
@@ -426,7 +424,7 @@ In addition to the Eclipse plugin and command-line based compiler, UmpleOnline \
 
 \section{Transformations}
 
-In this section we will describe the different transformations that can occur during object design and implementation activities that are relevant to our research. In particular, we will present transformations that can occur at the design phase, at the implementation phase and those going from one phase to another. Forward engineering, reverse engineering, model transformations and refactorings will be introduced in the following sections. The different transformations enumerated above are relevant to our work for the following reasons: 
+In this section we will describe the different transformations that can occur during software design and implementation activities that are relevant to our research. In particular, we will present transformations that can occur during the design phase, during the implementation phase and when moving from one phase to another. Forward engineering, reverse engineering, model transformations and refactorings will be introduced in the following sections. The different transformations enumerated above are relevant to our work for the following reasons: 
 
 \begin{itemize}
 \item The umplification approach presented in this thesis is a \textit{reverse engineering} technique performing \textit{model transformations} to transform a base language model into an Umple model. 
@@ -536,7 +534,8 @@ A transformation \textit{rule} is a description of how one or more constructs in
 \end{quote}
 
 Model transformations provide a mechanism for automatically creating or updating target models based on information contained in a source model, e.g. the generation of code from a UML model, the translation of a UML Class Diagram into an ER diagram or the translation of base language code into UML or any other textual or visual modeling language, such as Umple.
-In order to perform a transformation between models, the models need to be expressed in a software language. This language can be specified by a \textit{grammar} or a \textit{metamodel}. As stated by Kleppe \cite{kleppe2007language}, grammars focus on the concrete syntax of the language while metamodels focus on the abstract syntax. Grammars are useful to describe the structure of the words in a language, metamodels are better in describing the language's concepts and its relations. Compared to metamodels, grammars have a strong mathematical basis (induction can be used to prove its correctness) and is tree based (e.g. parse trees are generated from grammar). Also, there are a great variety of tools advanced tools to produce, parse and validate grammars. On the other hand, metamodels are graph based in which relations between language elements are better perceived. Moreover, metamodels are more suitable when defining object-oriented languages but do not contain information on how the concepts in the metamodel are to be represented to the language user\cite{kleppe2007language}. However, it is possible to transform a grammar definition into a metamodel definition and vice-versa. 
+In order to perform a transformation between models, the models need to be expressed in a software language. This language can be specified by a \textit{grammar} or a \textit{metamodel}. As stated by Kleppe \cite{kleppe2007language}, grammars focus on the concrete syntax of the language while metamodels focus on the abstract syntax. Grammars are useful to describe the structure of the words in a language, metamodels are better in describing the language's concepts and its relations. Compared to metamodels, grammars have a strong mathematical basis (induction can be used to prove its correctness) and is tree based (e.g. parse trees are generated from grammar). Also, there are a great variety of tools advanced tools to produce, parse and validate grammars. On the other hand, metamodels are graph based in which relations between language elements are better perceived. Moreover, metamodels are more suitable when defining object-oriented languages but do not contain information on how the concepts in the metamodel are to be represented to the language user\cite{kleppe2007language}. Nevertheless, as studied by Alanen et al. \cite{alanen2003} it is possible to transform a grammar definition into a metamodel definition and vice-versa. In fact, the relation between a metamodel and a BNF grammar can in practise be defined using two mappings, one transforming a BNF grammar to a MOF metamodel,
+and one transforming a MOF metamodel to a BNF grammar.
 
 Previous work \cite{Czarnecki2006, biehl2010literature} model transformations allow us conclude that no model transformation tool or technique exists is \textit{absolutely} better than another one. Instead we can search for a model transformation approach that is suitable for a specific transformation problem. The following are the main properties of model transformation problems \cite{biehl2010literature}:
 

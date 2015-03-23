@@ -7,7 +7,7 @@ In this chapter we will present the different mechanisms to detect UML/Umple att
 
 \begin{enumerate}
 
-\item Documented implementations of attributes, associations and state machines in high level programming languages mentioned in the literature. In particular, we have considered research that discusses how to generate code from state machine models (Forward engineering).
+\item Documented implementations of attributes, associations and state machines in high level programming languages mentioned in the literature. In particular, we have considered research that discusses how to generate code from this modeling concepts (Forward engineering).
 
 \item Documented techniques in the literature for discovering  modeling constructs in object-oriented source code (Reverse Engineering).
 
@@ -15,9 +15,14 @@ In this chapter we will present the different mechanisms to detect UML/Umple att
 
 \end{enumerate}
 
-To present the set of transformation rules we developed from the above, we will employ a semi-formal notation. The rules define mappings between the input (e.g. JavaModel, CPPModel) and output (UmpleModel) models.  It must be pointed out that these transformations have been implemented in the Drools Language and will be presented more formally in Chapter \ref{chap:tool}.
+To present the set of transformation rules we developed from the above, we will employ a semi-formal notation. The rules define the transformation from input to output. It must be pointed out that these transformations rules can be described using a metamodel-based language or grammar-based language. Both types of descriptions allow us to specify mappings between source and target models in the form of conditions (patterns) and conversions (replacements) executed from input to output when those conditions hold. As the intent of our work is to transform object-oriented  language programs into umple programs, we will employ a metamodel-based approach to better express the input/output relationships. The metamodel-based language will be enhanced with OCL \cite{WarmerOCL2003} expressions. 
+% create table in chapter 5, showing m2t and m2m requirements in terms of Model source code
+% M2M: UmpleModel, JavaModel
+% M2T: JavaModel, UmpleCode
+% T2T: Java code, Umple Code
 
 \section{A Notation for Transformation Rules}
+\ref{sec:2ModelTransformation}
 
 Transformation rules presented in this chapter will contain the following information:
 
@@ -42,11 +47,13 @@ Transformation rules presented in this chapter will contain the following inform
 \end{enumerate}
 
 % It would be better in this template if the keyword 'conditions' and 'mappings' would be in blue, just like 'in' and 'out'
+% MG Fixed
 
 Listing \ref{lst:templateTransform} presents a template definition for the transformations rules.
 
 \begin{lstlisting}[style=mine,caption=Template definition for Transformation rules,label=lst:templateTransform]
 Transformation Name  (InputModel, OutputModel){
+ order n
  params
  	...
  in
@@ -67,17 +74,17 @@ The various parts of a transformation rule have their own  specific notation:
 
 \begin{itemize}
 
-\item Line 1. Every transformation possess a name.
+\item Line 1. Every transformation possess a name. The source and target languages are referenced by stating both language names after the transformation name.
 
-\item Line 1. The source and target languages are referenced by stating both language names after the transformation name.
+\item Line 2. The order of application of the rule is determined by the integer number following the keyword \textit{order}. Rules with lower order numbers are executed first. Order of application of the rules doesn't matter when two or more rules possess the same order number. 
 
-\item Line 2. Local and global variables to be used in the transformation rule are specified following the keyword \textit{params}.
+\item Line 3. Local and global variables to be used in the transformation rule are specified following the keyword \textit{params}.
 
-\item Lines 4 and 6. The source model and target elements are written as variable declarations following the keywords \textit{in} and \textit{out} respectively.
+\item Lines 5 and 7. The source model and target elements are written as variable declarations following the keywords \textit{in} and \textit{out} respectively.
 
-\item Lines 8 and 10. The conditions that must hold on the source and target model elements are specified following the keywords \textit{in conditions} and \textit{out conditions} respectively. The mappings are performed only if both the in and out conditions are true. 
+\item Lines 9 and 11. The conditions that must hold on the source and target model elements are specified following the keywords \textit{in conditions} and \textit{out conditions} respectively. The mappings are performed only if both the in and out conditions are true. Conditions can be specified using OCL syntax. 
 
-\item Line 12. The mapping rules come after the keyword \textit{mappings}. The symbol -\textgreater  is used as an infix operator with two operands. The symbol specifies a transformation of the left hand side operand to the right side operand (rules are unidirectional).
+\item Line 13. The mapping rules come after the keyword \textit{mappings}. The symbol -\textgreater  is used as an infix operator with two operands. The symbol specifies a transformation of the left hand side operand to the right side operand (rules are unidirectional).
 \end{itemize}
 
 We will now introduce the transformation rules for each of the transformation steps presented in Chapter \ref{chap:core}.
@@ -87,14 +94,36 @@ The set of rules for each transformation case constitutes a transformation case 
 
 Transformations rules for this step are straightforward and aim at transforming the package declaration, namespace declarations, import declaration and the generalization notation into the corresponding Umple notation. 
 
-The mapping rule in Listing \ref{lst:4.1.1} specifies the transformation of a Java class into an Umple class using the language defined in the previous section. The only required condition is that the \textit{typeDeclaration} declares a Java class and not a Java interface. A very similar rule is then required for the transformation of a \textit{typeDeclaration} into an Umple Interface. The relationship between the source model, the target model and the mapping rule are illustrated in Figure \ref{fig:4.1.1}. Transformation rules defined in a general but formal language can then be adapted to specific languages such as Java or C++. For instance, the name of a typeDeclaration if the input language is Java can be extracted using the \textit{getName().getFullyQualifiedName()} call sequence. Actual implementation of the mapping rules will be presented in Chapter \ref{chap:tool}.
+The mapping rule in Listing \ref{lst:4.1.1} specifies the transformation of a Class into an Umple class using the language defined in the previous section. A type declaration in the base language model represents an object-oriented type (i.e., a class, interface, struct, etc). The only required condition in the rule shown in Listing \ref{lst:4.1.1} (Line 7) is that the \textit{typeDeclaration} must declare a class and not an interface or abstract class. A very similar rule is then required for the transformation of a \textit{typeDeclaration} into an Umple Interface. The relationship between the source model, the target model and the mapping rule are illustrated in Figure \ref{fig:4.1.1}. Transformation rules defined in a general but formal language can then be adapted to specific languages such as Java or C++. For instance, the name of a typeDeclaration if the input language is Java can be extracted using the \textit{getName().getFullyQualifiedName()} call sequence. Actual implementation of the mapping rules will be presented in Chapter \ref{chap:tool}. For our first example, we show the BNF grammar for a type declaration in Java and an Umple class declaration in Listings \ref{lst:javaGrammar1} and \ref{lst:umpleGrammar2} respectively. It must be pointed out that the transformation rule can be understood either by looking at the metamodel or the grammar of input/output models. 
 
 % The following Listing is totally mixed up with the subsequent figure in the tool, but when I export a pdf it looks OK. Very strange.
+% MG. Strange, I see the same problem. PDF will be fine however.
 
 % Also, you are using tabs, which Latex doesn't process properly in listings. You need to use two spaces instead of tabs. I have made this change in this case, but make the change elsewhere and watch out in other code.
+% Fixed MG.
 
 % Readers will be confused as to the detailed sublanguages (e.g. the reference to isInterface(), ::TypeDeclariation, .name and so on. How are you going to define these? I know you say this is 'informal' (actually I changed it to 'semiformal' which is the correct term), but nonetheless it should be understandable. Are you referring to JDT contstructs? If so then there is the problem that you haven't introduced JDT yet. Perhaps the solution is to put much of Chapter 5 before this (discussing how you tried ATL, TXL and then briefly xDT), then have this chapter, which can now refer to JDT, and finally discuss the implification in another separate chapter. There would end up being one more chapter than there is now.
 % But there may be another way to make this all make sense, such as defining the semi-formal language in a simple way here.
+% MG Fixed by using a more abstract way of presenting the language. 
+
+\begin{lstlisting}[style=mine,caption=Grammar for Java Types,label=lst:javaGrammar1]
+TypeDeclaration:
+                ClassDeclaration
+                InterfaceDeclaration
+ ClassDeclaration:
+      [ Javadoc ] { Modifier } class Name
+                        [ extends Type]
+                        [ implements Type { , Type } ]
+                        { { ClassBodyDeclaration | ; } }
+ InterfaceDeclaration:
+      [ Javadoc ] { Modifier } interface Identifier
+                        [ extends Type { , Type } ]
+                        { { InterfaceBodyDeclaration | ; } }
+\end{lstlisting}
+
+\begin{lstlisting}[style=mine,caption=Grammar for Umple Classes,label=lst:umpleGrammar2]
+ umpleClass : class Name { [[classContent]]* }
+\end{lstlisting}
 
 \begin{lstlisting}[style=mine,caption=Rule JavaTypeToUmpleClass,label=lst:4.1.1]
 Transformation JavaTypeToUmpleClass (BaseLanguageMetamodel, UmpleMetamodel){ 
@@ -103,7 +132,7 @@ Transformation JavaTypeToUmpleClass (BaseLanguageMetamodel, UmpleMetamodel){
  out
    UmpleClass: UmpleMetamodel::UmpleClass;
  in conditions
-   (typeDeclaration.isInterface() = false);
+   oclIsTypeOf(ClassDeclaration);   
  mappings
    typeDeclaration.name -> UmpleClass.name;
 }
@@ -112,11 +141,11 @@ Transformation JavaTypeToUmpleClass (BaseLanguageMetamodel, UmpleMetamodel){
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.99\textwidth]{Figures/ch4InitialMapping.pdf}
-\caption{Input-Output relationships for rule JavaTypeToUmpleClass}
+\caption{Input-Output relationships for rule TypeToUmpleClass}
 \label{fig:4.1.1}
 \end{figure}
 
-Similarly, rule  \textit{JavaImportToUmpleDepend} in Listing \ref{lst:4.1.2} specifies the transformation of a Java declaration into a depend declaration and rule \textit{JavaPackageToUmpleNamespace} in Listing \ref{lst:4.1.3} specifies the transformation between a Java package declaration into a namespace declaration.
+Similarly, rule  \textit{JavaImportToUmpleDepend} in Listing \ref{lst:4.1.2} specifies the transformation of a import declaration into a depend declaration and rule \textit{JavaPackageToUmpleNamespace} in Listing \ref{lst:4.1.3} specifies the transformation between a package declaration into a namespace declaration.
 
 \begin{lstlisting}[style=mine,caption=Rule JavaImportToUmpleDepend,label=lst:4.1.2]
 Transformation JavaImportToUmpleDepend (BaseLanguageMetamodel, UmpleMetamodel){ 

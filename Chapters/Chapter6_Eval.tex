@@ -389,9 +389,9 @@ WarehouseSystem & 83 & 2831 & 12\\ \hline
 \end{tabularx}
 \end{table}
 
-For instance, the \textit{'Access Control Example'}, representing a system for managing access to facilities, is comprised of 6 classes, 8 associations, and 10 attributes. The Umple model is presented below together with corresponding visual representation, a UML class diagram generated using our online tool. The unit test comparing the input umple model and the umplified model (output) is shown in Listing \ref{lst:acsExample}.
+For instance, the \textit{'Access Control Example'}, representing a system for managing access to facilities, is comprised of 6 classes, 8 associations, and 10 attributes. The Umple model is presented in Listing \ref{lst:accessControlEx} together with corresponding visual representation, a UML class diagram generated using our online tool (Figure \ref{fig:accessControlExample}). The unit test comparing the input umple model and the umplified model (output) is shown in Listing \ref{lst:acsExample}.
 
-\begin{lstlisting}[style=umpleIn]
+\begin{lstlisting}[style=umpleIn,caption=Umple Model for an Access Control System, label=lst:accessControlEx]
 namespace access_control;
 
 class FacilityType
@@ -460,7 +460,7 @@ associationClass RoleFacilityAccessRight
 \centering
 \includegraphics[width=0.75\textwidth]{Figures/accessControl.png} 
 \caption{UML Class diagram of the Access Control system}
-\label{fig:preValidation}
+\label{fig:accessControlExample}
 \end{figure}
 
 \begin{lstlisting}[style=umpleOut,label={lst:acsExample},caption=Unit test to assert the Access Control Example.]

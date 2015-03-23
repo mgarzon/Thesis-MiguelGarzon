@@ -1,4 +1,4 @@
-
+q
 
 LATEX REFERENCES:
 Ref: \cite{einstein}
@@ -82,3 +82,5 @@ void code()
 }
 \end{lstlisting}
 \end{minipage}
+
+In YUML, boring and tiny style.
