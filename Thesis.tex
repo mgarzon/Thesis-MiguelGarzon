@@ -34,7 +34,6 @@
 % Define the page headers using the FancyHdr package and set up for one-sided printing
 \fancyhead{}  % Clears all page headers and footers
 
-
 \rhead{\thepage}  % Sets the right side header to show the page number
 \lhead{}  % Clears the left side page header
 
@@ -43,7 +42,6 @@
 %% ----------------------------------------------------------------
 % The "Funny Quote Page"
 \pagestyle{empty}  % No headers or footers for the following pages
-
 \null\vfill
 % Now comes the "Funny Quote", written in italics
 \textit{''Simplicity is a great virtue but it requires hard work to achieve it and education to appreciate it. And to make matters worse: complexity sells better.''}
@@ -63,7 +61,6 @@ Edsger W. Dijkstra
 
 This thesis investigates a novel approach to reverse engineering, in which modeling information such as UML associations, state machines and attributes is incrementally added to code written in Java or C++, while maintaining the system in a textual format. Umple is a textual representation that blends modeling in UML with programming language code. The approach, called umplification, produces a program with behavior identical to the original one, but written in Umple and enhanced with model-level abstractions. As the resulting program is Umple code, our approach eliminates the distinction between code and model. In this paper we discuss the principles of Umple, the umplification approach and a rule-driven tool called the Umplificator, which implements and validates the depicted approach. 
 The present thesis consists of three main parts. The first part (Chapter 1 and 2) present the research questions and research methodology and introduces Umple and the Umplification concept. The core of our research is presented in Chapters 3 and 5. The last part, Chapter 6, presents details of a case study conducted on an open source software application, JHotDraw. Finally, the expected contributions are listed in Chapter 7.
-
 }
 
 \clearpage  % Abstract ended, start a new page
@@ -96,6 +93,9 @@ I would like to thank my dear supervisor, Professor Timothy Lethbridge, for guid
 \lhead{\emph{List of Tables}}  % Set the left side page header to "List of Tables"
 \listoftables  % Write out the List of Tables
 
+%% ----------------------------------------------------------------
+%\lhead{\emph{List of Listings}}  % Set the left side page header to "List of Listings"
+%\lstlistoflistings  % Write out the List of Tables
 %% ----------------------------------------------------------------
 \setstretch{1.5}  % Set the line spacing to 1.5, this makes the following tables easier to read
 \clearpage  % Start a new page

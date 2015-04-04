@@ -43,6 +43,7 @@
   January\or February\or March\or April\or May\or June\or
   July\or August\or September\or October\or November\or December\fi
   \space \number\year}
+\usepackage{rotating}
 \usepackage{setspace}
 \onehalfspacing
 \setlength{\parindent}{0pt}
@@ -102,7 +103,7 @@
 \renewcommand{\dbltopfraction}{.85}
 \renewcommand{\floatpagefraction}{0.75}
 \renewcommand{\dblfloatpagefraction}{.75}
-\usepackage{enumitem} % load this one
+\usepackage[inline]{enumitem} % load this one
 \setlist[description]{style=unboxed}
 \setcounter{topnumber}{9}
 \setcounter{bottomnumber}{9}
@@ -182,6 +183,8 @@
 
 \lstdefinestyle{umplePlain} {language=Java, style=UmplePlainFrame, morekeywords={isA, depend,const, after, lazy, immutable,namespace, String, association,Integer,autounique,unique,Float, Double, Date, Time,before,key, associationClass, function, replace, by, end, include}}
 
+\lstdefinestyle{umplePlainNumbers} {language=Java, style=UmplePlainFrame, morekeywords={isA, depend,const, after, lazy, immutable,namespace, String, association,Integer,autounique,unique,Float, Double, Date, Time,before,key, associationClass, function, replace, by, end, include}}
+
 \lstdefinestyle{atl} {language=Java,style=numbers, style=UmplePlainFrame, morekeywords={isA, depend,const, after, lazy, immutable,namespace, String, association,Integer,autounique,unique,Float, Double, Date, Time,before,key, associationClass, function, replace, by, end, include,module, OUT, from, IN, helper, context, if, else, rule, out,to,endif}}
 
 \lstdefinestyle{mine} {style=numbers, style=UmplePlainFrame, morekeywords={Transformation, params, helpers, out, in, mappings, conditions}}
@@ -191,7 +194,7 @@
     captionpos=t,
     numbers=left,
     morekeywords=[2]{classDefinition,methodBody, classContent,attribute, autouniqueAttribute,derivedAttribute,complexAttribute,association,symmetricReflexiveAssociation inlineAssociation,inlineAssociationEnd,singleAssociationEnd ,associationEnd,multiplicity,isSorted,
-   classDefinition, trace, emitMethod, templateAttributeDefinition, primitiveDefinition, portDefinition, portBindingDefinition, position ,displayColor, abstract, keyDefinition, softwarePattern, depend, symmetricReflexiveAssociation, attribute ,stateMachine, activeMethodDefinition, inlineAssociation, concreteMethodDeclaration ,constantDeclaration, modelConstraint ,invariant ,exception ,extraCode,codeLangs, precondition, postcondition, comment},
+   classDefinition, trace, emitMethod, templateAttributeDefinition, primitiveDefinition, portDefinition, portBindingDefinition, position ,displayColor, abstract, keyDefinition, softwarePattern, depend, symmetricReflexiveAssociation, attribute ,stateMachine, activeMethodDefinition, inlineAssociation, concreteMethodDeclaration ,constantDeclaration, modelConstraint ,invariant ,exception ,extraCode,codeLangs, precondition, postcondition, comment, fixml, typedName, moreCode},
     morekeywords=[3]{self, sorted, settable, internal, defaulted, const,immutable, unique, lazy,class},
     morekeywords=[4]{type, roleName, lowerBound, upperBound, bound, priority,name},  %green
     breaklines=true,
@@ -226,6 +229,8 @@
 \pdfstringdefDisableCommands{
    \let\\\space
 }
+
+\usepackage{siunitx}
 \abovecaptionskip=\skip50
 \newcommand*{\supervisor}[1]{\def\supname{#1}}
 \newcommand*{\examiner}[1]{\def\examname{#1}}

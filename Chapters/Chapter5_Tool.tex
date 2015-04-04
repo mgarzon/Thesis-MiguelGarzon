@@ -1,5 +1,6 @@
 \lhead{\emph{\leftmark}}  
 \chapter{The Umplificator Technologies}
+\label{chap:technology}
 In this chapter, we provide an overview of the tool we have developed to support umplification; as well as discuss some of its technical details including its architecture and a detailed description of the Rule-Engine component. We also present the various design decisions we made as well as the alternatives implementations we attempted during the initial stages of our work. 
 
 \section{The Umplification tool support goals}
@@ -136,7 +137,7 @@ class A
 }
 \end{lstlisting}
 
-The mapping rule called '\textit{changeClassHeader}' in file \textit{TranslateMembers.Rul} that transforms class headers of a Java class is presented below in Listing \ref{lst:classHeader}. In order to transform the class header from Java to Umple, we need to deconstruct the class header  (Line 4)  of a Java class and take only what is required in an Umple header, the identifier of the class. The modifiers of the class are discarded and the extends and implements clauses are ignored at this moment, they are analyzed and transformed in subsequent steps of the program transformation. 
+The mapping rule called `\textit{changeClassHeader}' in file \textit{TranslateMembers.Rul} that transforms class headers of a Java class is presented below in Listing \ref{lst:classHeader}. In order to transform the class header from Java to Umple, we need to deconstruct the class header  (Line 4)  of a Java class and take only what is required in an Umple header, the identifier of the class. The modifiers of the class are discarded and the extends and implements clauses are ignored at this moment, they are analyzed and transformed in subsequent steps of the program transformation. 
 
 \begin{lstlisting}[style=umplePlain, caption=TXL Mapping rule for transforming the class headers, label=lst:classHeader]
 rule  changeClassHeader 	
@@ -173,7 +174,7 @@ namespace aNamespaceName;
 \end{minipage}
 
 
-The mapping rule called '\textit{changePackageToNamespace}' that transforms package declarations is presented below:
+The mapping rule called `\textit{changePackageToNamespace}' that transforms package declarations is presented below:
 
 \begin{lstlisting}[style=umplePlain, label=lst:packageDeclRule3, caption=TXL mapping rule for the transformation of the package declaration]
 rule changePackageToNamespace 
@@ -186,7 +187,7 @@ end rule
 
 \subsubsection{Transformation 3: Transforming the imports} 
 
-An import declaration in Java allows a named type or a group of named types to be referred to. The '\textit{Depends}' construct in Umple is similar to this. 
+An import declaration in Java allows a named type or a group of named types to be referred to. The `\textit{Depends}' construct in Umple is similar to this. 
 
 \noindent\begin{minipage}{.45\textwidth}
 \begin{lstlisting}[style=umplePlain,caption=Java Import]{Name}
@@ -212,7 +213,7 @@ class A {
 \end{lstlisting}
 \end{minipage}
 
-The mapping rule called '\textit{changeImportToDepend}' in file \textit{TranslateImports.Rul} that transforms import declarations is presented below: 
+The mapping rule called `\textit{changeImportToDepend}' in file \textit{TranslateImports.Rul} that transforms import declarations is presented below: 
 
 \begin{lstlisting}[style=umplePlain, label=lst:packageDeclRule, caption=TXL mapping rule for the transformation of the import declaration] 
 changeImportToDepend  	
@@ -287,7 +288,7 @@ The ATL language is composed of expressions to query model elements (queries), v
 
 \textbf{Queries}
 
-A query in ATL is an expression allowing one to search and return model elements from a model defined in an OMG-compliant format. A query is an OCL expression that can return primitive values, model elements or a combination of these. A query can not alter the source model. It is possible to navigate across model elements and call query operations on these. For instance, when the following query is executed on a Java model, it first gets the set of all existing JavaElement classes in the model and gets the size of the computed set. The computed integer value is cast into a string before being written into the file 'metrics.txt'. 
+A query in ATL is an expression allowing one to search and return model elements from a model defined in an OMG-compliant format. A query is an OCL expression that can return primitive values, model elements or a combination of these. A query can not alter the source model. It is possible to navigate across model elements and call query operations on these. For instance, when the following query is executed on a Java model, it first gets the set of all existing JavaElement classes in the model and gets the size of the computed set. The computed integer value is cast into a string before being written into the file `metrics.txt'. 
 
 \vspace{\baselineskip}
 \begin{lstlisting}[style=umplePlain]
@@ -308,7 +309,7 @@ There are different kinds of rules in ATL based on the way they are called and h
 
 \item \textbf{Lazy Rules}: This kind of rule is similar to a matched rule, but it is not executed when matched; they rely on being called by other rules.
 
-\item \textbf{Called Rules:}	This kind of rule can have parameters and can be called only from blocks of imperative code. Assignments, 'for' and 'if' statements are the only three types of (imperative) statements supported in ATL.
+\item \textbf{Called Rules:}	This kind of rule can have parameters and can be called only from blocks of imperative code. Assignments, `for' and `if' statements are the only three types of (imperative) statements supported in ATL.
 
 \end{itemize}
 
@@ -334,30 +335,27 @@ The JavaModel to UmpleModel examples describe a transformation from a simplified
 
 The source metamodel of Java in Figure \ref{fig:javamodelatl} consists principally of \textit{JavaElements} which all have a name. A \textit{JavaClass} has Methods and Fields and belongs to a package. \textit{Methods}, \textit{Fields} and \textit{JavaClasses} are subclasses of the class Modifier and indicate whether they are public, static or final. Java classes and methods declare with the isAbstract attribute whether they are abstract or not. Fields and methods have also a Type. The Java metamodel in Figure 6 has been fully described by the Java Specification \cite{javaSpec} and has been simplified for the purpose of this transformation example.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
 \includegraphics[width=0.99\textwidth]{Figures/javametamodel.png} 
 \caption{A simplified version of the Java metamodel}
 \label{fig:javamodelatl}
 \end{figure}
 
-A simplified version of the Umple metamodel (target metamodel) is presented in Figure \ref{fig:umplemodelatl}. The complete metamodel for Umple can be found at \cite{UmpleMetamodel}.
-
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
 \includegraphics[width=0.55\textwidth]{Figures/umpleMetamodel.png} 
 \caption{A simplified version of the Umple metamodel}
 \label{fig:umplemodelatl}
 \end{figure}
+A simplified version of the Umple metamodel (target metamodel) is presented in Figure \ref{fig:umplemodelatl}. The complete metamodel for Umple can be found at \cite{UmpleMetamodel}. Both metamodels have been defined in XMI format, as required by the ATL metamodel loader.
 
-Both metamodels have been defined in XMI format, as required by the ATL metamodel loader.
-
-\textbf{Transformation rules} \\
+\paragraph{Transformation rules} 
 
 These are the rules to transform a Java Model to an Umple model. The ATL code for the transformation, shown in Listing \ref{lst:atlrules} consists of several functions and rules. Among the functions, we can mention the \textit{getExtendedName} in Lines 4-8 which recursively explores the namespace to concatenate a full path name.
 
 %The following listing results in the caption at the bottom of a page, a figure injected, and then the listing itself. Is it possible to force the caption to always stick to the rest of the listing (i.e. 'keep with next' in Word)
-% MG to be fixed later
+% MG Fixed.
 
 \begin{lstlisting}[style=atl, label=lst:atlrules, caption=ATL Transformations rules]
 module JavaToUmple;
@@ -469,7 +467,7 @@ The Umplificator employs the libraries and technologies summarized in Table \ref
 
 % Make the above figure's text a little smaller and less bold to make it look nicer.
 % MG Fixed
-The Table also shows the Umplificator component using the technology. Note that if the technology is used in more than one component, we mark it as 'General'.
+The Table also shows the Umplificator component using the technology. Note that if the technology is used in more than one component, we mark it as `General'.
 
 \begin{table}[h]
 \caption{Third Party Technologies employed in the Umplificator tool}
@@ -542,7 +540,7 @@ public class SimpleVisitor extends ASTVisitor{
 }
 \end{lstlisting}
 
-As an example, consider the code of class '\textit{Test}' in Listing \ref{lst:astjava}. Once the code is parsed, we used a visitor to collect the desired information. Table \ref{table:astanalysis} presents the resulting AST node types, the corresponding source fragment and the visitor employed to collect the information. This Table recapitulates the entire process of parsing and extracting the model for our sample code. 
+As an example, consider the code of class `\textit{Test}' in Listing \ref{lst:astjava}. Once the code is parsed, we used a visitor to collect the desired information. Table \ref{table:astanalysis} presents the resulting AST node types, the corresponding source fragment and the visitor employed to collect the information. This Table recapitulates the entire process of parsing and extracting the model for our sample code. 
 
 
 \begin{lstlisting}[style=java, caption=Test.java, label=lst:astjava]
@@ -591,7 +589,7 @@ The code on the right of Table \ref{table:astanalysis} shows several examples of
 \begin{itemize}
 \item Extracting the name of the package: Code a \textit{visit(PackageDeclaration)} and get its name as an instance of \textit{SimpleName} (e.g. package test)  or \textit{QualifiedName} (e.g. package cruise.compiler.*).
 \item Getting the list of types referenced in a compilation unit? Code a \textit{visit(TypeDeclaration)} and get theirs names as instances of \textit{Simple} or \textit{QualifiedName}.
-\item Finding all literal integers referenced only within methods and not fields? Code a 'sub' \textit{visit(IntegerLiteral)} inside the visit method for \textit{MethodDeclaration}.
+\item Finding all literal integers referenced only within methods and not fields? Code a `sub' \textit{visit(IntegerLiteral)} inside the visit method for \textit{MethodDeclaration}.
 \end{itemize}
 
 \textbf{Java Development Tooling (CDT)}
@@ -607,9 +605,9 @@ In the same manner as the JDT technology and using the same concepts for parsing
 \end{itemize}
 
 The CDT supports the different C++ language constructs such as multiple inheritance, templates, header files, etc.
-The AST represents the structure of source code, as it was the case for JDT.  One of the main differences of CDT and JDT is that the root object returned by the ASTParser is the '\textit{TranslationUnit}' and not a '\textit{CompilationUnit}'. 
+The AST represents the structure of source code, as it was the case for JDT.  One of the main differences of CDT and JDT is that the root object returned by the ASTParser is the `\textit{TranslationUnit}' and not a `\textit{CompilationUnit}'. 
 A TranslationUnit (CDT) is assembled from multiple source files, a CompilationUnit (JDT) represents a unique Java file.
-For instance, the very simple in C++ printing a string in the console, when compiled produces more than 1000 lines due to inclusion of header file 'stdio.h' (\textless gcc -E test.c | wc -l \textgreater returns 1052).
+For instance, the very simple in C++ printing a string in the console, when compiled produces more than 1000 lines due to inclusion of header file `stdio.h' (\textless gcc -E test.c | wc -l \textgreater returns 1052).
 
 \begin{lstlisting}[style=java, caption=Simple Example in C++ - test.c , label=lst:cdtsimple]
 #include <stdio.h>
@@ -727,7 +725,7 @@ end
 
 The rules are grouped in files for each of the cases (levels of refactoring) discussed earlier. In other words, there is a rule file containing rules, functions and queries to transform classes, namespace and imports; another file containing those to transform variables into attributes, another file containing those to transform variables into associations and so on.
 
-To activate the groups on the required order, we used agenda groups. Agenda groups are a way to partition the activation. At any one time, only one group has 'focus' meaning that activation for rules in that group will take effect. 
+To activate the groups on the required order, we used agenda groups. Agenda groups are a way to partition the activation. At any one time, only one group has `focus' meaning that activation for rules in that group will take effect. 
 In other words, agenda groups provide a way to create a flow between grouped rules. They work as a stack. When we set the focus to a given agenda group, that group is placed on top of the stack. When the engine tries to fire the next activation and there are no more activations in a given group, that group is removed from the top of the stack and the group below receives focus again.
 
 The Umplificator executes the rules to transform classes first, followed by the rules transforming attributes and finally by the rules transforming associations. 
@@ -789,7 +787,7 @@ The Generate supports different options when it comes to generation of output fi
 \item \textit{A\_model.ump}: Modeling constructs for class A.
 \end{enumerate}
 
-The Generator supports also the creation of directories to preserve the namespace structure. For instance, if the namespace of the Umple file is 'cruise.Umple', the Generator will create two directories, 'cruise' and 'Umple' (inside).
+The Generator supports also the creation of directories to preserve the namespace structure. For instance, if the namespace of the Umple file is `cruise.Umple', the Generator will create two directories, `cruise' and `Umple' (inside).
 
 \section{Automated Umplification Example}
 \label{sec:automatedUmplification}
@@ -847,7 +845,7 @@ The \textit{Parser} receives the source code above, creates an Abstract Syntax T
 \end{tabularx}
 \end{table}
 
-The Transformer receives the Java model elements in Table above, together with a newly created instance of an UmpleModel and places them into the Working Memory.  At this point of time, the \textit{Production Memory} contains all rules  but the \textit{Agenda} contains only those belonging to this level of refactoring (those with attribute 'agenda-group LEVEL1'). 
+The Transformer receives the Java model elements in Table above, together with a newly created instance of an UmpleModel and places them into the Working Memory.  At this point of time, the \textit{Production Memory} contains all rules  but the \textit{Agenda} contains only those belonging to this level of refactoring (those with attribute `agenda-group LEVEL1'). 
 
 % You refer to Table above when you need to refer to it by name
 
@@ -867,7 +865,7 @@ rule "addClassToUmpleModel"
 end
 \end{lstlisting}
 
-The rule above simply requires the presence in the Working Memory of an instance of TypeDeclaration (Line 4) and an instance of an UmpleModel (Line 5). As the conditions are satisfied, in the RHS of this rule we create a new instance of UmpleClass, setting its name. To extract the name of the instance \textit{TypeDeclaration} we employ a helper function \textit{getTypeDeclarationName(...)}. After the object is created, we insert it into the session with the '\textit{insert(umpleClass)}' method. This process of matching facts with rules (i.e. inference) is illustrated in Figure \ref{fig:ruleModel}.
+The rule above simply requires the presence in the Working Memory of an instance of TypeDeclaration (Line 4) and an instance of an UmpleModel (Line 5). As the conditions are satisfied, in the RHS of this rule we create a new instance of UmpleClass, setting its name. To extract the name of the instance \textit{TypeDeclaration} we employ a helper function \textit{getTypeDeclarationName(...)}. After the object is created, we insert it into the session with the `\textit{insert(umpleClass)}' method. This process of matching facts with rules (i.e. inference) is illustrated in Figure \ref{fig:ruleModel}.
 
 \begin{figure}[h]
 \centering
@@ -882,7 +880,7 @@ The rules for the remaining Umple class constructs are then matched. The goal of
 
 The rule named \textit{transformImportDeclaration} (Lines 1-11) in Listing \ref{lst:ruleImport} matches and converts any Import Declaration (Java Language) into an Umple depend construct. The dependency (Line 9) is then added to a matched Umple Class. The Umple Class residing in the Working Memory is then updated at Line 10.
 
-To ensure that the dependency is not added to any umpleClass in the Working Memory but only to the one owning it, we assert that the ImportDeclaration's parent class has the same name as our targeted UmpleClass. The helper function, imported in the first line of the above Listing, is a static function that returns the name of the parent class of the ImportDeclaration. In our case, the name of parent Java class is "Student" which corresponds to the name of a UmpleClass in memory. The 'eval' clause returns true in this particular case.
+To ensure that the dependency is not added to any umpleClass in the Working Memory but only to the one owning it, we assert that the ImportDeclaration's parent class has the same name as our targeted UmpleClass. The helper function, imported in the first line of the above Listing, is a static function that returns the name of the parent class of the ImportDeclaration. In our case, the name of parent Java class is ``Student'' which corresponds to the name of a UmpleClass in memory. The `eval' clause returns true in this particular case.
 
 \begin{lstlisting}[language={drools},label={lst:ruleImport}, caption=Rule transformImportDeclaration]
 import function cruise.umplificator.rules
@@ -902,7 +900,7 @@ rule "transformImportDeclaration"
  end
 \end{lstlisting}
 
-The package declaration is converted then into a namespace with the rule 'transformNamespace' in Listing \ref{lst:transformNamespace}. We again ensure that the package declaration corresponds to the targeted UmpleClass. Note that in this rule we don't need to insert the namespace object into memory since we don't expect any rule to match it.
+The package declaration is converted then into a namespace with the rule `transformNamespace' in Listing \ref{lst:transformNamespace}. We again ensure that the package declaration corresponds to the targeted UmpleClass. Note that in this rule we don't need to insert the namespace object into memory since we don't expect any rule to match it.
 
 \begin{lstlisting}[language={drools},label={lst:transformNamespace}, caption=Rule transformNamespace]
 import function cruise.umplificator.rules
@@ -920,7 +918,7 @@ rule "transform_Namespace"
 end
 \end{lstlisting}
 
-As we have assumed an initial level of refactoring. at the beginning of this example, the Transformer will not attempt to transform any variable into an Umple attribute, association end or state machine. However, in the final output code produced for our UmpleClass we require the remaining untreated code to be simply appended. For instance, the rule 'appendFieldDeclaration' in Listing \ref{lst:appendField} extracts information from the field declaration and appends it to the targeted Umple Class. The same behavior is produced from the application of rule 'appendMethodDeclaration' in Listing \ref{lst:appendMethod}.
+As we have assumed an initial level of refactoring. at the beginning of this example, the Transformer will not attempt to transform any variable into an Umple attribute, association end or state machine. However, in the final output code produced for our UmpleClass we require the remaining untreated code to be simply appended. For instance, the rule `appendFieldDeclaration' in Listing \ref{lst:appendField} extracts information from the field declaration and appends it to the targeted Umple Class. The same behavior is produced from the application of rule `appendMethodDeclaration' in Listing \ref{lst:appendMethod}.
 
 \begin{lstlisting}[language={drools},label={lst:appendField}, caption=Rule appendFieldDeclaration]
 import function cruise.umplificator.rules
@@ -962,7 +960,7 @@ end
 \end{lstlisting}
 
 The \textit{eval} clauses in the Listing above, ensure that the string representing the method information hasn't been appended before and (as before) that the method string is added to the Umple class owning it. 
-At the end of this pattern matching process, the UmpleClass with name 'Student' owns a depend, has a namespace and some remaining code that we called extra code. We show the Umple code in Listing \ref{lst:level1exampleGenerator}. The extra code in this code excerpt starts from Line 6 to 22.
+At the end of this pattern matching process, the UmpleClass with name `Student' owns a depend, has a namespace and some remaining code that we called extra code. We show the Umple code in Listing \ref{lst:level1exampleGenerator}. The extra code in this code excerpt starts from Line 6 to 22.
 
 The code generated by the \textit{Generator}, from the input Umple model, is presented in Listing \ref{lst:level1exampleGenerator}. 
 
@@ -998,7 +996,7 @@ class Student {
 
 As an example of the pattern matching for rules in Level 2 (attributes), consider the same code excerpt from Listing \ref{lst:exampleTransformer}. The process described in the previous example remains identical, except for the transformations phase, which we explain now. Assuming that the rules for the transformation of the package and import declarations have already been performed, we focus exclusively on how the field declarations are transformed into Umple attributes. In this particular example we are expecting the two Java field declarations to be transformed into attributes. 
 
-At this point of time, as illustrated in Figure \ref{fig:ruleModel2}, the Working Memory contains the Umple model, an Umple Class (Student) and the Java model elements. The Production Memory contains all the 'LEVEL1' and 'LEVEL2' rules and the Agenda only those from 'LEVEL2' since the ones from 'LEVEL1' have already been executed and removed from the stack.
+At this point of time, as illustrated in Figure \ref{fig:ruleModel2}, the Working Memory contains the Umple model, an Umple Class (Student) and the Java model elements. The Production Memory contains all the `LEVEL1' and `LEVEL2' rules and the Agenda only those from `LEVEL2' since the ones from `LEVEL1' have already been executed and removed from the stack.
 
 \begin{figure}[h]
 \centering
@@ -1007,8 +1005,8 @@ At this point of time, as illustrated in Figure \ref{fig:ruleModel2}, the Workin
 \label{fig:ruleModel2}
 \end{figure}
 
-The rule engine then attempts to find objects matching the conditions in the rules. The only set of rules that can be matched to objects in the Working Memory are the rules related to attributes since the only rules in the agenda are those for 'LEVEL2' and the rules for 'LEVEL1' have already been applied. In particular, the unique rule
-that can be executed at this moment is the rule named \textit{'Field\_CanBeUmpleAttribute'} since all other rules require an instance of an Umple attribute in memory. As we have illustrated before in Figure \ref{fig:ruleModel2}, no instances of an Umple attribute exist or have been added so far. Rule \textit{'Field\_CanBeUmpleAttribute'} is presented in Listing \ref{lst:FieldCanBeUmpleAttribute}.
+The rule engine then attempts to find objects matching the conditions in the rules. The only set of rules that can be matched to objects in the Working Memory are the rules related to attributes since the only rules in the agenda are those for 'LEVEL2' and the rules for `LEVEL1' have already been applied. In particular, the unique rule
+that can be executed at this moment is the rule named \textit{`Field\_CanBeUmpleAttribute'} since all other rules require an instance of an Umple attribute in memory. As we have illustrated before in Figure \ref{fig:ruleModel2}, no instances of an Umple attribute exist or have been added so far. Rule \textit{`Field\_CanBeUmpleAttribute'} is presented in Listing \ref{lst:FieldCanBeUmpleAttribute}.
 
 \begin{lstlisting}[language={drools},label=lst:FieldCanBeUmpleAttribute, caption=Rule  FieldCanBeUmpleAttribute]
 rule "FieldCanBeUmpleAttribute"
@@ -1046,9 +1044,9 @@ The rule in Listing \ref{lst:FieldCanBeUmpleAttribute} creates an Umple attribut
 \item In Line 12. The field possess a getter in the Class that derived the current instance of the the Umple Class.
 \end{itemize}
 
-If a field (and other model elements) matches the above conditions. A new Umple attribute is created with the information extracted from the instance of the field declaration and associate to the current instance of Umple Class (Line 16). The name (Line 14) and type (Line 15) are initialized as well. By default, our newly created Umple attribute is declared as settable (Line 17). The attribute is then added to a matched Umple Class (Line 18). The Helper function \textit{removeClassField} in Line 18 removes the field declaration from the extra code of the Umple Class since it has been refactored into an Umple attribute. Recall from previous subsection that the field declaration was appended to the extra code of the Umple class. In Line 19, we updated the Umple class residing in the Working Memory. The clause '\textit{update}' is optional but we explicitly invoke it for logging purposes.
+If a field (and other model elements) matches the above conditions. A new Umple attribute is created with the information extracted from the instance of the field declaration and associate to the current instance of Umple Class (Line 16). The name (Line 14) and type (Line 15) are initialized as well. By default, our newly created Umple attribute is declared as settable (Line 17). The attribute is then added to a matched Umple Class (Line 18). The Helper function \textit{removeClassField} in Line 18 removes the field declaration from the extra code of the Umple Class since it has been refactored into an Umple attribute. Recall from previous subsection that the field declaration was appended to the extra code of the Umple class. In Line 19, we updated the Umple class residing in the Working Memory. The clause `\textit{update}' is optional but we explicitly invoke it for logging purposes.
 
-Finally, in Line 20 the attribute is put into the working memory so subsequent transformations can be made such as determining if the attribute is lazy or not. In fact, this Umple attribute as we will explain later, meets all conditions to be a 'lazy' attribute. Lazy attributes have been introduced in Chapter 2. This process of matching objects with rules as we have described so far for this transformation step is summarized in Figure \ref{fig:ruleModel3}. As can be seen in the Figure, an instance of a the Umple attribute has been added to the Working Memory as a result of the match. Objects in yellow are the ones queried when evaluating the conditions of the rule. 
+Finally, in Line 20 the attribute is put into the working memory so subsequent transformations can be made such as determining if the attribute is lazy or not. In fact, this Umple attribute as we will explain later, meets all conditions to be a `lazy' attribute. Lazy attributes have been introduced in Chapter 2. This process of matching objects with rules as we have described so far for this transformation step is summarized in Figure \ref{fig:ruleModel3}. As can be seen in the Figure, an instance of a the Umple attribute has been added to the Working Memory as a result of the match. Objects in yellow are the ones queried when evaluating the conditions of the rule. 
 
 \begin{figure}[h]
 \centering
@@ -1057,7 +1055,7 @@ Finally, in Line 20 the attribute is put into the working memory so subsequent t
 \label{fig:ruleModel3}
 \end{figure}
 
-We are not done yet since we need to remove or refactor the getters  and/or setters of the field (that became an attribute). For instance, if the rule (omitted) '\textit{hasFieldSimpleGetter}' or '\textit{hasFieldSimpleSetter}' is matched to any field previously transformed into an attribute, the method declaration is removed from the appended code of the Umple class. As is the case in our example, getName(), setName() and getStudentId() are removed from the 'Student' Umple class.
+We are not done yet since we need to remove or refactor the getters  and/or setters of the field (that became an attribute). For instance, if the rule (omitted) `\textit{hasFieldSimpleGetter}' or `\textit{hasFieldSimpleSetter}' is matched to any field previously transformed into an attribute, the method declaration is removed from the appended code of the Umple class. As is the case in our example, getName(), setName() and getStudentId() are removed from the `Student' Umple class.
 When the field has a getter/setter that is not simple, an instance of the class CodeInjection (refer to Umple metamodel) is created to take into account the code differing from the original getter/setter.
 
 Finally, the rule named \textit{isLazyAttribute} in Listing \ref{lst:isLazyAttribute},  rule matches and converts any basic attribute (in memory) that conforms to the required conditions into a lazy attribute (e.g. attribute.setIsLazy(true)). These required conditions are listed next (Lines refer to Listing \ref{lst:isLazyAttribute}): 
@@ -1115,7 +1113,7 @@ In this next section, we provide an overview of the tools currently available to
 
 \section{Umplificator Tooling}
 
-The Umplificator is available as an IDE and works within Eclipse; it also operates as a command-line tool to allow rapid bulk umplification and easier automated testing. Both tools are built and deployed using the Ant scripting language; resulting in several executable jars as well as for the Eclipse plugins. Table \ref{table:jars} describes the various jars deployed as part of our automated building process. In the table, X corresponds to the version, Y to the revision and Z to the build number. Our current version is '1.21.0.4666'.
+The Umplificator is available as an IDE and works within Eclipse; it also operates as a command-line tool to allow rapid bulk umplification and easier automated testing. Both tools are built and deployed using the Ant scripting language; resulting in several executable jars as well as for the Eclipse plugins. Table \ref{table:jars} describes the various jars deployed as part of our automated building process. In the table, X corresponds to the version, Y to the revision and Z to the build number. Our current version is `1.21.0.4666'.
 
 \begin{table}[h]
 \caption{Artifacts deployed during the building process of the Umplificator}
@@ -1169,5 +1167,4 @@ The preliminary release of the tool allows developers to:
 \label{fig:umpleonline}
 \end{figure}
 
-% You need to go into much, much more depth into the rules, since they are a key part of your thesis. You should list and categorize the functions performed by the rules, and give quite a few more examples. Give examples for different types of attributes associations and state machines. Describe how you deal with different implementations of attributes. You don't have to describe all the rules, but you need to show in 7-12 pages the depth of work you have done here.
 
