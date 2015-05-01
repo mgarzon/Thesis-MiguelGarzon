@@ -11,7 +11,7 @@
 \usepackage{verbatim}  % Needed for the "comment" environment to make LaTeX comments
 \usepackage{vector}  % Allows "\bvec{}" and "\buvec{}" for "blackboard" style bold vectors in maths
 \hypersetup{urlcolor=blue, colorlinks=true}  % Colours hyperlinks in blue, but this can be distracting if there are many links.
-
+\makeglossaries
 %% ----------------------------------------------------------------
 \begin{document}
 \frontmatter      % Begin Roman style (i, ii, iii, iv...) page numbering
@@ -22,9 +22,7 @@
             {\href{mgarzon@uottawa.ca}{Miguel A. Garz\'{o}n Torres}}
             {Miguel A. Garz\'{o}n}
             }
-\date       {\today}
-\subject    {}
-\keywords   {}
+\date  {\textcopyright  Miguel Garz\'{o}n, Ottawa, Canada, 2015}
 
 \maketitle
 %% ----------------------------------------------------------------
@@ -44,10 +42,10 @@
 \pagestyle{empty}  % No headers or footers for the following pages
 \null\vfill
 % Now comes the "Funny Quote", written in italics
-\textit{''Simplicity is a great virtue but it requires hard work to achieve it and education to appreciate it. And to make matters worse: complexity sells better.''}
+\textit{``Live as if you were to die tomorrow. Learn as if you were to live forever.''}
 
 \begin{flushright}
-Edsger W. Dijkstra
+Mahatma Gandhi   
 \end{flushright}
 
 \vfill\vfill\vfill\vfill\vfill\vfill\null
@@ -59,8 +57,9 @@ Edsger W. Dijkstra
 \abstract{
 \addtocontents{toc}{\vspace{1em}}  % Add a gap in the Contents, for aesthetics
 
-This thesis investigates a novel approach to reverse engineering, in which modeling information such as UML associations, state machines and attributes is incrementally added to code written in Java or C++, while maintaining the system in a textual format. Umple is a textual representation that blends modeling in UML with programming language code. The approach, called umplification, produces a program with behavior identical to the original one, but written in Umple and enhanced with model-level abstractions. As the resulting program is Umple code, our approach eliminates the distinction between code and model. In this paper we discuss the principles of Umple, the umplification approach and a rule-driven tool called the Umplificator, which implements and validates the depicted approach. 
-The present thesis consists of three main parts. The first part (Chapter 1 and 2) present the research questions and research methodology and introduces Umple and the Umplification concept. The core of our research is presented in Chapters 3 and 5. The last part, Chapter 6, presents details of a case study conducted on an open source software application, JHotDraw. Finally, the expected contributions are listed in Chapter 7.
+This thesis investigates a novel approach to reverse engineering, in which modeling information such as UML associations, state machines and attributes is incrementally added to code written in Java or C++, while maintaining the system in a textual format. Umple is a textual representation that blends modeling in UML with programming language code. The approach, called umplification, produces a program with behavior identical to the original one, but written in Umple and enhanced with model-level abstractions. As the resulting program is Umple code, our approach eliminates the distinction between code and model. We implemented automated umplification in  a tool called the Umplificator. The tool is rule-driven: Code, including Umple code, is parsed and processed into an internal representation, which is then operated on by rules; transformed textual code and model, in Umple, is then generated. The rules used to transform code to model have been iteratively refined by using the tool on a variety of open-source software systems.
+
+The thesis consists of three main parts. The first part (Chapter 1 and 2) present the research questions and research methodology, as well as introducing Umple and the background necessary to understand the rest of the thesis. The umplification method is presented at increasing levels of detail through Chapters 3 and 4. Chapters 5 and 6 present the tool and evaluation of our approach, respectively. An analysis of related work, and comparison to our own, appears in Chapter 7.
 }
 
 \clearpage  % Abstract ended, start a new page
@@ -72,8 +71,19 @@ The present thesis consists of three main parts. The first part (Chapter 1 and 2
 \acknowledgements{
 \addtocontents{toc}{\vspace{1em}}  % Add a gap in the Contents, for aesthetics
 
-I would like to thank my dear supervisor, Professor Timothy Lethbridge, for guiding me ...
+Foremost, I would like to express my sincere gratitude to my dear supervisor, Professor Timothy Lethbridge, for guiding me during my graduate studies. I greatly appreciate his vast knowledge, dedication and assistance in writing proposals, scholarship applications, papers and this thesis. Throughout my studies, Tim contributed to my development as a researcher, professor and as a person.
 
+Besides my supervisor, I would also like to thank the members of my PhD committee for the feedback provided at the different stages or this research. 
+
+My sincere thanks to Professors Daniel Amyot and Liam Peyton for the continuous encouragement to my work. More than my instructors, they have been mentors who helped shape my career path. 
+
+I thank each of the members of the Complexity Reduction in Software Engineering (CRuiSE) research group. Particular and well deserved thanks to Hamoud Aljamaan for all of his constructive feedback.
+
+I wish to deeply thank the University of Ottawa for being my second home for the past 10 years and for offering me all the support required to carry out my research work.
+
+I would also like to thank my whole family for the support they provided me through my entire life. In particular, I would like to thank my mother Patricia, my brothers Laura and Sebastian for their love and encouragement during this busy period of my life.
+
+Last, but not least, I would like to thank my wife Idalia for her understanding and love during the past few years and for her contribution on the graphics of this thesis.
 }
 \clearpage  % End of the Acknowledgements
 %% ----------------------------------------------------------------
@@ -94,15 +104,12 @@ I would like to thank my dear supervisor, Professor Timothy Lethbridge, for guid
 \listoftables  % Write out the List of Tables
 
 %% ----------------------------------------------------------------
-%\lhead{\emph{List of Listings}}  % Set the left side page header to "List of Listings"
+%\lhead{\emph{List of Listings}}  
 %\lstlistoflistings  % Write out the List of Tables
 %% ----------------------------------------------------------------
 \setstretch{1.5}  % Set the line spacing to 1.5, this makes the following tables easier to read
 \clearpage  % Start a new page
 \lhead{\emph{Glossary}}  % Set the left side page header to "Abbreviations"
-
-
-
 %% ----------------------------------------------------------------
 \mainmatter	  % Begin normal, numeric (1,2,3...) page numbering
 \pagestyle{fancy}  % Return the page headers back to the "fancy" style
@@ -131,10 +138,10 @@ I would like to thank my dear supervisor, Professor Timothy Lethbridge, for guid
 % Now begin the Appendices, including them as separate files
 
 \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
+ 
+%\appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
 
-\appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
-
-\input{Appendices/AppendixA}	% Appendix Title
+%\input{Appendices/AppendixA}	% Appendix Title
 
 %\input{Appendices/AppendixB} % Appendix Title
 

@@ -1,43 +1,43 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Umple Metamodel (Partial)\relax }}{11}{figure.caption.69}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Umple Architecture\relax }}{21}{figure.caption.209}
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Umple Online\relax }}{21}{figure.caption.210}
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Transformations across the different software life-cycle phases\relax }}{23}{figure.caption.212}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Umple Metamodel (Partial)\relax }}{13}{figure.caption.72}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Umple Architecture\relax }}{23}{figure.caption.214}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Umple Online\relax }}{23}{figure.caption.215}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Transformations across the different software life-cycle phases\relax }}{25}{figure.caption.217}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces The Umplification process generalized\relax }}{36}{figure.caption.305}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces UML Class Diagram of the Mentor-Student example - Level 1\relax }}{48}{figure.caption.472}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces UML Class Diagram of the Mentor-Student example - Level 2\relax }}{51}{figure.caption.505}
-\contentsline {figure}{\numberline {3.4}{\ignorespaces UML Class Diagram of the Mentor-Student example - Level 3\relax }}{53}{figure.caption.543}
-\contentsline {figure}{\numberline {3.5}{\ignorespaces ATM example - Level 1\relax }}{58}{figure.caption.707}
-\contentsline {figure}{\numberline {3.6}{\ignorespaces ATM example - Level 2\relax }}{58}{figure.caption.707}
-\contentsline {figure}{\numberline {3.7}{\ignorespaces UML Class Diagram of the ATM example - Level 3\relax }}{60}{figure.caption.709}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces The Umplification process generalized\relax }}{39}{figure.caption.313}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces UML Class Diagram of the Mentor-Student example - Level 1\relax }}{51}{figure.caption.481}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces UML Class Diagram of the Mentor-Student example - Level 2\relax }}{53}{figure.caption.514}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces UML Class Diagram of the Mentor-Student example - Level 3\relax }}{56}{figure.caption.552}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces ATM example - Level 1\relax }}{61}{figure.caption.716}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces ATM example - Level 2\relax }}{61}{figure.caption.716}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces UML Class Diagram of the ATM example - Level 3\relax }}{63}{figure.caption.718}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Input-Output relationships for rule BaseTypeToUmpleClass\relax }}{66}{figure.caption.768}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Input-Output relationships for rule BaseTypeToUmpleClass\relax }}{69}{figure.caption.775}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces TXL Program for transforming Java to Umple\relax }}{75}{figure.caption.842}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Structure of the JavaToUmple program\relax }}{76}{figure.caption.844}
-\contentsline {figure}{\numberline {5.3}{\ignorespaces The JavaToUmple ATL program\relax }}{81}{figure.caption.951}
-\contentsline {figure}{\numberline {5.4}{\ignorespaces A simplified version of the Java metamodel\relax }}{83}{figure.caption.959}
-\contentsline {figure}{\numberline {5.5}{\ignorespaces A simplified version of the Umple metamodel\relax }}{84}{figure.caption.960}
-\contentsline {figure}{\numberline {5.6}{\ignorespaces The umplification process flow\relax }}{87}{figure.caption.1005}
-\contentsline {figure}{\numberline {5.7}{\ignorespaces The Umplificator components\relax }}{88}{figure.caption.1006}
-\contentsline {figure}{\numberline {5.8}{\ignorespaces The Parser and Model Extractor components\relax }}{94}{figure.caption.1039}
-\contentsline {figure}{\numberline {5.9}{\ignorespaces The Transformer component inputs and outputs\relax }}{94}{figure.caption.1041}
-\contentsline {figure}{\numberline {5.10}{\ignorespaces High Level View of the Drools Rule Engine\relax }}{95}{figure.caption.1043}
-\contentsline {figure}{\numberline {5.11}{\ignorespaces Forward vs Backward Chaining\relax }}{96}{figure.caption.1044}
-\contentsline {figure}{\numberline {5.12}{\ignorespaces The Generator component inputs and outputs\relax }}{99}{figure.caption.1080}
-\contentsline {figure}{\numberline {5.13}{\ignorespaces Pattern Matching and creation of an UmpleClass\relax }}{102}{figure.caption.1123}
-\contentsline {figure}{\numberline {5.14}{\ignorespaces Rule Engine snapshot after initial transformation\relax }}{106}{figure.caption.1210}
-\contentsline {figure}{\numberline {5.15}{\ignorespaces Pattern Matching and creation of an UmpleClass\relax }}{108}{figure.caption.1235}
-\contentsline {figure}{\numberline {5.16}{\ignorespaces The Umplificator online - A PHP Web application\relax }}{111}{figure.caption.1273}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces TXL Program for transforming Java to Umple\relax }}{87}{figure.caption.954}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Structure of the JavaToUmple program\relax }}{87}{figure.caption.956}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces The JavaToUmple ATL program\relax }}{92}{figure.caption.1063}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces A simplified version of the Java metamodel\relax }}{95}{figure.caption.1071}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces A simplified version of the Umple metamodel\relax }}{95}{figure.caption.1072}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces The umplification process flow\relax }}{104}{figure.caption.1157}
+\contentsline {figure}{\numberline {5.7}{\ignorespaces The Umplificator components\relax }}{105}{figure.caption.1158}
+\contentsline {figure}{\numberline {5.8}{\ignorespaces The Parser and Model Extractor components\relax }}{109}{figure.caption.1194}
+\contentsline {figure}{\numberline {5.9}{\ignorespaces The Transformer component inputs and outputs\relax }}{110}{figure.caption.1196}
+\contentsline {figure}{\numberline {5.10}{\ignorespaces High Level View of the Drools Rule Engine\relax }}{111}{figure.caption.1198}
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Forward vs Backward Chaining\relax }}{112}{figure.caption.1199}
+\contentsline {figure}{\numberline {5.12}{\ignorespaces The Generator component inputs and outputs\relax }}{115}{figure.caption.1236}
+\contentsline {figure}{\numberline {5.13}{\ignorespaces Pattern Matching and creation of an UmpleClass\relax }}{119}{figure.caption.1281}
+\contentsline {figure}{\numberline {5.14}{\ignorespaces Rule Engine snapshot after initial transformation\relax }}{123}{figure.caption.1368}
+\contentsline {figure}{\numberline {5.15}{\ignorespaces Pattern Matching and creation of an UmpleClass\relax }}{125}{figure.caption.1393}
+\contentsline {figure}{\numberline {5.16}{\ignorespaces Rule Engine snapshot before the automated Umplification of Associations\relax }}{129}{figure.caption.1478}
+\contentsline {figure}{\numberline {5.17}{\ignorespaces The Umplificator online - A PHP Web application\relax }}{134}{figure.caption.1519}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Umplificator Testing Infrastructure\relax }}{113}{figure.caption.1276}
-\contentsline {figure}{\numberline {6.2}{\ignorespaces The Pre-Validation Phase: Comparing UmpleModel and UmpleModel'\relax }}{120}{figure.caption.1479}
-\contentsline {figure}{\numberline {6.3}{\ignorespaces UML Class diagram of the Access Control system\relax }}{123}{figure.caption.1544}
-\contentsline {figure}{\numberline {6.4}{\ignorespaces Umple online - Code Analysis generation\relax }}{128}{figure.caption.1628}
-\contentsline {figure}{\numberline {6.5}{\ignorespaces Master files used to compile JHotdraw\relax }}{139}{figure.caption.1728}
-\contentsline {figure}{\numberline {6.6}{\ignorespaces UML class diagram of package 'org.jhotdraw.draw' - JHotdraw\relax }}{141}{figure.caption.1729}
-\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Umplificator Testing Infrastructure\relax }}{136}{figure.caption.1522}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces The Pre-Validation Phase: Comparing UmpleModel and UmpleModel'\relax }}{143}{figure.caption.1725}
+\contentsline {figure}{\numberline {6.3}{\ignorespaces UML Class diagram of the Access Control system\relax }}{146}{figure.caption.1791}
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Umple online - Code Analysis generation\relax }}{151}{figure.caption.1876}
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Master files used to compile JHotdraw\relax }}{161}{figure.caption.1985}
+\contentsline {figure}{\numberline {6.6}{\ignorespaces UML class diagram of package 'org.jhotdraw.draw' - JHotdraw\relax }}{163}{figure.caption.1986}
 \addvspace {10\p@ }
 \addvspace {10\p@ }

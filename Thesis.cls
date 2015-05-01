@@ -78,6 +78,8 @@
 \newpage
 \if@twocolumn\hbox{}\newpage\fi\fi\fi}
 \usepackage{amsmath,amsfonts,amssymb,amscd,amsthm,xspace}
+\usepackage[toc]{glossaries}
+\usepackage{ltablex}
 \theoremstyle{plain}
 \newtheorem{example}{Example}[chapter]
 \newtheorem{theorem}{Theorem}[chapter]
@@ -134,6 +136,8 @@
 \definecolor{britishracinggreen}{rgb}{0.0, 0.26, 0.15}
 \definecolor{flashwhite}{rgb}{0.95, 0.95, 0.96}
 \definecolor{cobalt}{rgb}{0.0, 0.28, 0.67}
+\definecolor{aliceblue}{rgb}{0.94, 0.97, 1.0}
+
 
 \lstdefinestyle{numbers} {captionpos=t,tabsize=1,frame=lines,keywordstyle=\color{blue},commentstyle=\color{britishracinggreen},stringstyle=\color{red},numbers=left,numberstyle=\tiny,numbersep=5pt,breaklines=true,showstringspaces=false,basicstyle=\footnotesize,emph={label}t}
 
@@ -438,6 +442,7 @@
 }
 \newcommand\listconstants{Physical Constants}
 \usepackage{longtable}
+\usepackage{textcomp}
 \newcommand\listofconstants[2]{
 \btypeout{\listconstants}
 \addtotoc{\listconstants}

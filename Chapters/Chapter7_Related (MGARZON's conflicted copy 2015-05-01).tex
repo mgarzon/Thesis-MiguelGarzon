@@ -75,7 +75,7 @@ The queries used in the second phase are enumerated below:
 \paragraph*{Inclusion and exclusion criteria}
 
 The databases searches resulted in an extensive list of potential papers. To ensure that all papers included in the review were clearly related and relevant to the research questions, detailed inclusion and exclusion criteria were defined. These criteria are summarized in Tables \ref{table:inclusionCriteria} - \ref{table:exclusionCriteria}. 
- The process followed for filtering the search result was:
+ The proess followed for filtering the search result was:
 
 \begin{enumerate}
 \item Use the title to eliminate any papers clearly not related to the research
@@ -116,11 +116,11 @@ The databases searches resulted in an extensive list of potential papers. To ens
 
 \section{Results}
 
-In the next section, we list and explain the criteria employed to assess the papers retrieved after filtering the results from the second-phase queries. Only 28 papers were retained from the originally 78 retrieved. The papers retained can mainly be categorized based on what type of technique they rely on: static or dynamic analysis of source code. Tables \ref{table:relatedPapers1} and \ref{table:relatedPapers2} lists the 21 papers. The third column of the tables indicates if the approach uses dynamic analysis, static analysis or an hybrid approach (static + dynamic).
+In the next section, we list and explain the criteria employed to assess the papers retrieved after filtering the results from the second-phase queries. Only 28 papers were retained from the originally 78 retrieved. The papers retained can mainly be categorized based on what type of technique they rely on: static or dynamic analysis of source code. Tables \ref{table:relatedPapers} - \ref{table:relatedPapers2} lists the 21 papers. The third column of the tables indicates if the approach uses dynamic analysis, static analysis or an hybrid approach (static + dynamic).
 
-\begin{table}[h]
+\begin{table}[ht]
 \caption{Filtered results from second-phase queries - Static Approaches}
-\label{table:relatedPapers1}
+\label{table:relatedPapers}
 \centering
 \begin{tabularx}{\textwidth}{X|X|l}
 \toprule
@@ -134,26 +134,28 @@ In the next section, we list and explain the criteria employed to assess the pap
 \\ \hline
 4. A Patterns based reverse engineering approach for Java source code & Couto et al. - 2012 - \cite{Couto2012} & Static
 \\ \hline
-5. Recovering class diagrams from data-intensive legacy systems & Lucca et al.  - 2000 - \citep{Lucca2000}  &  Static
+5. Reverse-engineering of UML 2.0 sequence diagrams from execution traces & Delamare et al. - 2006 - \cite{Delamare06} &  Dynamic
 \\ \hline
-6. Reverse engineering co-maintenance relationships using conceptual analysis of source code & Grant et al. - 2011 - \cite{grant2011reverse} & Static
+6. Recovering class diagrams from data-intensive legacy systems & Lucca et al.  - 2000 - \citep{Lucca2000}  &  Static
 \\ \hline
-7. A systematic study of UML class diagram constituents for their abstract and precise recovery & Guéhéneuc - 2004 - \cite{GueheneucSystematic} & Static
+7. Reverse engineering co-maintenance relationships using conceptual analysis of source code & Grant et al. - 2011 - \cite{grant2011reverse} & Static
 \\ \hline
-8. On reverse engineering an object-oriented code into UML class diagrams incorporating extensible mechanisms & Vinita et al. - 2008 - \cite{Vinita2008} & Static
+8. A systematic study of UML class diagram constituents for their abstract and precise recovery & Guéhéneuc - 2004 - \cite{GueheneucSystematic} & Static
+\\ \hline
+9. On reverse engineering an object-oriented code into UML class diagrams incorporating extensible mechanisms & Vinita et al. - 2008 - \cite{Vinita2008} & Static
 \\ \hline 
-9. Reverse-engineering 1-n associations from Java bytecode using alias analysis & Kang et al. - 2007 - \cite{Kang2007} & Static
+10. Reverse-engineering 1-n associations from Java bytecode using alias analysis & Kang et al. - 2007 - \cite{Kang2007} & Static
 \\ \hline
-10. UML-based reverse engineering and model analysis approaches for software architecture maintenance & Riva et al. - 2004 - \cite{1357789} & Static
+11. UML-based reverse engineering and model analysis approaches for software architecture maintenance & Riva et al. - 2004 - \cite{1357789} & Static
 \\ \hline
 12. Recovering UML class models from C++: A detailed explanation & Sutton et al. - 2007 -  \cite{Sutton2007} & Static
 \\ \hline
-12. Towards an AST-based approach to reverse engineering & Wang. et al. - 2006 - \cite{4054609} & Static
+13. Towards an AST-based approach to reverse engineering & Wang. et al. - 2006 - \cite{4054609} & Static
 \\ \hline
 \end{tabularx}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[ht]
 \caption{Filtered results from second-phase queries - Dynamic and Hybrid Approaches}
 \label{table:relatedPapers2}
 \centering
@@ -176,15 +178,13 @@ In the next section, we list and explain the criteria employed to assess the pap
 \\ \hline
 8. Mining design patterns from existing projects using static and run-time analysis & Dobis et al. - 2011 - \cite{Huzar2011} & Hybrid
 \\ \hline
-9. Reverse-engineering of UML 2.0 sequence diagrams from execution traces & Delamare et al. - 2006 - \cite{Delamare06} &  Dynamic
-\\ \hline
 \end{tabularx}
 \end{table}
 
 In the next subsection we present the most relevant (most cited and very related to our work) papers found. 
 Although the results may convey that this area of research is mature enough, we believe there is still much work that can be done. The important fact is that the underlying research in this area makes us confident that our proposed approach contributes positively to the advancement of the reverse-engineering field.
 
-\subsection{Most Relevant Papers}
+\subsection{Most Revelant Papers}
 
 A number of approaches have been presented in the literature for reverse engineering to discover associations and other related information from source code. Unlike our work, none of them are incremental or produce compilable artefacts. The majority of these produce in one single step a UML model derived from the source code \cite{Nelson1996}.
 
@@ -205,52 +205,45 @@ TXL \cite{Cordy2006} is a rule-based language designed for a variety of source-t
 
 Paige et al. \cite{paigetowards} demonstrated the use of TXL in representing and for implementing efficient transformations between languages. A transformation from UML-to-Java were presented as part of his work. 
 
-\subsection{Evaluation for Papers on Reverse-Engineering into UML}
+\subsection{Evaluation Criteria for Papers on Reverse-Engineering into UML}
 
- In this section, we list and define several important characteristics that we believe contribute to the comprehension of software systems. Our criteria emphasize the extraction of modeling constructs from source code.
+Reverse engineering is a vast area devoted to developing tools and methodologies to aid in the understanding of software systems. In this section, we list and define several important characteristics and measurable criteria that we believe will contribute to the comprehension of software systems. Our criteria emphasize the extraction of modeling constructs from source code.
 
-The evaluation criteria we will use are as follows: 
+The evaluation criteria is presented below: 
 \begin{itemize}
-
-\item Scalability:  This refers to how well the solution works when the size of the system being studied increases.
-
-\item Incrementality: This refers to the ability of the approach to be performed in incremental and small steps.
-
+\item Scalability:  It refers to how well the solution works when the size of the system being studied increases.
+\item Incrementality: It refers to the ability of the approach to be performed in incremental and small steps.
 \item Validation:  Has the solution been validated by other software practitioners? Fully if so, Partial if it has been validated only by the authors. 
-
-\item Usability: Is the tool easy to set up or use? N/A means that a tool is not available.
-
-\item Target Programming Language: The programming language(s) that can be input into the tool.
-
+\item Usability: Is the tool proposed easy to set up or use? N/A means that a tool is not available.
+\item Target Programming Language: The programming language(s) that can input into the tool.
 \item Attributes Recovery: is the approach/tool able to infer attributes from source code?
-
 \item Associations Recovery: is the approach/tool able to infer all different types of associations from source code? 
 \end{itemize}
 
 The outcomes of our evaluation can be:
-
 \begin{itemize}
-\item \textit{None} indicates that the criterion is not met or there is no evidence about this in the paper (or papers from the same author on the same topic).
+\item \textit{None} indicates that the criterion is not met or there is no evidence about this in the paper (or papers from the same author on the same topic)
 
-\item \textit{Partial (P)} indicates that the criterion is partially satisfied.
+\item \textit{Partial} indicates that the criterion is partially satisfied
 
-\item \textit{Fully (F)} indicates that the criterion is fully satisfied and there is clear evidence of this.
+\item \textit{Fully} indicates that the criterion is fully satisfied and there is clear evidence of this.
 
-\item \textit{N}  Not applicable. 
+\item \textit{N/A}  Not applicable. 
 \end{itemize}
 
-These criteria focus on how well the related studies solved the main topic of this thesis, i.e, reverse-engineering of object-oriented systems into UML. Note that the expected output from the techniques is UML and not Umple, as we are the first approach recovering Umple models from software systems.
+\subsection{Evaluation of Papers on Reverse-Engineering into UML}
 
-Table \ref{table:finalResults} shows the above criteria applied to the key papers. 
+The evaluation presented in this section focuses on how well the related studies solved the main topic of this thesis, i.e, reverse-engineering of object-oriented systems into UML. Note that the expected output from the techniques is UML and not Umple, as we are the first approach recovering Umple models from software systems.
+Table \ref{table:finalResults} shows the summary of outcomes for the papers presented in Tables \ref{table:relatedPapers}-\ref{table:relatedPapers2} covering mostly all different \textit{class diagram constituents}. Column headers correspond to the criteria listed above. 
 
 \begin{table}[ht]
-\caption{Application of the Evaluation Criteria to the Key Papers}
+\caption{Filtered results from second-phase queries}
 \label{table:finalResults}
 \centering
 \begin{tabularx}{\textwidth}{X|lllllll}
 \toprule
 \rowcolor[HTML]{BBDAFF}
-\textbf{Author-Ref}  & \rotatebox{90}{\textbf{Scalability}} & \rotatebox{90}{\textbf{Incrementality}}& \rotatebox{90}{\textbf{Validation}}& \rotatebox{90}{\textbf{Usability}}& \rotatebox{90}{\textbf{Target Prog. Lang.}} & \rotatebox{90}{\textbf{Attribute Recovery}}& \rotatebox{90}{\textbf{Associations Recovery}} \\ \hline
+\textbf{Author-Ref}  & \textbf{1} & \textbf{2}& \textbf{3}& \textbf{4}& \textbf{5} & \textbf{6}& \textbf{7} \\ \hline
 Barowski et al. - 2002 \cite{Barowski} & N & N & P & N & Java  & P & P \\ \hline
 Grant et al. - 2011 - \cite{grant2011reverse} & P  & N & P &  F & Java  & F & P \\ \hline
 Gueeheneuc - 2004 - \cite{GueheneucSystematic} & P & P& F  & F &Java  & F & F \\ \hline
@@ -258,11 +251,8 @@ Vinita et al. - 2008 - \cite{Vinita2008} & N & N & N & N & Cpp & P & P \\ \hline
 Kang et al. - 2007 - \cite{Kang2007} & N & N& N & F &Java & F & P \\ \hline
 Sutton et al. - 2007 -  \cite{Sutton2007} & N & N & P & F & Cpp & F & F\\ \hline
 Korshunova et al. - 2006 - \cite{cpp2xmi} & P & N & P & F & Cpp & F & P\\ \hline
-{Umplification} & \textbf{P} & \textbf{F} & \textbf{P}  & \textbf{F} & \textbf{Java,Cpp} & \textbf{F} & \textbf{P} \\ 
-\hline
+\textbf{Umplification} & P & F& P & Java, Cpp & F & F & P\\ \hline
 \end{tabularx}
 \end{table}
 
-What mainly differentiates our work from other work is incremental refactoring, the configurability of the mappings rules, the form of the output (model and code as a single entity), and the preservation of semantics when code is generated from the recovered models.
-
-As the last row of the  table indicates, our approach performs well for most of the covered criteria. However, one of the most important characteristics of our approach is that it can be easily extended to cover those missed parts.
+What mainly differentiates our work from other work is this incremental refactorings, the configurability of the mappings rules, the form of the output (model and code as a single entity), and the preservation of semantics when code is generated from the recovered models. As the last row of the above table indicates, our approach performs well for most of the covered criteria. However, one of the most important characteristics of our approach is that it can be easily extended to cover those missed parts.

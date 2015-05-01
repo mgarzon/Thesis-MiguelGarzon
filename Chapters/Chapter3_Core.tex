@@ -138,7 +138,6 @@ The sort of refactoring discussed above for attributes is also performed when as
 
 A complete analysis on the different transformations cases is presented in Chapter \ref{chap:detections}. From this analysis, a set of transformations rules are derived. The actual implementation of the transformations rules is discussed in Chapter \ref{chap:tool}.
 
-
 \section{Motivations}
 
 Our desire to develop our reverse-engineering approach arose for two main reasons. We address each of these in the following sections.
@@ -176,6 +175,17 @@ Umplification improves program comprehension by:
 
 \section{School System - Manual Umplification Example}
 We will now illustrate the transformations steps through a small example. This will show how umplification is performed manually. In Chapter \ref{chap:tool} we will show how to perform automated umplification. The original Java is presented through Listings \ref{lst:StudentJava} - \ref{lst:personJava}.
+To help distinguish between Umple and Java code, the Umple examples use boxes with {\color{blue} light-blue}  shading, and pure Java examples use boxes with {\color{green} light-green} shading.
+
+\begin{lstlisting}[style=java,caption=Person.java,label=lst:personJava]
+package university;
+public class Person {
+ public String getName() {return this.name;}
+ public void setName(String name){
+  this.name= name;
+ }
+}
+\end{lstlisting}
 
 \noindent\begin{minipage}{.45\textwidth}
 \begin{lstlisting}[style=java,caption=Student.java,label=lst:StudentJava]{Name}
@@ -249,17 +259,6 @@ public class Mentor extends Person{
 }
 \end{lstlisting}
 \end{minipage}
-
-\begin{lstlisting}[style=java,caption=Person.java,label=lst:personJava]
-package university;
-public class Person {
- public String getName() {return this.name;}
- public void setName(String name){
-  this.name= name;
- }
-}
-\end{lstlisting}
-
 
 \subsection{School system: Initial Transformation}
 
@@ -551,6 +550,8 @@ In this section, we will manually umplify a second, moderately-sized Java system
 
 The original Java source code has been taken from \cite{atmsystem}. Although this can be considered as a small application, by going through the source code of the ATM program it is not easy to understand how the classes are organized, how they interact with each other and how the responsibilities are distributed among the classes. A programmer aiming to use, document or extend this ATM application may want to know the impact of a change by looking at the dependencies, generalizations and associations connecting the entities or to obtain a high level view of the system for program understanding. The reader can take any versions of the code, at each step of umplification (obtained from \cite{UmplificationBasicExampleURL}), and paste it into UmpleOnline \cite{UmpleOnline} or our Eclipse-based Umple environment. 
 
+% Abpve. Really you can paste the full system with all its classes into UmpleOnline? Maybe it can handle such a large body of code. I am a little surprised.
+
 In the following sub-sections, we present the transformation details for the classes in package `atm.banking' and the main program class for the system `ATMMain.java'. Note that the comments have been ignored and code in some methods have been omitted from this thesis to save space.  Listings \ref{lst:CardJava} - \ref{lst:ATMMainJava} present each of the classes in this package, the input code. The Umple code resulting from each step will be shown as well as the UML class diagram (visual representation of the model). 
 
 \noindent\begin{minipage}{.45\textwidth}
@@ -720,7 +721,7 @@ As in the school example described earlier, we start by creating the .ump files,
 
 The dependency, package and generalization notations are changed to their respective Umple notations.
 
-For instance, the Java code (in file ATMMain.java) shown in Listing  \ref{lst:ATMMainJava} would result in  Umple implementation shown in Listing  \ref{lst:ATMMainUmple} (in file ATMMain.ump). Only the code transformed has been shown in Listings \ref{lst:ATMMainJava} -- \ref{lst:ATMMainJava}. `The rest of the code' corresponds to the code that has not been touched during the transformation. 
+For instance, the Java code (in file ATMMain.java) shown in Listing  \ref{lst:ATMMainJava} would result in the Umple implementation shown in Listing  \ref{lst:ATMMainUmple} (in file ATMMain.ump). Only the code transformed has been shown in Listings \ref{lst:ATMMainJava} -- \ref{lst:ATMMainJava}. `The rest of the code' corresponds to the code that has not been touched during the transformation. 
 
 \noindent\begin{minipage}{.45\textwidth}
 \begin{lstlisting}[style=java,caption=ATMMain.java,label=lst:ATMMainJava]{Name}
@@ -787,26 +788,31 @@ The following is a summary of the various considerations that were taken into ac
 \item In class \textit{Balance}, Money is transformed into an attribute since this class contains only fields of primitive data type. Refer to subsection \ref{subsection:overview} for more details.
 \end{itemize}
 
-Since there were not available test cases, we run the simulation the to ensure that the program's semantics were preserved. In fact, the simulation was performed following the  `startup', `shutdown', `transaction' and `session', `withdrawal', `deposit' and `transfer' use cases as described in the documentation of the ATM system \cite{atmsystem}.
+Since there was not a proper set of test cases available, we run a simulation of a series of transactions to verify that the program's semantics were preserved. In fact, the simulation was performed following the  `startup', `shutdown', `transaction' and `session', `withdrawal', `deposit' and `transfer' use cases as described in the documentation of the ATM system \cite{atmsystem}.
 
-% It would probably be worth describing the test cases. How many were there? Perhaps even little figures showing the resulting success in both cases (as evidence that you are 'telling the truth').
-% MG. No available test cases. A copy paste error. There is only an applet that can be run.
+
 \subsection{ATM system: Transformations to Create Associations}
 
 Once the code/model has  passed through the two first refactoring steps, we perform the transformation step aiming to recover associations from the input classes.
 
-The result (`atm.banking') produced is shown in \ref{fig:atmBanking3}. For conciseness, only classes with associations are shown as part of this class diagram. 
+The result (`atm.banking') produced is shown in Figure \ref{fig:atmBanking3}. For conciseness, only classes with associations are shown as part of this class diagram. 
 
 For instance, the following is a summary of the various considerations that were taken into account to perform this transformation step on classes \textit{ATM} and \textit{Session}:
 
 \begin{itemize}
 \item The instance variable `atm' in class \textit{Session} becomes one end of an association. 
-Note that the variable is present in the (unique) constructor of class Session. Multiplicity of this association end is therefore `0..1'.
+Note that the variable is present in the (unique) constructor of class Session. The multiplicity of this association end is therefore `0..1'.
+
 \item We look in class ATM for any instance variable of type Session. Since the instance variable is a collection of Session instances, the variable `sessions' becomes the other association end. Note that the variable is not present as one of the constructor arguments.Multiplicity of this association end is therefore `*'.
+
 \item The rolenames of the associations ends are inferred from the variable names.
-\item Constructor in both classes are removed.
+
+\item Constructors in both classes are removed.
+
 \item Method `getATM()' is removed from the class \textit{Session}.
+
 \item Method `getCSession(int sessionID)' is removed from the class \textit{ATM} as Umple will generate a method with the following signature `public Session getSession(int index)'.
+
 \item Association in Umple notation becomes:  `0..1 ATM --  * Session;'.
 \end{itemize}
 
@@ -819,10 +825,10 @@ Note that the variable is present in the (unique) constructor of class Session. 
 
 As in our previous step, the simulation was run to ensure that the program's semantics were still preserved.
 
-% This section is a little skimpy. Were any lessons learned? Comment on how the multiplicities were chosen, and mention that the test-cases passed again. Note the lines-of-code difference as before.
-% MG. Added.
+% Note the lines-of-code differenced  (the number of lines of code).
+
 \section{Summary}
 
-Umplification is a process for converting a base language program into an Umple program, involving a set of transformation steps. Umplification responds to several needs: The first concerns models that become obsolete very quickly; umplification ensures that from this point on the model can be maintained with the code as it is part of the code. Other needs addressed are the desires to simplify existing systems by avoiding the need to write boilerplate code.
+Umplification is a process for converting a base language program into an Umple program, involving a set of transformation steps. Umplification responds to several needs: The first concerns models that become obsolete very quickly; umplification ensures that from this point on the model can be maintained with the code as it is part of the code. Another need addressed is the desires to simplify existing systems by avoiding the need to write boilerplate code.
 
-In this chapter we have discussed some transformation steps and demonstrated performing Umplification manually. In the next Chapter, we will present the mapping rules derived from each of the transformation steps. These transformation rules will be necessary to automate our reverse engineering process. Implementation of the mapping rules are then presented in Section \ref{chap:tool}.
+In this chapter we have discussed some transformation steps and demonstrated performing Umplification manually. In the next Chapter, we will present the mapping rules derived from each of the transformation steps. These transformation rules will be necessary to automate our reverse engineering process. Implementation of the mapping rules is then presented in Section \ref{chap:tool}.
